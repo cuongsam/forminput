@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Nhập Liệu Phiếu Hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background-color: #f5f7fa;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 6px 6px 0 0;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        header h1 {
+            color: white;
+            margin-bottom: 0;
+            font-size: 20px;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 15px;
+            margin-top: 0;
+        }
+        
+        .cart-header {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .stats-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .stats-control select {
+            flex: 1;
+            max-width: 300px;
+        }
+        
+        .cart-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
+            border-left: 3px solid var(--secondary-color);
+        }
+        
+        .stat-card h3 {
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: var(--dark-color);
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .input-section {
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .list-section {
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 13px;
+            padding: 8px 10px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .form-section {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+        
+        .form-section h3 {
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--secondary-color);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+        }
+        
+        .required-label::after {
+            content: " *";
+            color: var(--danger-color);
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 13px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        input.error, select.error {
+            border-color: var(--danger-color);
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+        }
+        
+        .error-message {
+            color: var(--danger-color);
+            font-size: 11px;
+            margin-top: 3px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-right: 8px;
+        }
+        
+        .btn {
+            padding: 8px 12px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-reset {
+            background-color: #95a5a6;
+        }
+        
+        .btn-reset:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .btn-submit {
+            background-color: var(--success-color);
+        }
+        
+        .btn-submit:hover {
+            background-color: #219653;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .autocomplete {
+            position: relative;
+        }
+        
+        .autocomplete-suggestions {
+            position: absolute;
+            border: 1px solid #ddd;
+            border-top: none;
+            background: white;
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 4px 4px;
+        }
+        
+        .autocomplete-suggestion {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+        
+        .autocomplete-suggestion:hover {
+            background: #f0f0f0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .cargo-inputs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .cargo-type {
+            margin-bottom: 12px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .cargo-type h4 {
+            font-size: 13px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .route-display {
+            background: #e8f4fc;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 13px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            padding: 12px 15px;
+            border-radius: 4px;
+            color: white;
+            background-color: var(--success-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-15px);
+            transition: opacity 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+        }
+        
+        .notification i {
+            margin-right: 8px;
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .notification.error {
+            background-color: var(--danger-color);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: auto;
+            padding-top: 12px;
+        }
+        
+        .pagination button {
+            margin: 0 3px;
+            padding: 6px 10px;
+            background: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .pagination button.active {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        
+        .pagination button:hover:not(.active) {
+            background: #ddd;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+        }
+        
+        .empty-state i {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .compact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        @media (max-width: 1024px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .compact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .cargo-inputs {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .cart-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cargo-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 8px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .pagination {
+                flex-wrap: wrap;
+            }
+            
+            .pagination button {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-truck-loading"></i> Công Cụ Nhập Liệu Phiếu Hàng</h1>
+        </header>
+        
+        <div class="main-content">
+            <div class="cart-header">
+                <div class="stats-control">
+                    <label for="routeSelector">Chọn tuyến đường:</label>
+                    <select id="routeSelector">
+                        <option value="">-- Chọn tuyến đường --</option>
+                    </select>
+                </div>
+                <div class="cart-stats">
+                    <div class="stat-card">
+                        <h3>Tổng số đơn</h3>
+                        <div class="stat-value" id="totalOrders">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Tổng trọng lượng (kg)</h3>
+                        <div class="stat-value" id="totalWeight">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Tổng khối lượng (m³)</h3>
+                        <div class="stat-value" id="totalVolume">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Số xe cần dùng</h3>
+                        <div class="stat-value" id="totalVehicles">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <section class="list-section">
+                <h2><i class="fas fa-list"></i> Danh Sách Đơn Hàng</h2>
+                
+                <div id="ordersTableContainer">
+                    <table id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Khách Hàng</th>
+                                <th>Tuyến Đường</th>
+                                <th>Trọng Lượng (kg)</th>
+                                <th>Khối Lượng (m³)</th>
+                                <th>Ngày Tạo</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dữ liệu sẽ được thêm động bằng JS -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="empty-state" id="emptyState">
+                        <i class="fas fa-inbox"></i>
+                        <h3>Chưa có đơn hàng nào</h3>
+                        <p>Hãy bắt đầu bằng cách tạo đơn hàng mới</p>
+                    </div>
+                </div>
+                
+                <div class="pagination" id="pagination">
+                    <!-- Nút phân trang sẽ được thêm bằng JS -->
+                </div>
+            </section>
+            
+            <section class="input-section">
+                <h2><i class="fas fa-plus-circle"></i> Nhập Phiếu Mới</h2>
+                <form id="inputForm">
+                    <div class="form-grid">
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Thông Tin Khách Hàng</h3>
+                            
+                            <div class="form-group">
+                                <label for="customerInput" class="required-label">Khách Hàng:</label>
+                                <div class="autocomplete">
+                                    <input type="text" id="customerInput" placeholder="Nhập tên khách hàng...">
+                                    <div id="customerSuggestions" class="autocomplete-suggestions hidden"></div>
+                                </div>
+                                <div class="error-message" id="customerError">Vui lòng nhập tên khách hàng</div>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="newCustomer">
+                                <label for="newCustomer">Khách hàng mới</label>
+                            </div>
+                            
+                            <div id="newCustomerForm" class="hidden">
+                                <div class="form-group">
+                                    <input type="text" id="newName" placeholder="Tên khách hàng mới">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="newAddress" placeholder="Địa chỉ">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="newPhone" placeholder="Số điện thoại">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3><i class="fas fa-route"></i> Thông Tin Tuyến Đường</h3>
+                            
+                            <div class="form-group">
+                                <label for="startPoint" class="required-label">Điểm Bắt Đầu:</label>
+                                <input type="text" id="startPoint" placeholder="Điểm bắt đầu (ví dụ: Hà Nội)" value="">
+                                <div class="error-message" id="startPointError">Vui lòng nhập điểm bắt đầu</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="endPoint" class="required-label">Điểm Kết Thúc:</label>
+                                <div class="autocomplete">
+                                    <input type="text" id="endPoint" placeholder="Điểm kết thúc (ví dụ: TP.HCM)">
+                                    <div id="routeSuggestions" class="autocomplete-suggestions hidden"></div>
+                                </div>
+                                <div class="error-message" id="endPointError">Vui lòng nhập điểm kết thúc</div>
+                            </div>
+                            
+                            <div class="route-display hidden" id="routeDisplay">
+                                <i class="fas fa-route"></i> Tuyến đường: <span id="routeText"></span>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="customPickup">
+                                <label for="customPickup">Lấy hàng tận nơi</label>
+                            </div>
+                            
+                            <div id="pickupAddress" class="hidden">
+                                <div class="form-group">
+                                    <input type="text" id="pickupAddr" placeholder="Địa chỉ lấy hàng cụ thể">
+                                </div>
+                                <div class="compact-grid">
+                                    <div class="form-group">
+                                        <input type="text" id="pickupContact" placeholder="Người liên lạc">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="pickupPhone" placeholder="Số điện thoại">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="customDelivery">
+                                <label for="customDelivery">Giao hàng tận nơi</label>
+                            </div>
+                            
+                            <div id="deliveryAddress" class="hidden">
+                                <div class="form-group">
+                                    <input type="text" id="deliveryAddr" placeholder="Địa chỉ giao hàng cụ thể">
+                                </div>
+                                <div class="compact-grid">
+                                    <div class="form-group">
+                                        <input type="text" id="deliveryContact" placeholder="Người liên lạc">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="deliveryPhone" placeholder="Số điện thoại">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-box"></i> Thông Tin Hàng Hóa</h3>
+                        
+                        <div class="cargo-inputs-container" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                            <div class="cargo-type">
+                                <h4><i class="fas fa-snowflake"></i> Hàng Đông</h4>
+                                <div class="cargo-inputs">
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Số kiện" class="pkg frozen">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Số kg" class="kg frozen">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Khối (m³)" class="vol frozen">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Đơn vị" class="frozen">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Ghi chú" class="frozen">
+                                </div>
+                            </div>
+                            
+                            <div class="cargo-type">
+                                <h4><i class="fas fa-cloud-sun"></i> Hàng Mát</h4>
+                                <div class="cargo-inputs">
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Số kiện" class="pkg cool">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Số kg" class="kg cool">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Khối (m³)" class="vol cool">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Đơn vị" class="cool">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Ghi chú" class="cool">
+                                </div>
+                            </div>
+                            
+                            <div class="cargo-type">
+                                <h4><i class="fas fa-sun"></i> Hàng Khô</h4>
+                                <div class="cargo-inputs">
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Số kiện" class="pkg dry">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Số kg" class="kg dry">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" placeholder="Khối (m³)" class="vol dry">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Đơn vị" class="dry">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Ghi chú" class="dry">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-reset"><i class="fas fa-redo"></i> Làm Mới</button>
+                        <button type="submit" class="btn btn-submit"><i class="fas fa-save"></i> Tạo Phiếu</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Phiếu hàng đã được tạo thành công!</span>
+    </div>
+
+    <script>
+        // Dữ liệu mẫu
+        const customers = [
+            { name: "Công ty TNHH Thực phẩm ABC", address: "123 Nguyễn Văn Linh, Quận 7, TP.HCM", phone: "0123456789" },
+            { name: "Cửa hàng Thủy Hải Sản XYZ", address: "45 Lê Lợi, Quận 1, TP.HCM", phone: "0987654321" },
+            { name: "Doanh nghiệp Đông lạnh DEF", address: "78 Nguyễn Huệ, Quận 1, TP.HCM", phone: "0909123456" },
+            { name: "Siêu thị Metro", address: "Khu công nghiệp Biên Hòa, Đồng Nai", phone: "0283894567" },
+            { name: "Công ty Vận tải Giao hàng Nhanh", address: "22 Trường Chinh, TP.Hà Nội", phone: "0243856789" }
+        ];
+
+        const routes = [
+            "Hà Nội -> TP.HCM",
+            "Hà Nội -> Đà Nẵng",
+            "Hà Nội -> Hải Phòng",
+            "TP.HCM -> Cần Thơ",
+            "TP.HCM -> Đà Lạt",
+            "TP.HCM -> Vũng Tàu",
+            "Đà Nẵng -> Quy Nhơn",
+            "Hải Phòng -> Quảng Ninh"
+        ];
+
+        // Khởi tạo dữ liệu từ localStorage nếu có
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        let startPoint = localStorage.getItem('startPoint') || "";
+        
+        // Cấu hình phân trang
+        let currentPage = 1;
+        const ordersPerPage = 10;
+        
+        // DOM Elements
+        const customerInput = document.getElementById('customerInput');
+        const suggestions = document.getElementById('customerSuggestions');
+        const endPointInput = document.getElementById('endPoint');
+        const routeSuggestions = document.getElementById('routeSuggestions');
+        const routeDisplay = document.getElementById('routeDisplay');
+        const routeText = document.getElementById('routeText');
+        const startPointInput = document.getElementById('startPoint');
+        const form = document.getElementById('inputForm');
+        const notification = document.getElementById('notification');
+        const ordersTableBody = document.querySelector('#ordersTable tbody');
+        const paginationElement = document.getElementById('pagination');
+        const emptyState = document.getElementById('emptyState');
+        const totalOrdersElement = document.getElementById('totalOrders');
+        const totalWeightElement = document.getElementById('totalWeight');
+        const totalVolumeElement = document.getElementById('totalVolume');
+        const totalVehiclesElement = document.getElementById('totalVehicles');
+        const routeSelector = document.getElementById('routeSelector');
+
+        // Khởi tạo điểm bắt đầu nếu đã lưu
+        if (startPoint) {
+            startPointInput.value = startPoint;
+        }
+
+        // Cập nhật danh sách đơn hàng khi tải trang
+        updateOrdersTable();
+        setupPagination();
+        updateRouteSelector();
+
+        // Autocomplete cho khách hàng
+        customerInput.addEventListener('keyup', () => {
+            const query = customerInput.value.toLowerCase();
+            suggestions.innerHTML = '';
+            suggestions.classList.add('hidden');
+            
+            if (query) {
+                const matches = customers.filter(c => 
+                    c.name.toLowerCase().includes(query) || 
+                    c.address.toLowerCase().includes(query)
+                );
+                
+                if (matches.length) {
+                    suggestions.classList.remove('hidden');
+                    matches.forEach(match => {
+                        const div = document.createElement('div');
+                        div.classList.add('autocomplete-suggestion');
+                        div.innerHTML = `<strong>${match.name}</strong><br><small>${match.address}</small>`;
+                        div.addEventListener('click', () => {
+                            customerInput.value = match.name;
+                            suggestions.classList.add('hidden');
+                            clearError(customerInput);
+                        });
+                        suggestions.appendChild(div);
+                    });
+                }
+            }
+        });
+
+        // Autocomplete cho tuyến đường
+        endPointInput.addEventListener('keyup', () => {
+            const start = startPointInput.value;
+            const end = endPointInput.value.toLowerCase();
+            routeSuggestions.innerHTML = '';
+            routeSuggestions.classList.add('hidden');
+            
+            if (start && end) {
+                const fullRoute = `${start} -> `;
+                const matches = routes.filter(route => 
+                    route.toLowerCase().includes(end) && 
+                    route.startsWith(fullRoute)
+                );
+                
+                if (matches.length) {
+                    routeSuggestions.classList.remove('hidden');
+                    matches.forEach(match => {
+                        const div = document.createElement('div');
+                        div.classList.add('autocomplete-suggestion');
+                        div.textContent = match;
+                        div.addEventListener('click', () => {
+                            endPointInput.value = match.replace(`${start} -> `, '');
+                            routeSuggestions.classList.add('hidden');
+                            updateRouteDisplay();
+                            clearError(endPointInput);
+                        });
+                        routeSuggestions.appendChild(div);
+                    });
+                }
+            }
+            
+            updateRouteDisplay();
+        });
+
+        // Cập nhật điểm bắt đầu và lưu vào localStorage
+        startPointInput.addEventListener('change', () => {
+            startPoint = startPointInput.value;
+            localStorage.setItem('startPoint', startPoint);
+            updateRouteDisplay();
+            clearError(startPointInput);
+        });
+
+        // Cập nhật route selector
+        function updateRouteSelector() {
+            // Lấy tất cả các tuyến đường duy nhất từ orders
+            const uniqueRoutes = [...new Set(orders.map(order => order.route))];
+            
+            routeSelector.innerHTML = '<option value="">-- Chọn tuyến đường --</option>';
+            
+            uniqueRoutes.forEach(route => {
+                const option = document.createElement('option');
+                option.value = route;
+                option.textContent = route;
+                routeSelector.appendChild(option);
+            });
+            
+            // Nếu có tuyến đường, chọn tuyến đầu tiên
+            if (uniqueRoutes.length > 0) {
+                routeSelector.value = uniqueRoutes[0];
+                updateCartHeader(uniqueRoutes[0]);
+            }
+        }
+
+        // Xử lý thay đổi tuyến đường trong selector
+        routeSelector.addEventListener('change', () => {
+            updateCartHeader(routeSelector.value);
+        });
+
+        // Cập nhật cart header
+        function updateCartHeader(route) {
+            if (!route) {
+                totalOrdersElement.textContent = '0';
+                totalWeightElement.textContent = '0';
+                totalVolumeElement.textContent = '0';
+                totalVehiclesElement.textContent = '0';
+                return;
+            }
+            
+            const routeOrders = orders.filter(order => order.route === route);
+            
+            if (routeOrders.length > 0) {
+                const totalWeight = routeOrders.reduce((sum, order) => sum + order.totalWeight, 0);
+                const totalVolume = routeOrders.reduce((sum, order) => sum + order.totalVolume, 0);
+                // Giả sử mỗi xe chở được 5000kg và 30m³
+                const vehiclesByWeight = Math.ceil(totalWeight / 5000);
+                const vehiclesByVolume = Math.ceil(totalVolume / 30);
+                const vehiclesNeeded = Math.max(vehiclesByWeight, vehiclesByVolume);
+                
+                totalOrdersElement.textContent = routeOrders.length;
+                totalWeightElement.textContent = totalWeight.toLocaleString();
+                totalVolumeElement.textContent = totalVolume.toLocaleString();
+                totalVehiclesElement.textContent = vehiclesNeeded;
+            } else {
+                totalOrdersElement.textContent = '0';
+                totalWeightElement.textContent = '0';
+                totalVolumeElement.textContent = '0';
+                totalVehiclesElement.textContent = '0';
+            }
+        }
+
+        // Hiển thị tuyến đường
+        function updateRouteDisplay() {
+            const start = startPointInput.value;
+            const end = endPointInput.value;
+            
+            if (start && end) {
+                routeText.textContent = `${start} -> ${end}`;
+                routeDisplay.classList.remove('hidden');
+            } else {
+                routeDisplay.classList.add('hidden');
+            }
+        }
+
+        // Tick khách hàng mới
+        document.getElementById('newCustomer').addEventListener('change', (e) => {
+            document.getElementById('newCustomerForm').classList.toggle('hidden', !e.target.checked);
+        });
+
+        // Tick lấy/giao tận nơi
+        document.getElementById('customPickup').addEventListener('change', (e) => {
+            document.getElementById('pickupAddress').classList.toggle('hidden', !e.target.checked);
+        });
+        
+        document.getElementById('customDelivery').addEventListener('change', (e) => {
+            document.getElementById('deliveryAddress').classList.toggle('hidden', !e.target.checked);
+        });
+
+        // Cập nhật bảng đơn hàng
+        function updateOrdersTable() {
+            ordersTableBody.innerHTML = '';
+            
+            if (orders.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            // Tính chỉ số bắt đầu và kết thúc cho trang hiện tại
+            const startIndex = (currentPage - 1) * ordersPerPage;
+            const endIndex = Math.min(startIndex + ordersPerPage, orders.length);
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const order = orders[i];
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.route}</td>
+                    <td>${order.totalWeight.toLocaleString()}</td>
+                    <td>${order.totalVolume.toLocaleString()}</td>
+                    <td>${new Date(order.date).toLocaleDateString('vi-VN')}</td>
+                    <td>
+                        <button class="btn" onclick="viewOrder(${i})"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-reset" onclick="deleteOrder(${i})"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                ordersTableBody.appendChild(row);
+            }
+        }
+
+        // Thiết lập phân trang
+        function setupPagination() {
+            paginationElement.innerHTML = '';
+            
+            if (orders.length === 0) {
+                return;
+            }
+            
+            const pageCount = Math.ceil(orders.length / ordersPerPage);
+            
+            // Nút Previous
+            if (currentPage > 1) {
+                const prevButton = document.createElement('button');
+                prevButton.innerHTML = '&laquo;';
+                prevButton.addEventListener('click', () => {
+                    currentPage--;
+                    updateOrdersTable();
+                    setupPagination();
+                });
+                paginationElement.appendChild(prevButton);
+            }
+            
+            // Các nút trang
+            for (let i = 1; i <= pageCount; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    updateOrdersTable();
+                    setupPagination();
+                });
+                paginationElement.appendChild(pageButton);
+            }
+            
+            // Nút Next
+            if (currentPage < pageCount) {
+                const nextButton = document.createElement('button');
+                nextButton.innerHTML = '&raquo;';
+                nextButton.addEventListener('click', () => {
+                    currentPage++;
+                    updateOrdersTable();
+                    setupPagination();
+                });
+                paginationElement.appendChild(nextButton);
+            }
+        }
+
+        // Hiển thị thông báo
+        function showNotification(message, isError = false) {
+            notification.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i><span>${message}</span>`;
+            
+            if (isError) {
+                notification.classList.add('error');
+            } else {
+                notification.classList.remove('error');
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Hiển thị lỗi
+        function showError(input, message) {
+            input.classList.add('error');
+            const errorElement = document.getElementById(input.id + 'Error');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.classList.add('show');
+            }
+        }
+
+        // Xóa lỗi
+        function clearError(input) {
+            input.classList.remove('error');
+            const errorElement = document.getElementById(input.id + 'Error');
+            if (errorElement) {
+                errorElement.classList.remove('show');
+            }
+        }
+
+        // Validate form
+        function validateForm() {
+            let isValid = true;
+            
+            // Validate khách hàng
+            if (!customerInput.value.trim()) {
+                showError(customerInput, 'Vui lòng nhập tên khách hàng');
+                isValid = false;
+            }
+            
+            // Validate điểm bắt đầu
+            if (!startPointInput.value.trim()) {
+                showError(startPointInput, 'Vui lòng nhập điểm bắt đầu');
+                isValid = false;
+            }
+            
+            // Validate điểm kết thúc
+            if (!endPointInput.value.trim()) {
+                showError(endPointInput, 'Vui lòng nhập điểm kết thúc');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // Xử lý submit form
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                // Focus vào trường đầu tiên bị lỗi
+                const firstError = form.querySelector('.error');
+                if (firstError) {
+                    firstError.focus();
+                }
+                return;
+            }
+            
+            const customer = customerInput.value;
+            const start = startPointInput.value;
+            const end = endPointInput.value;
+            const route = `${start} -> ${end}`;
+            
+            // Lấy thông tin lấy hàng/giao hàng tận nơi nếu có
+            const pickupAddr = document.getElementById('customPickup').checked ? document.getElementById('pickupAddr').value : '';
+            const pickupContact = document.getElementById('customPickup').checked ? document.getElementById('pickupContact').value : '';
+            const pickupPhone = document.getElementById('customPickup').checked ? document.getElementById('pickupPhone').value : '';
+            
+            const deliveryAddr = document.getElementById('customDelivery').checked ? document.getElementById('deliveryAddr').value : '';
+            const deliveryContact = document.getElementById('customDelivery').checked ? document.getElementById('deliveryContact').value : '';
+            const deliveryPhone = document.getElementById('customDelivery').checked ? document.getElementById('deliveryPhone').value : '';
+            
+            // Tính tổng kg và khối lượng
+            let totalWeight = 0;
+            let totalVolume = 0;
+            
+            document.querySelectorAll('.kg').forEach(input => {
+                totalWeight += parseFloat(input.value) || 0;
+            });
+            
+            document.querySelectorAll('.vol').forEach(input => {
+                totalVolume += parseFloat(input.value) || 0;
+            });
+            
+            // Tạo đơn hàng mới
+            const newOrder = {
+                id: Date.now(),
+                customer,
+                route,
+                totalWeight,
+                totalVolume,
+                pickupAddr,
+                pickupContact,
+                pickupPhone,
+                deliveryAddr,
+                deliveryContact,
+                deliveryPhone,
+                date: new Date().toISOString()
+            };
+            
+            // Thêm vào mảng orders
+            orders.unshift(newOrder);
+            
+            // Lưu vào localStorage
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // Cập nhật bảng
+            currentPage = 1;
+            updateOrdersTable();
+            setupPagination();
+            updateRouteSelector();
+            
+            // Hiển thị thông báo
+            showNotification('Phiếu hàng đã được tạo thành công!');
+            
+            // Reset form (giữ lại điểm bắt đầu)
+            form.reset();
+            startPointInput.value = start; // Giữ lại điểm bắt đầu
+            document.querySelectorAll('.hidden').forEach(el => {
+                if (!el.id.includes('Address') && !el.id.includes('CustomerForm')) {
+                    el.classList.add('hidden');
+                }
+            });
+            
+            // Cập nhật cart header nếu đang hiển thị
+            if (routeSelector.value === route) {
+                updateCartHeader(route);
+            }
+        });
+
+        // Xử lý nút reset
+        form.addEventListener('reset', () => {
+            // Giữ lại điểm bắt đầu đã lưu
+            startPointInput.value = startPoint;
+            
+            // Ẩn tất cả các phần ẩn
+            document.querySelectorAll('.hidden').forEach(el => {
+                if (!el.id.includes('Address') && !el.id.includes('CustomerForm')) {
+                    el.classList.add('hidden');
+                }
+            });
+            
+            // Bỏ chọn các checkbox
+            document.getElementById('newCustomer').checked = false;
+            document.getElementById('customPickup').checked = false;
+            document.getElementById('customDelivery').checked = false;
+            
+            // Xóa các lỗi
+            clearError(customerInput);
+            clearError(startPointInput);
+            clearError(endPointInput);
+        });
+
+        // Xem chi tiết đơn hàng
+        function viewOrder(index) {
+            const order = orders[index];
+            let details = `Chi tiết đơn hàng:\nKhách hàng: ${order.customer}\nTuyến đường: ${order.route}\nTrọng lượng: ${order.totalWeight} kg\nKhối lượng: ${order.totalVolume} m³`;
+            
+            if (order.pickupAddr) {
+                details += `\n\nLấy hàng tận nơi:\nĐịa chỉ: ${order.pickupAddr}\nNgười liên hệ: ${order.pickupContact}\nSĐT: ${order.pickupPhone}`;
+            }
+            
+            if (order.deliveryAddr) {
+                details += `\n\nGiao hàng tận nơi:\nĐịa chỉ: ${order.deliveryAddr}\nNgười liên hệ: ${order.deliveryContact}\nSĐT: ${order.deliveryPhone}`;
+            }
+            
+            alert(details);
+        }
+
+        // Xóa đơn hàng
+        function deleteOrder(index) {
+            if (confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')) {
+                orders.splice(index, 1);
+                localStorage.setItem('orders', JSON.stringify(orders));
+                updateOrdersTable();
+                setupPagination();
+                updateRouteSelector();
+                showNotification('Đơn hàng đã được xóa!');
+                
+                // Cập nhật cart header nếu đang hiển thị
+                updateCartHeader(routeSelector.value);
+            }
+        }
+    </script>
+</body>
+</html>
