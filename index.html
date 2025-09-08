@@ -523,6 +523,7 @@
                                 <th>STT</th>
                                 <th>Khách Hàng</th>
                                 <th>Tuyến Đường</th>
+                                <th>Số Kiện</th>
                                 <th>Trọng Lượng (kg)</th>
                                 <th>Khối Lượng (m³)</th>
                                 <th>Ngày Tạo</th>
@@ -585,7 +586,10 @@
                             
                             <div class="form-group">
                                 <label for="startPoint" class="required-label">Điểm Bắt Đầu:</label>
-                                <input type="text" id="startPoint" placeholder="Điểm bắt đầu (ví dụ: Hà Nội)" value="">
+                                <div class="autocomplete">
+                                    <input type="text" id="startPoint" placeholder="Điểm bắt đầu (ví dụ: Hà Nội)" value="">
+                                    <div id="startPointSuggestions" class="autocomplete-suggestions hidden"></div>
+                                </div>
                                 <div class="error-message" id="startPointError">Vui lòng nhập điểm bắt đầu</div>
                             </div>
                             
@@ -609,7 +613,7 @@
                             
                             <div id="pickupAddress" class="hidden">
                                 <div class="form-group">
-                                    <input type="text" id="pickupAddr" placeholder="Địa chỉ lấy hàng cụ thể">
+                                    <input type="text" id="pickupAddr" placeholder="Địa chỉ lấy hàng">
                                 </div>
                                 <div class="compact-grid">
                                     <div class="form-group">
@@ -628,7 +632,7 @@
                             
                             <div id="deliveryAddress" class="hidden">
                                 <div class="form-group">
-                                    <input type="text" id="deliveryAddr" placeholder="Địa chỉ giao hàng cụ thể">
+                                    <input type="text" id="deliveryAddr" placeholder="Địa chỉ giao hàng">
                                 </div>
                                 <div class="compact-grid">
                                     <div class="form-group">
@@ -659,7 +663,11 @@
                                         <input type="number" placeholder="Khối (m³)" class="vol frozen">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" placeholder="Đơn vị" class="frozen">
+                                        <input type="select" placeholder="Đơn vị" class="frozen">
+                                            <option value="kg">Kilogram</option>
+                                            <option value="m3">Mét khối</option>
+                                            <option value="pallet">Pallet</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -680,7 +688,11 @@
                                         <input type="number" placeholder="Khối (m³)" class="vol cool">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" placeholder="Đơn vị" class="cool">
+                                        <input type="select" placeholder="Đơn vị" class="cool">
+                                            <option value="kg">Kilogram</option>
+                                            <option value="m3">Mét khối</option>
+                                            <option value="pallet">Pallet</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -701,7 +713,11 @@
                                         <input type="number" placeholder="Khối (m³)" class="vol dry">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" placeholder="Đơn vị" class="dry">
+                                        <select placeholder="Đơn vị" class="dry">
+                                            <option value="kg">Kilogram</option>
+                                            <option value="m3">Mét khối</option>
+                                            <option value="pallet">Pallet</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
