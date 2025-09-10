@@ -285,6 +285,14 @@
             background-color: #219653;
         }
         
+        .btn-export {
+            background-color: #2ecc71;
+        }
+        
+        .btn-export:hover {
+            background-color: #27ae60;
+        }
+        
         .form-actions {
             display: flex;
             justify-content: flex-end;
@@ -571,6 +579,7 @@
                             <div id="newCustomerForm" class="hidden">
                                 <div class="form-group">
                                     <input type="text" id="newName" placeholder="Tên khách hàng mới">
+                                    <div class="error-message" id="newNameError">Vui lòng nhập tên khách hàng mới</div>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" id="newAddress" placeholder="Địa chỉ">
@@ -585,21 +594,12 @@
                             <h3><i class="fas fa-route"></i> Thông Tin Tuyến Đường</h3>
                             
                             <div class="form-group">
-                                <label for="startPoint" class="required-label">Điểm Bắt Đầu:</label>
+                                <label for="routeInput" class="required-label">Tuyến Đường:</label>
                                 <div class="autocomplete">
-                                    <input type="text" id="startPoint" placeholder="Điểm bắt đầu (ví dụ: Hà Nội)" value="">
-                                    <div id="startPointSuggestions" class="autocomplete-suggestions hidden"></div>
-                                </div>
-                                <div class="error-message" id="startPointError">Vui lòng nhập điểm bắt đầu</div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="endPoint" class="required-label">Điểm Kết Thúc:</label>
-                                <div class="autocomplete">
-                                    <input type="text" id="endPoint" placeholder="Điểm kết thúc (ví dụ: TP.HCM)">
+                                    <input type="text" id="routeInput" placeholder="Nhập tuyến (ví dụ: HCM HN cho Hồ Chí Minh -> Hà Nội)">
                                     <div id="routeSuggestions" class="autocomplete-suggestions hidden"></div>
                                 </div>
-                                <div class="error-message" id="endPointError">Vui lòng nhập điểm kết thúc</div>
+                                <div class="error-message" id="routeError">Vui lòng nhập tuyến đường</div>
                             </div>
                             
                             <div class="route-display hidden" id="routeDisplay">
@@ -663,7 +663,7 @@
                                         <input type="number" placeholder="Khối (m³)" class="vol frozen">
                                     </div>
                                     <div class="form-group">
-                                        <input type="select" placeholder="Đơn vị" class="frozen">
+                                        <select placeholder="Đơn vị" class="dry">
                                             <option value="kg">Kilogram</option>
                                             <option value="m3">Mét khối</option>
                                             <option value="pallet">Pallet</option>
@@ -687,8 +687,8 @@
                                     <div class="form-group">
                                         <input type="number" placeholder="Khối (m³)" class="vol cool">
                                     </div>
-                                    <div class="form-group">
-                                        <input type="select" placeholder="Đơn vị" class="cool">
+                                   <div class="form-group">
+                                        <select placeholder="Đơn vị" class="dry">
                                             <option value="kg">Kilogram</option>
                                             <option value="m3">Mét khối</option>
                                             <option value="pallet">Pallet</option>
@@ -730,6 +730,7 @@
                     <div class="form-actions">
                         <button type="reset" class="btn btn-reset"><i class="fas fa-redo"></i> Làm Mới</button>
                         <button type="submit" class="btn btn-submit"><i class="fas fa-save"></i> Tạo Phiếu</button>
+                        <button type="button" class="btn btn-export" id="exportExcel"><i class="fas fa-file-excel"></i> Export Excel</button>
                     </div>
                 </form>
             </section>
@@ -752,19 +753,31 @@
         ];
 
         const routes = [
-            "Hà Nội -> TP.HCM",
-            "Hà Nội -> Đà Nẵng",
-            "Hà Nội -> Hải Phòng",
-            "TP.HCM -> Cần Thơ",
-            "TP.HCM -> Đà Lạt",
-            "TP.HCM -> Vũng Tàu",
+            "Hồ Chí Minh -> Hà Nội",
+            "Hồ Chí Minh -> Đà Nẵng",
+            "Hồ Chí Minh -> Hải Phòng",
+            "Hồ Chí Minh -> Cần Thơ",
+            "Hồ Chí Minh -> Đà Lạt",
+            "Hồ Chí Minh -> Vũng Tàu",
             "Đà Nẵng -> Quy Nhơn",
             "Hải Phòng -> Quảng Ninh"
         ];
 
+        const routeAbbreviations = {
+            "HCM": "Hồ Chí Minh",
+            "HN": "Hà Nội",
+            "DN": "Đà Nẵng",
+            "HP": "Hải Phòng",
+            "CT": "Cần Thơ",
+            "DL": "Đà Lạt",
+            "VT": "Vũng Tàu",
+            "QN": "Quy Nhơn",
+            "QNI": "Quảng Ninh"
+            // Có thể thêm nhiều hơn nếu cần
+        };
+
         // Khởi tạo dữ liệu từ localStorage nếu có
         let orders = JSON.parse(localStorage.getItem('orders')) || [];
-        let startPoint = localStorage.getItem('startPoint') || "";
         
         // Cấu hình phân trang
         let currentPage = 1;
@@ -773,11 +786,10 @@
         // DOM Elements
         const customerInput = document.getElementById('customerInput');
         const suggestions = document.getElementById('customerSuggestions');
-        const endPointInput = document.getElementById('endPoint');
+        const routeInput = document.getElementById('routeInput');
         const routeSuggestions = document.getElementById('routeSuggestions');
         const routeDisplay = document.getElementById('routeDisplay');
         const routeText = document.getElementById('routeText');
-        const startPointInput = document.getElementById('startPoint');
         const form = document.getElementById('inputForm');
         const notification = document.getElementById('notification');
         const ordersTableBody = document.querySelector('#ordersTable tbody');
@@ -788,11 +800,7 @@
         const totalVolumeElement = document.getElementById('totalVolume');
         const totalVehiclesElement = document.getElementById('totalVehicles');
         const routeSelector = document.getElementById('routeSelector');
-
-        // Khởi tạo điểm bắt đầu nếu đã lưu
-        if (startPoint) {
-            startPointInput.value = startPoint;
-        }
+        const exportExcelBtn = document.getElementById('exportExcel');
 
         // Cập nhật danh sách đơn hàng khi tải trang
         updateOrdersTable();
@@ -828,54 +836,110 @@
             }
         });
 
-        // Autocomplete cho tuyến đường
-        endPointInput.addEventListener('keyup', () => {
-            const start = startPointInput.value;
-            const end = endPointInput.value.toLowerCase();
+        // Autocomplete cho tuyến đường (hỗ trợ viết tắt và space làm phân cách)
+        routeInput.addEventListener('keyup', () => {
+            const query = routeInput.value.trim().toUpperCase();
             routeSuggestions.innerHTML = '';
             routeSuggestions.classList.add('hidden');
             
-            if (start && end) {
-                const fullRoute = `${start} -> `;
-                const matches = routes.filter(route => 
-                    route.toLowerCase().includes(end) && 
-                    route.startsWith(fullRoute)
-                );
-                
-                if (matches.length) {
-                    routeSuggestions.classList.remove('hidden');
-                    matches.forEach(match => {
-                        const div = document.createElement('div');
-                        div.classList.add('autocomplete-suggestion');
-                        div.textContent = match;
-                        div.addEventListener('click', () => {
-                            endPointInput.value = match.replace(`${start} -> `, '');
-                            routeSuggestions.classList.add('hidden');
-                            updateRouteDisplay();
-                            clearError(endPointInput);
+            if (query) {
+                let parts = query.split(' ');
+                if (parts.length === 2) {
+                    const startAbbr = parts[0];
+                    const endAbbr = parts[1];
+                    const startFull = routeAbbreviations[startAbbr] || startAbbr;
+                    const endFull = routeAbbreviations[endAbbr] || endAbbr;
+                    const fullQuery = `${startFull} -> ${endFull}`.toLowerCase();
+                    
+                    const matches = routes.filter(route => 
+                        route.toLowerCase().includes(fullQuery)
+                    );
+                    
+                    if (matches.length) {
+                        routeSuggestions.classList.remove('hidden');
+                        matches.forEach(match => {
+                            const div = document.createElement('div');
+                            div.classList.add('autocomplete-suggestion');
+                            div.textContent = match;
+                            div.addEventListener('click', () => {
+                                routeInput.value = match.replace(' -> ', ' ');
+                                routeSuggestions.classList.add('hidden');
+                                updateRouteDisplay(match);
+                                clearError(routeInput);
+                            });
+                            routeSuggestions.appendChild(div);
                         });
-                        routeSuggestions.appendChild(div);
-                    });
+                    }
+                } else {
+                    const matches = routes.filter(route => 
+                        route.toLowerCase().includes(query.toLowerCase())
+                    );
+                    
+                    if (matches.length) {
+                        routeSuggestions.classList.remove('hidden');
+                        matches.forEach(match => {
+                            const div = document.createElement('div');
+                            div.classList.add('autocomplete-suggestion');
+                            div.textContent = match;
+                            div.addEventListener('click', () => {
+                                routeInput.value = match.replace(' -> ', ' ');
+                                routeSuggestions.classList.add('hidden');
+                                updateRouteDisplay(match);
+                                clearError(routeInput);
+                            });
+                            routeSuggestions.appendChild(div);
+                        });
+                    }
                 }
             }
             
             updateRouteDisplay();
         });
 
-        // Cập nhật điểm bắt đầu và lưu vào localStorage
-        startPointInput.addEventListener('change', () => {
-            startPoint = startPointInput.value;
-            localStorage.setItem('startPoint', startPoint);
-            updateRouteDisplay();
-            clearError(startPointInput);
+        // Hiển thị tuyến đường
+        function updateRouteDisplay(route = null) {
+            const inputValue = routeInput.value.trim();
+            if (inputValue) {
+                let parts = inputValue.split(' ');
+                if (parts.length >= 2) {
+                    const startAbbr = parts[0].toUpperCase();
+                    const endAbbr = parts.slice(1).join(' ').toUpperCase();
+                    const startFull = routeAbbreviations[startAbbr] || startAbbr;
+                    const endFull = routeAbbreviations[endAbbr] || endAbbr;
+                    const fullRoute = `${startFull} -> ${endFull}`;
+                    routeText.textContent = fullRoute;
+                    routeDisplay.classList.remove('hidden');
+                    return fullRoute;
+                } else if (route) {
+                    routeText.textContent = route;
+                    routeDisplay.classList.remove('hidden');
+                    return route;
+                }
+            }
+            routeDisplay.classList.add('hidden');
+            return null;
+        }
+
+        // Tick khách hàng mới
+        document.getElementById('newCustomer').addEventListener('change', (e) => {
+            document.getElementById('newCustomerForm').classList.toggle('hidden', !e.target.checked);
         });
 
-        // Cập nhật route selector
+        // Tick lấy/giao tận nơi
+        document.getElementById('customPickup').addEventListener('change', (e) => {
+            document.getElementById('pickupAddress').classList.toggle('hidden', !e.target.checked);
+        });
+        
+        document.getElementById('customDelivery').addEventListener('change', (e) => {
+            document.getElementById('deliveryAddress').classList.toggle('hidden', !e.target.checked);
+        });
+
+        // Cập nhật route selector (thêm All)
         function updateRouteSelector() {
             // Lấy tất cả các tuyến đường duy nhất từ orders
             const uniqueRoutes = [...new Set(orders.map(order => order.route))];
             
-            routeSelector.innerHTML = '<option value="">-- Chọn tuyến đường --</option>';
+            routeSelector.innerHTML = '<option value="">-- Chọn tuyến đường --</option><option value="All">All</option>';
             
             uniqueRoutes.forEach(route => {
                 const option = document.createElement('option');
@@ -898,15 +962,12 @@
 
         // Cập nhật cart header
         function updateCartHeader(route) {
-            if (!route) {
-                totalOrdersElement.textContent = '0';
-                totalWeightElement.textContent = '0';
-                totalVolumeElement.textContent = '0';
-                totalVehiclesElement.textContent = '0';
-                return;
+            let routeOrders;
+            if (route === 'All' || !route) {
+                routeOrders = orders;
+            } else {
+                routeOrders = orders.filter(order => order.route === route);
             }
-            
-            const routeOrders = orders.filter(order => order.route === route);
             
             if (routeOrders.length > 0) {
                 const totalWeight = routeOrders.reduce((sum, order) => sum + order.totalWeight, 0);
@@ -927,33 +988,6 @@
                 totalVehiclesElement.textContent = '0';
             }
         }
-
-        // Hiển thị tuyến đường
-        function updateRouteDisplay() {
-            const start = startPointInput.value;
-            const end = endPointInput.value;
-            
-            if (start && end) {
-                routeText.textContent = `${start} -> ${end}`;
-                routeDisplay.classList.remove('hidden');
-            } else {
-                routeDisplay.classList.add('hidden');
-            }
-        }
-
-        // Tick khách hàng mới
-        document.getElementById('newCustomer').addEventListener('change', (e) => {
-            document.getElementById('newCustomerForm').classList.toggle('hidden', !e.target.checked);
-        });
-
-        // Tick lấy/giao tận nơi
-        document.getElementById('customPickup').addEventListener('change', (e) => {
-            document.getElementById('pickupAddress').classList.toggle('hidden', !e.target.checked);
-        });
-        
-        document.getElementById('customDelivery').addEventListener('change', (e) => {
-            document.getElementById('deliveryAddress').classList.toggle('hidden', !e.target.checked);
-        });
 
         // Cập nhật bảng đơn hàng
         function updateOrdersTable() {
@@ -977,6 +1011,7 @@
                     <td>${i + 1}</td>
                     <td>${order.customer}</td>
                     <td>${order.route}</td>
+                    <td>${order.totalPackages.toLocaleString()}</td>
                     <td>${order.totalWeight.toLocaleString()}</td>
                     <td>${order.totalVolume.toLocaleString()}</td>
                     <td>${new Date(order.date).toLocaleDateString('vi-VN')}</td>
@@ -1080,20 +1115,23 @@
             let isValid = true;
             
             // Validate khách hàng
-            if (!customerInput.value.trim()) {
-                showError(customerInput, 'Vui lòng nhập tên khách hàng');
-                isValid = false;
+            const isNewCustomer = document.getElementById('newCustomer').checked;
+            if (isNewCustomer) {
+                const newNameInput = document.getElementById('newName');
+                if (!newNameInput.value.trim()) {
+                    showError(newNameInput, 'Vui lòng nhập tên khách hàng mới');
+                    isValid = false;
+                }
+            } else {
+                if (!customerInput.value.trim()) {
+                    showError(customerInput, 'Vui lòng nhập tên khách hàng');
+                    isValid = false;
+                }
             }
             
-            // Validate điểm bắt đầu
-            if (!startPointInput.value.trim()) {
-                showError(startPointInput, 'Vui lòng nhập điểm bắt đầu');
-                isValid = false;
-            }
-            
-            // Validate điểm kết thúc
-            if (!endPointInput.value.trim()) {
-                showError(endPointInput, 'Vui lòng nhập điểm kết thúc');
+            // Validate tuyến đường
+            if (!routeInput.value.trim()) {
+                showError(routeInput, 'Vui lòng nhập tuyến đường');
                 isValid = false;
             }
             
@@ -1113,10 +1151,19 @@
                 return;
             }
             
-            const customer = customerInput.value;
-            const start = startPointInput.value;
-            const end = endPointInput.value;
-            const route = `${start} -> ${end}`;
+            const isNewCustomer = document.getElementById('newCustomer').checked;
+            let customer;
+            if (isNewCustomer) {
+                customer = document.getElementById('newName').value;
+                const newAddress = document.getElementById('newAddress').value;
+                const newPhone = document.getElementById('newPhone').value;
+                // Thêm khách hàng mới vào danh sách (nếu cần)
+                customers.push({ name: customer, address: newAddress, phone: newPhone });
+            } else {
+                customer = customerInput.value;
+            }
+            
+            const route = updateRouteDisplay() || routeInput.value;
             
             // Lấy thông tin lấy hàng/giao hàng tận nơi nếu có
             const pickupAddr = document.getElementById('customPickup').checked ? document.getElementById('pickupAddr').value : '';
@@ -1127,9 +1174,14 @@
             const deliveryContact = document.getElementById('customDelivery').checked ? document.getElementById('deliveryContact').value : '';
             const deliveryPhone = document.getElementById('customDelivery').checked ? document.getElementById('deliveryPhone').value : '';
             
-            // Tính tổng kg và khối lượng
+            // Tính tổng kiện, kg và khối lượng
+            let totalPackages = 0;
             let totalWeight = 0;
             let totalVolume = 0;
+            
+            document.querySelectorAll('.pkg').forEach(input => {
+                totalPackages += parseInt(input.value) || 0;
+            });
             
             document.querySelectorAll('.kg').forEach(input => {
                 totalWeight += parseFloat(input.value) || 0;
@@ -1144,6 +1196,7 @@
                 id: Date.now(),
                 customer,
                 route,
+                totalPackages,
                 totalWeight,
                 totalVolume,
                 pickupAddr,
@@ -1170,9 +1223,8 @@
             // Hiển thị thông báo
             showNotification('Phiếu hàng đã được tạo thành công!');
             
-            // Reset form (giữ lại điểm bắt đầu)
+            // Reset form
             form.reset();
-            startPointInput.value = start; // Giữ lại điểm bắt đầu
             document.querySelectorAll('.hidden').forEach(el => {
                 if (!el.id.includes('Address') && !el.id.includes('CustomerForm')) {
                     el.classList.add('hidden');
@@ -1180,16 +1232,13 @@
             });
             
             // Cập nhật cart header nếu đang hiển thị
-            if (routeSelector.value === route) {
-                updateCartHeader(route);
+            if (routeSelector.value === route || routeSelector.value === 'All') {
+                updateCartHeader(routeSelector.value);
             }
         });
 
         // Xử lý nút reset
         form.addEventListener('reset', () => {
-            // Giữ lại điểm bắt đầu đã lưu
-            startPointInput.value = startPoint;
-            
             // Ẩn tất cả các phần ẩn
             document.querySelectorAll('.hidden').forEach(el => {
                 if (!el.id.includes('Address') && !el.id.includes('CustomerForm')) {
@@ -1204,14 +1253,14 @@
             
             // Xóa các lỗi
             clearError(customerInput);
-            clearError(startPointInput);
-            clearError(endPointInput);
+            clearError(routeInput);
+            clearError(document.getElementById('newName'));
         });
 
         // Xem chi tiết đơn hàng
         function viewOrder(index) {
             const order = orders[index];
-            let details = `Chi tiết đơn hàng:\nKhách hàng: ${order.customer}\nTuyến đường: ${order.route}\nTrọng lượng: ${order.totalWeight} kg\nKhối lượng: ${order.totalVolume} m³`;
+            let details = `Chi tiết đơn hàng:\nKhách hàng: ${order.customer}\nTuyến đường: ${order.route}\nSố kiện: ${order.totalPackages}\nTrọng lượng: ${order.totalWeight} kg\nKhối lượng: ${order.totalVolume} m³`;
             
             if (order.pickupAddr) {
                 details += `\n\nLấy hàng tận nơi:\nĐịa chỉ: ${order.pickupAddr}\nNgười liên hệ: ${order.pickupContact}\nSĐT: ${order.pickupPhone}`;
@@ -1238,6 +1287,38 @@
                 updateCartHeader(routeSelector.value);
             }
         }
+
+        // Export ra Excel (sử dụng thư viện SheetJS - cần thêm script bên ngoài nếu chưa có, ở đây giả định sử dụng blob)
+        exportExcelBtn.addEventListener('click', () => {
+            if (orders.length === 0) {
+                showNotification('Không có dữ liệu để export!', true);
+                return;
+            }
+
+            const data = orders.map(order => ({
+                'STT': orders.indexOf(order) + 1,
+                'Khách Hàng': order.customer,
+                'Tuyến Đường': order.route,
+                'Số Kiện': order.totalPackages,
+                'Trọng Lượng (kg)': order.totalWeight,
+                'Khối Lượng (m³)': order.totalVolume,
+                'Ngày Tạo': new Date(order.date).toLocaleDateString('vi-VN')
+            }));
+
+            const csvContent = "data:text/csv;charset=utf-8," + 
+                Object.keys(data[0]).join(",") + "\n" +
+                data.map(row => Object.values(row).join(",")).join("\n");
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "don_hang.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showNotification('Đã export thành công!');
+        });
     </script>
 </body>
-</html>
+</html>                                                                                                       
