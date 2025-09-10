@@ -7,14 +7,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #34495e;
-            --success-color: #27ae60;
-            --warning-color: #f39c12;
-            --danger-color: #e74c3c;
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --accent-color: #ef4444;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         
         * {
@@ -24,112 +27,175 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.4;
-            color: #333;
-            background-color: #f5f7fa;
-            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px;
             margin: 0;
             font-size: 14px;
         }
         
         .container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 15px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
         }
         
         header {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            padding: 12px 15px;
-            border-radius: 6px 6px 0 0;
+            padding: 24px 32px;
             margin-bottom: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        h1, h2, h3 {
-            margin-bottom: 12px;
-            color: var(--dark-color);
+            border-bottom: 1px solid var(--border-color);
         }
         
         header h1 {
-            color: white;
-            margin-bottom: 0;
-            font-size: 20px;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        header h1 i {
+            font-size: 32px;
+            color: #fbbf24;
         }
         
         .main-content {
             display: flex;
             flex-direction: column;
-            flex: 1;
-            gap: 15px;
-            margin-top: 0;
+            gap: 24px;
+            padding: 32px;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 16px;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+        
+        h2 {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+        
+        h3 {
+            font-size: 18px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .cart-header {
-            background: white;
-            padding: 15px;
-            border-radius: 6px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
+            background: var(--light-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
         }
         
         .stats-control {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stats-control label {
+            font-weight: 600;
+            color: var(--dark-color);
         }
         
         .stats-control select {
             flex: 1;
-            max-width: 300px;
+            max-width: 350px;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: all 0.2s ease;
+        }
+        
+        .stats-control select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
         .cart-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
         }
         
         .stat-card {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 4px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 24px;
+            border-radius: 12px;
             text-align: center;
-            border-left: 3px solid var(--secondary-color);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
         
         .stat-card h3 {
-            margin-bottom: 5px;
-            font-size: 13px;
+            margin-bottom: 8px;
+            font-size: 14px;
             color: var(--dark-color);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .stat-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--primary-color);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 4px;
         }
         
         .input-section {
             background: white;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
         }
         
         .list-section {
             background: white;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -138,21 +204,44 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 15px;
-            font-size: 13px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
         }
         
         th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+            padding: 16px 12px;
             text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
         
         th {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            font-size: 13px;
-            padding: 8px 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+        }
+        
+        td {
+            background: white;
+            transition: background-color 0.2s ease;
+        }
+        
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+        
+        tr:nth-child(even) td {
+            background-color: #f9fafb;
+        }
+        
+        tr:nth-child(even):hover td {
+            background-color: #f1f5f9;
         }
         
         tr:nth-child(even) {
@@ -166,25 +255,28 @@
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 24px;
         }
         
         .form-section {
-            margin-bottom: 15px;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            background: #fafafa;
+            margin-bottom: 24px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--light-color);
+            box-shadow: var(--shadow);
         }
         
         .form-section h3 {
-            margin-bottom: 12px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid var(--secondary-color);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--secondary-color);
             color: var(--primary-color);
             display: flex;
             align-items: center;
-            font-size: 15px;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
         }
         
         .required-label::after {
@@ -193,111 +285,147 @@
         }
         
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 20px;
         }
         
         label {
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             font-weight: 600;
             color: var(--dark-color);
-            font-size: 13px;
+            font-size: 14px;
         }
         
         input, select, textarea {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 13px;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: all 0.2s ease;
+            font-family: inherit;
         }
         
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--secondary-color);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
         
         input.error, select.error {
             border-color: var(--danger-color);
-            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
         }
         
         .error-message {
             color: var(--danger-color);
-            font-size: 11px;
-            margin-top: 3px;
+            font-size: 12px;
+            margin-top: 6px;
             display: none;
+            font-weight: 500;
         }
         
         .error-message.show {
             display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .checkbox-group {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
+            gap: 12px;
         }
         
         .checkbox-group input {
             width: auto;
-            margin-right: 8px;
+            margin: 0;
+            transform: scale(1.2);
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
         }
         
         .btn {
-            padding: 8px 12px;
-            background-color: var(--secondary-color);
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
-            transition: background-color 0.3s;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            text-decoration: none;
         }
         
         .btn i {
-            margin-right: 5px;
-            font-size: 12px;
+            font-size: 14px;
         }
         
         .btn:hover {
-            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
         }
         
         .btn-reset {
-            background-color: #95a5a6;
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
         }
         
         .btn-reset:hover {
-            background-color: #7f8c8d;
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
         }
         
         .btn-submit {
-            background-color: var(--success-color);
+            background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
         }
         
         .btn-submit:hover {
-            background-color: #219653;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
         }
         
         .btn-export {
-            background-color: #2ecc71;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
         
         .btn-export:hover {
-            background-color: #27ae60;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+        }
+        
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
         }
         
         .form-actions {
             display: flex;
+            gap: 16px;
             justify-content: flex-end;
-            gap: 8px;
-            margin-top: 15px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
         }
         
         .autocomplete {
@@ -306,26 +434,31 @@
         
         .autocomplete-suggestions {
             position: absolute;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-top: none;
             background: white;
             width: 100%;
-            max-height: 150px;
+            max-height: 200px;
             overflow-y: auto;
             z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 0 0 4px 4px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: var(--shadow);
         }
         
         .autocomplete-suggestion {
-            padding: 8px;
+            padding: 12px 16px;
             cursor: pointer;
-            border-bottom: 1px solid #eee;
-            font-size: 13px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            transition: background-color 0.2s ease;
         }
         
         .autocomplete-suggestion:hover {
-            background: #f0f0f0;
+            background: #f1f5f9;
+        }
+        
+        .autocomplete-suggestion:last-child {
+            border-bottom: none;
         }
         
         .hidden {
@@ -335,55 +468,58 @@
         .cargo-inputs {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 8px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
         
         .cargo-type {
-            margin-bottom: 12px;
-            padding: 8px;
-            background: #f8f9fa;
-            border-radius: 4px;
-            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
         }
         
         .cargo-type h4 {
-            font-size: 13px;
-            margin-bottom: 8px;
+            font-size: 16px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            font-weight: 600;
         }
         
         .route-display {
-            background: #e8f4fc;
-            padding: 8px;
-            border-radius: 4px;
-            margin-bottom: 12px;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
             font-weight: 600;
             color: var(--primary-color);
-            font-size: 13px;
+            border: 1px solid #93c5fd;
         }
         
         .notification {
             position: fixed;
-            top: 15px;
-            right: 15px;
-            padding: 12px 15px;
-            border-radius: 4px;
+            top: 24px;
+            right: 24px;
+            padding: 16px 24px;
+            border-radius: 8px;
             color: white;
-            background-color: var(--success-color);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+            box-shadow: var(--shadow-lg);
             z-index: 1000;
             opacity: 0;
-            transform: translateY(-15px);
-            transition: opacity 0.3s, transform 0.3s;
-            display: flex;
-            align-items: center;
-            font-size: 13px;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
         
         .notification i {
-            margin-right: 8px;
+            margin-right: 12px;
+            font-size: 16px;
         }
         
         .notification.show {
@@ -392,30 +528,48 @@
         }
         
         .notification.error {
-            background-color: var(--danger-color);
+            background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%);
         }
         
         .pagination {
             display: flex;
             justify-content: center;
-            margin-top: auto;
-            padding-top: 12px;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding: 16px;
         }
         
         .pagination button {
-            margin: 0 3px;
-            padding: 6px 10px;
-            background: #f1f1f1;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            margin: 0;
+            padding: 10px 16px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            color: var(--dark-color);
+        }
+        
+        .pagination button:hover {
+            background: var(--light-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-1px);
         }
         
         .pagination button.active {
             background: var(--secondary-color);
             color: white;
             border-color: var(--secondary-color);
+            box-shadow: var(--shadow);
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
         
         .pagination button:hover:not(.active) {
@@ -424,24 +578,102 @@
         
         .empty-state {
             text-align: center;
-            padding: 30px 0;
-            color: #7f8c8d;
+            padding: 60px 20px;
+            color: #6b7280;
         }
         
         .empty-state i {
-            font-size: 36px;
-            margin-bottom: 10px;
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #9ca3af;
+        }
+        
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+        }
+        
+        .empty-state p {
+            font-size: 14px;
+            color: #6b7280;
         }
         
         .compact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 16px;
         }
         
+        /* Responsive Design */
         @media (max-width: 1024px) {
             .form-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .cart-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 12px;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 24px;
+            }
+            
+            .main-content {
+                padding: 20px;
+                gap: 20px;
+            }
+            
+            .cart-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .cargo-inputs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .compact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            table {
+                font-size: 12px;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 20px;
+            }
+            
+            .cargo-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .pagination {
+                flex-wrap: wrap;
             }
             
             .compact-grid {
@@ -457,9 +689,7 @@
             .cart-stats {
                 grid-template-columns: 1fr 1fr;
             }
-        }
         
-        @media (max-width: 480px) {
             .cargo-inputs {
                 grid-template-columns: 1fr;
             }
@@ -531,6 +761,7 @@
                                 <th>STT</th>
                                 <th>Khách Hàng</th>
                                 <th>Tuyến Đường</th>
+                                <th>Số Xe</th>
                                 <th>Số Kiện</th>
                                 <th>Trọng Lượng (kg)</th>
                                 <th>Khối Lượng (m³)</th>
@@ -604,6 +835,11 @@
                             
                             <div class="route-display hidden" id="routeDisplay">
                                 <i class="fas fa-route"></i> Tuyến đường: <span id="routeText"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vehicleNumber">Số Xe:</label>
+                                <input type="text" id="vehicleNumber" placeholder="Nhập số xe (ví dụ: 51H-12345)">
                             </div>
                             
                             <div class="checkbox-group">
@@ -731,6 +967,7 @@
                         <button type="reset" class="btn btn-reset"><i class="fas fa-redo"></i> Làm Mới</button>
                         <button type="submit" class="btn btn-submit"><i class="fas fa-save"></i> Tạo Phiếu</button>
                         <button type="button" class="btn btn-export" id="exportExcel"><i class="fas fa-file-excel"></i> Export Excel</button>
+                        <button type="button" class="btn btn-warning" id="clearData" style="background-color: #f39c12;"><i class="fas fa-trash"></i> Xóa Dữ Liệu</button>
                     </div>
                 </form>
             </section>
@@ -745,11 +982,95 @@
     <script>
         // Dữ liệu mẫu
         const customers = [
-            { name: "Công ty TNHH Thực phẩm ABC", address: "123 Nguyễn Văn Linh, Quận 7, TP.HCM", phone: "0123456789" },
-            { name: "Cửa hàng Thủy Hải Sản XYZ", address: "45 Lê Lợi, Quận 1, TP.HCM", phone: "0987654321" },
-            { name: "Doanh nghiệp Đông lạnh DEF", address: "78 Nguyễn Huệ, Quận 1, TP.HCM", phone: "0909123456" },
-            { name: "Siêu thị Metro", address: "Khu công nghiệp Biên Hòa, Đồng Nai", phone: "0283894567" },
-            { name: "Công ty Vận tải Giao hàng Nhanh", address: "22 Trường Chinh, TP.Hà Nội", phone: "0243856789" }
+            { name: "CÔNG TY TNHH BÁNH NGỌT CJ VIỆT NAM", address: "Số 3,5,7 Nguyễn Huệ, P. Bến Nghé,Q. 1", email: "acbdd01@gmail.com", phone: "088793292", code_number: "CQ100718" },
+            { name: "CÔNG TY TNHH PHÂN PHỐI PLATINUM BEVERAGES", address: "162 Trần Hưng Đạo, P. Nguyễn Cư Trinh, Q. 1", email: "acbdd02@gmail.com", phone: "019199488", code_number: "CQ104420" },
+            { name: "CÔNG TY TNHH HIKARI VIỆT NAM", address: "Tầng 3 AEON Mall Tân Phú, 30 Bờ Bao Tân Thắng, Q. Tân Phú", email: "acbdd03@gmail.com", phone: "025497914", code_number: "CQ100008" },
+            { name: "CÔNG TY TNHH HOÀNG GIA VI", address: "Số SB8-1, Mỹ Khánh 2, Nguyễn Đức Cảnh, Q. 7", email: "acbdd04@gmail.com", phone: "094625774", code_number: "CQ106673" },
+            { name: "CÔNG TY CỔ PHẦN THƯƠNG MẠI DUY ANH", address: "12 Lê Quý Đôn, P. Võ Thị Sáu, Q. 3", email: "acbdd05@gmail.com", phone: "097271546", code_number: "SQ102286" },
+            { name: "CÔNG TY TNHH MEGA VIỆT PHÁT", address: "Số 52 Võ Văn Tần, P. Võ Thị Sáu Q. 3", email: "acbdd06@gmail.com", phone: "053382878", code_number: "CQ104607" },
+            { name: "CHI NHÁNH CÔNG TY TNHH VẬN TẢI VIỆT NHẬT", address: "46Ter Võ Văn Tần, Phường Võ Thị Sáu, Quận 3", email: "acbdd07@gmail.com", phone: "069603890", code_number: "CQ100106" },
+            { name: "CÔNG TY TNHH FUJI SEAL VIỆT NAM", address: "95 Cao Thắng,P. 3, Q. 3", email: "acbdd08@gmail.com", phone: "048758536", code_number: "CQ103082" },
+            { name: "CÔNG TY TNHH HOÀI GIANG XANH", address: "Số 16 Lê Quý Đôn, P. 6, Q. 3", email: "acbdd09@gmail.com", phone: "037253985", code_number: "CQ104104" },
+            { name: "CÔNG TY TNHH ĐẦU TƯ THƯƠNG MẠI VÀ DỊCH VỤ PDS", address: "Số 111 đường Hồ Tùng Mậu, P. Bến Nghé, Q. 1", email: "acbdd10@gmail.com", phone: "078579892", code_number: "CQ108614" },
+            { name: "CÔNG TY TNHH THƯƠNG MẠI & DỊCH VỤ DUY TÂN", address: "TTTM Aeon Mall, Số 30 Bờ Bao Tân Thắng, P. Sơn Kỳ, Q. Tân Phú", email: "acbdd11@gmail.com", phone: "092784872", code_number: "CQ108607" },
+            { name: "CHI NHÁNH CÔNG TY TNHH AN DUYÊN", address: "Số 163 Cô Giang, P. Cô Giang, Q. 1", email: "acbdd12@gmail.com", phone: "045999669", code_number: "CQ103902" },
+            { name: "CÔNG TY TNHH PHÂN PHỐI SÀNH ĐIỆU - CHI NHÁNH HÀ NỘI", address: "Tầng 12, Khách sạn La Siesta Premium Sài Gòn, Số 180-188 Lý Tự Trọng, P. Bến Thành, Q. 1", email: "acbdd13@gmail.com", phone: "029115379", code_number: "CQ105266" },
+            { name: "CÔNG TY CỔ PHẦN THƯƠNG MẠI DỊCH VỤ SẢN XUẤT HƯƠNG THỦY", address: "28 Phạm Ngọc Thạch, P. 6, Q. 3", email: "acbdd14@gmail.com", phone: "043073439", code_number: "CQ102406" },
+            { name: "CÔNG TY TNHH CƠ HỘI  VÀ THÁCH THỨC", address: "63B Hoàng Hoa Thám, P. 13, Q. Tân Bình", email: "acbdd15@gmail.com", phone: "013035221", code_number: "CQ103343" },
+            { name: "CÔNG TY CỔ PHẦN ĐẠI TÂN VIỆT", address: "Số 293 - 293B Trần Hưng Đạo, P. Cô Giang, Q.1", email: "acbdd16@gmail.com", phone: "094354624", code_number: "CQ100232" },
+            { name: "CÔNG TY TNHH MỘT THÀNH VIÊN CAN DO", address: "466 Nguyễn Tri Phương, P. 9, Q. 10", email: "acbdd17@gmail.com", phone: "072449621", code_number: "CQ103240" },
+            { name: "CÔNG TY CỔ PHẦN THỰC PHẨM CHOLIMEX (CHOLIMEX FOOD JSC)", address: "140A Đường Lý Chính Thắng, P. Võ Thị Sáu, Q. 3", email: "acbdd18@gmail.com", phone: "042617537", code_number: "CQ101932" },
+            { name: "CÔNG TY CỔ PHẦN THƯƠNG MẠI PHAN NAM MON TE RO SA", address: "5 Nguyễn Tất Thành, P. 12, Q. 4", email: "acbdd19@gmail.com", phone: "016777964", code_number: "CQ104579" },
+            { name: "CÔNG TY TNHH KEWPIE VIỆT NAM", address: "tầng 5, Khách Sạn Palace Saigon, 56-66 Nguyễn Huệ, P. Bến Nghé, Q. 1", email: "acbdd20@gmail.com", phone: "082480876", code_number: "CQ103019" },
+            { name: "CÔNG TY TNHH LEGENDARY VIỆT NAM", address: "235 Phan Xích Long, P.2, Q. Phú Nhuận", email: "acbdd21@gmail.com", phone: "046724791", code_number: "CQ103830" },
+            { name: "CÔNG TY CỔ PHẦN TẬP ĐOÀN GOLDEN GATE - CHI NHÁNH MIỀN BẮC", address: "351 Nguyễn Thượng Hiền, P. 11, Q. 3", email: "acbdd22@gmail.com", phone: "012431103", code_number: "CQ107217" },
+            { name: "CÔNG TY TNHH VỊ NGUYÊN", address: "27 Tú Xương, P. 7, Q. 3", email: "acbdd23@gmail.com", phone: "060000221", code_number: "CQ103540" },
+            { name: "CÔNG TY TNHH THẾ GIỚI KEM", address: "số 57 Võ Văn Tần, P. 6, Q. 3", email: "acbdd24@gmail.com", phone: "070021397", code_number: "CQ103503" },
+            { name: "CÔNG TY TNHH KOYU & UNITEK", address: "150/26 Nguyễn Trãi, P. Bến Thành, Q. 1", email: "acbdd25@gmail.com", phone: "072566637", code_number: "CQ103449" },
+            { name: "CÔNG TY TNHH OKAMURA TRADING VIỆT NAM", address: "Lầu 1, Khách sạn Viễn Đông, số 275A Phạm Ngũ Lão, P. Bến Thành, Q.1", email: "acbdd26@gmail.com", phone: "032318192", code_number: "CQ108365" },
+            { name: "CÔNG TY TNHH LOTTE VINA INTERNATIONAL", address: "109/6 Nguyễn Thiện Thuật, P. 2, Q. 3", email: "acbdd27@gmail.com", phone: "088536922", code_number: "CQ103694" },
+            { name: "CÔNG TY CỔ PHẦN ÔNG GIÀ IKA", address: "Số 5 Phạm Ngọc Thạch, Phường Xuân Hòa", email: "acbdd28@gmail.com", phone: "077904920", code_number: "CQ104350" },
+            { name: "Chi Nhánh Công Ty TNHH Thương Mại Hoàng Lê Thành Phố Hồ Chí Minh", address: "281 - 283 Nguyễn Trãi, P. Nguyễn Cư Trinh, Q. 1", email: "acbdd29@gmail.com", phone: "091881165", code_number: "CQ105110" },
+            { name: "CÔNG TY TNHH IMANAKA (VIỆT NAM)", address: "6B Công Trường Quốc Tế, P. 6, Q. 3", email: "acbdd30@gmail.com", phone: "034178375", code_number: "CQ103760" },
+            { name: "CHI NHÁNH CÔNG TY TNHH FOODSCOM", address: "20 Trần Cao Vân, P. Đa Kao, Q. 1", email: "acbdd31@gmail.com", phone: "097268184", code_number: "CQ102050" },
+            { name: "CHI NHÁNH CÔNG TY TNHH THƯ MỤC BẾP VN TẠI ĐÀ NẴNG", address: "Số 764 Sư Vạn Hạnh, P. 12, Q. 10", email: "acbdd32@gmail.com", phone: "083856471", code_number: "CQ108017" },
+            { name: "CHI NHÁNH CÔNG TY TNHH THƯ MỤC BẾP VN", address: "Số 457 Sư Vạn Hạnh, P. 12, Q.10", email: "acbdd33@gmail.com", phone: "012324266", code_number: "CQ108279" },
+            { name: "CÔNG TY TNHH THỰC PHẨM XANH MINH PHÚ", address: "Số 102-104, Mạc Thị Bưởi, P. Bến Nghé, Q. 1", email: "acbdd34@gmail.com", phone: "055657041", code_number: "CQ104759" },
+            { name: "CÔNG TY CỔ PHẦN CHUỖI NHÀ HÀNG SVN", address: "Số 172-173 Bến Vân Đồn, P. 6, Q. 4", email: "acbdd35@gmail.com", phone: "077106437", code_number: "CQ107573" },
+            { name: "CHI NHÁNH 13-CÔNG TY TNHH MỘT THÀNH VIÊN PHỔ ĐÌNH (TP ĐÀ NẴNG)", address: "Số 78 Nguyễn Đình Chiểu, P.Đa Kao, Q.1", email: "acbdd36@gmail.com", phone: "033886792", code_number: "CQ103730" },
+            { name: "CÔNG TY CỔ PHẦN TẬP ĐOÀN GOLDEN GATE - CHI NHÁNH MIỀN NAM", address: "35-37 Ngô Đức Kế, P. Bến Nghé, Q. 1", email: "acbdd37@gmail.com", phone: "072617533", code_number: "CQ104069" },
+            { name: "CÔNG TY TNHH SẢN XUẤT THƯƠNG MẠI VÀ XUẤT KHẨU THÀNH TRUNG", address: "32 Hoa Mai, P. 2, Q. Phú Nhuận", email: "acbdd38@gmail.com", phone: "059279372", code_number: "CQ108849" },
+            { name: "CÔNG TY TNHH KANEMATSU VIỆT NAM", address: "357 Lê Văn Sỹ, P. 01, Q. Tân Bình", email: "acbdd39@gmail.com", phone: "039431214", code_number: "CQ104125" },
+            { name: "CÔNG TY TNHH PHÂN PHỐI VÀ DỊCH VỤ HANN", address: "Số 40/13 Nguyễn Văn Đậu, P. 6, Q. Bình Thạnh", email: "acbdd40@gmail.com", phone: "054101301", code_number: "CQ105838" },
+            { name: "CÔNG TY TNHH YAKULT VIỆT NAM", address: "54 Thuận Kiều, P. 4, Q. 11", email: "acbdd41@gmail.com", phone: "025730779", code_number: "CQ103072" },
+            { name: "CÔNG TY TNHH THỰC PHẨM ÂN NAM", address: "Tầng 3, Số 411 Trần Hưng Đạo B, P. 14, Q. 5", email: "acbdd42@gmail.com", phone: "024388805", code_number: "CQ102684" },
+            { name: "CHI NHÁNH CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ NHÀ HÀNG BIA THỦ CÔNG PASTEUR STREET TẠI HÀ NỘI", address: "Số 9A Lam Sơn, P. 2, Q. Tân Bình", email: "acbdd43@gmail.com", phone: "091035602", code_number: "CQ106728" },
+            { name: "CÔNG TY TNHH THỰC PHẨM VÀ NƯỚC GIẢI KHÁT COOL SMOOTHIE", address: "số 383 Điện Biên Phủ, P. 25, Q. Bình Thạnh", email: "acbdd44@gmail.com", phone: "034435905", code_number: "CQ107687" },
+            { name: "CÔNG TY TNHH LOTTE VIỆT NAM", address: "185 - 187 Kênh Tân Hoá, P. Hoà Thạnh, Q. Tân Phú", email: "acbdd45@gmail.com", phone: "067852638", code_number: "CQ100712" },
+            { name: "CÔNG TY CỔ PHẦN SÔCÔLA MAROU", address: "48Bis Xuân Thủy, P. Thảo Điền, Q. 2", email: "acbdd46@gmail.com", phone: "032357377", code_number: "CQ100686" },
+            { name: "CÔNG TY TNHH DỪA CƯỜI", address: "Tầng 12, Khách sạn La Siesta Premium Sài Gòn, Số 180-188 Lý Tự Trọng, P. Bến Thành, Q. 1", email: "acbdd47@gmail.com", phone: "070082419", code_number: "CQ103810" },
+            { name: "CÔNG TY CỔ PHẦN NÔNG SẢN THỰC PHẨM LÂM ĐỒNG", address: "28 Phạm Ngọc Thạch, P. 6, Q. 3", email: "acbdd48@gmail.com", phone: "055533754", code_number: "CQ100354" },
+            { name: "CÔNG TY CỔ PHẦN GOURMET PARTNER VIỆT NAM", address: "63B Hoàng Hoa Thám, P. 13, Q. Tân Bình", email: "acbdd49@gmail.com", phone: "073150716", code_number: "SQ105557" },
+            { name: "CÔNG TY TNHH THỰC PHẨM NGON CỔ ĐIỂN", address: "Số 293 - 293B Trần Hưng Đạo, P. Cô Giang, Q.1", email: "acbdd50@gmail.com", phone: "055198647", code_number: "CQ103241" },
+            { name: "CÔNG TY TNHH LOGISALL POOLING SERVICES VIỆT NAM", address: "466 Nguyễn Tri Phương, P. 9, Q. 10", email: "acbdd51@gmail.com", phone: "088583487", code_number: "CQ105478" },
+            { name: "CÔNG TY TNHH AEON TOPVALU VIỆT NAM", address: "140A Đường Lý Chính Thắng, P. Võ Thị Sáu, Q. 3", email: "acbdd52@gmail.com", phone: "089338944", code_number: "CQ100675" },
+            { name: "CÔNG TY TNHH PHÂN PHỐI SÀNH ĐIỆU", address: "5 Nguyễn Tất Thành, P. 12, Q. 4", email: "acbdd53@gmail.com", phone: "016327835", code_number: "CQ101938" },
+            { name: "CÔNG TY CỔ PHẦN QUỐC TẾ HOA DOANH", address: "tầng 5, Khách Sạn Palace Saigon, 56-66 Nguyễn Huệ, P. Bến Nghé, Q. 1", email: "acbdd54@gmail.com", phone: "039359206", code_number: "CQ107493" },
+            { name: "CÔNG TY TNHH KOME88", address: "235 Phan Xích Long, P.2, Q. Phú Nhuận", email: "acbdd55@gmail.com", phone: "072224229", code_number: "CQ104548" },
+            { name: "CÔNG TY TNHH HANWA VIỆT NAM", address: "351 Nguyễn Thượng Hiền, P. 11, Q. 3", email: "acbdd56@gmail.com", phone: "047918838", code_number: "CQ103925" },
+            { name: "CHI NHÁNH CÔNG TY TNHH DỊCH VỤ THỰC PHẨM INDOGUNA VINA TẠI HÀ NỘI", address: "27 Tú Xương, P. 7, Q. 3", email: "acbdd57@gmail.com", phone: "086022366", code_number: "CQ103595" },
+            { name: "CÔNG TY TNHH DỊCH VỤ THỰC PHẨM INDOGUNA VINA", address: "số 57 Võ Văn Tần, P. 6, Q. 3", email: "acbdd58@gmail.com", phone: "018775791", code_number: "CQ103480" },
+            { name: "CÔNG TY TNHH SAN MIGUEL PURE FOODS (VN)", address: "150/26 Nguyễn Trãi, P. Bến Thành, Q. 1", email: "acbdd59@gmail.com", phone: "095498998", code_number: "CQ103003" },
+            { name: "CÔNG TY TNHH THỰC PHẨM SẠCH THƯƠNG MẠI T&P", address: "Lầu 1, Khách sạn Viễn Đông, số 275A Phạm Ngũ Lão, P. Bến Thành, Q.1", email: "acbdd60@gmail.com", phone: "094545513", code_number: "CQ103928" },
+            { name: "CÔNG TY TNHH MTV KITCHEN 4PS", address: "109/6 Nguyễn Thiện Thuật, P. 2, Q. 3", email: "acbdd61@gmail.com", phone: "025041664", code_number: "CQ104038" },
+            { name: "CÔNG TY CỔ PHẦN PIZZA 4PS", address: "Số 5 Phạm Ngọc Thạch, Phường Xuân Hòa", email: "acbdd62@gmail.com", phone: "042884364", code_number: "SQ104261" },
+            { name: "CÔNG TY CỔ PHẦN PHÚC LONG HERITAGE", address: "281 - 283 Nguyễn Trãi, P. Nguyễn Cư Trinh, Q. 1", email: "acbdd63@gmail.com", phone: "020202641", code_number: "CQ107039" },
+            { name: "CHI NHÁNH THÀNH PHỐ HỒ CHÍ MINH - CÔNG TY CỔ PHẦN ẨM THỰC MẶT TRỜI VÀNG", address: "6B Công Trường Quốc Tế, P. 6, Q. 3", email: "acbdd64@gmail.com", phone: "061874329", code_number: "CQ106807" },
+            { name: "CÔNG TY TNHH SEVEN BRIDGES", address: "20 Trần Cao Vân, P. Đa Kao, Q. 1", email: "acbdd65@gmail.com", phone: "095550064", code_number: "CQ104675" },
+            { name: "CÔNG TY CỔ PHẦN THƯƠNG MẠI SIM BA", address: "Số 764 Sư Vạn Hạnh, P. 12, Q. 10", email: "acbdd66@gmail.com", phone: "044577029", code_number: "CQ104089" },
+            { name: "CÔNG TY TNHH DL SWEETS", address: "Số 457 Sư Vạn Hạnh, P. 12, Q.10", email: "acbdd67@gmail.com", phone: "038770921", code_number: "CQ103140" },
+            { name: "CÔNG TY TNHH SEO NAM", address: "Số 102-104, Mạc Thị Bưởi, P. Bến Nghé, Q. 1", email: "acbdd68@gmail.com", phone: "076820233", code_number: "CQ106649" },
+            { name: "CÔNG TY TNHH MỘT THÀNH VIÊN SANNADLE", address: "Số 172-173 Bến Vân Đồn, P. 6, Q. 4", email: "acbdd69@gmail.com", phone: "041647601", code_number: "CQ104140" },
+            { name: "CÔNG TY TNHH DAILY FOOD VIỆT NAM", address: "Số 78 Nguyễn Đình Chiểu, P.Đa Kao, Q.1", email: "acbdd70@gmail.com", phone: "059000736", code_number: "CQ108613" },
+            { name: "CÔNG TY TNHH THỰC PHẨM CAO CẤP", address: "35-37 Ngô Đức Kế, P. Bến Nghé, Q. 1", email: "acbdd71@gmail.com", phone: "065924538", code_number: "SQ103500" },
+            { name: "CHI NHÁNH CÔNG TY TNHH VẬN TẢI VIỆT NHẬT TẠI ĐÀ NẴNG", address: "32 Hoa Mai, P. 2, Q. Phú Nhuận", email: "acbdd72@gmail.com", phone: "052876012", code_number: "CQ104435" },
+            { name: "CÔNG TY CỔ PHẦN THƯƠNG MẠI & DV XUÂN TRƯỜNG", address: "357 Lê Văn Sỹ, P. 01, Q. Tân Bình", email: "acbdd73@gmail.com", phone: "039236508", code_number: "CQ108658" },
+            { name: "CÔNG TY TNHH THƯƠNG MẠI NGỌC MAI", address: "Số 40/13 Nguyễn Văn Đậu, P. 6, Q. Bình Thạnh", email: "acbdd74@gmail.com", phone: "046236179", code_number: "CQ108606" },
+            { name: "CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ HOÀNG MAI FOODS", address: "54 Thuận Kiều, P. 4, Q. 11", email: "acbdd75@gmail.com", phone: "032480865", code_number: "CQ109193" },
+            { name: "CÔNG TY CỔ PHẦN VÂN VŨ", address: "Tầng 3, Số 411 Trần Hưng Đạo B, P. 14, Q. 5", email: "acbdd76@gmail.com", phone: "072642218", code_number: "CQ108610" },
+            { name: "CÔNG TY TNHH THƯƠNG MẠI THỰC PHẨM VIỆT ÂU", address: "Số 9A Lam Sơn, P. 2, Q. Tân Bình", email: "acbdd77@gmail.com", phone: "054884445", code_number: "CQ107959" },
+            { name: "CÔNG TY CỔ PHẦN FGC", address: "số 383 Điện Biên Phủ, P. 25, Q. Bình Thạnh", email: "acbdd78@gmail.com", phone: "067199060", code_number: "CQ103795" },
+            { name: "CÔNG TY TNHH FONTERRA BRANDS (VIỆT NAM)", address: "185 - 187 Kênh Tân Hoá, P. Hoà Thạnh, Q. Tân Phú", email: "acbdd79@gmail.com", phone: "063829959", code_number: "CQ104013" },
+            { name: "CÔNG TY CỔ PHẦN PHÊ LA", address: "48Bis Xuân Thủy, P. Thảo Điền, Q. 2", email: "acbdd80@gmail.com", phone: "019868165", code_number: "CQ107719" },
+            { name: "CÔNG TY TNHH LÂM HÒA THỦY", address: "20 Trần Cao Vân, P. Đa Kao, Q. 1", email: "acbdd81@gmail.com", phone: "036687623", code_number: "CQ104614" },
+            { name: "CHI NHÁNH CÔNG TY CỔ PHẦN ĐẠI TÂN VIỆT TẠI ĐÀ NẴNG", address: "Số 764 Sư Vạn Hạnh, P. 12, Q. 10", email: "acbdd82@gmail.com", phone: "072428619", code_number: "CQ108431" },
+            { name: "CÔNG TY TNHH MỘT THÀNH VIÊN VẬN TẢI TRẦN GIA PHÁT", address: "Số 457 Sư Vạn Hạnh, P. 12, Q.10", email: "acbdd83@gmail.com", phone: "071083078", code_number: "CQ106816" },
+            { name: "CÔNG TY TNHH GIẢI PHÁP THƯƠNG MẠI SÀI GÒN", address: "Số 102-104, Mạc Thị Bưởi, P. Bến Nghé, Q. 1", email: "acbdd84@gmail.com", phone: "028232513", code_number: "CQ105541" },
+            { name: "CÔNG TY TNHH YCH-PROTRADE", address: "Số 172-173 Bến Vân Đồn, P. 6, Q. 4", email: "acbdd85@gmail.com", phone: "061305815", code_number: "CQ106107" },
+            { name: "CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ VẬN TẢI TẤN THÀNH", address: "Số 78 Nguyễn Đình Chiểu, P.Đa Kao, Q.1", email: "acbdd86@gmail.com", phone: "068656316", code_number: "SQ103613" },
+            { name: "CÔNG TY TNHH ĐƯỜNG TƠ LỤA VN", address: "357 Lê Văn Sỹ, P. 01, Q. Tân Bình", email: "acbdd87@gmail.com", phone: "080938287", code_number: "CQ105622" },
+            { name: "CÔNG TY TNHH THƯƠNG MẠI THỰC PHẨM CÂU LẠC BỘ", address: "Số 40/13 Nguyễn Văn Đậu, P. 6, Q. Bình Thạnh", email: "acbdd88@gmail.com", phone: "054119754", code_number: "CQ108875" },
+            { name: "CÔNG TY TNHH PULMUONE VIỆT NAM", address: "54 Thuận Kiều, P. 4, Q. 11", email: "acbdd89@gmail.com", phone: "073227606", code_number: "CQ108800" }
         ];
 
         const routes = [
@@ -779,6 +1100,9 @@
         // Khởi tạo dữ liệu từ localStorage nếu có
         let orders = JSON.parse(localStorage.getItem('orders')) || [];
         
+        // Debug: Log existing orders to check for data issues
+        console.log('Loaded orders from localStorage:', orders);
+        
         // Cấu hình phân trang
         let currentPage = 1;
         const ordersPerPage = 10;
@@ -806,6 +1130,18 @@
         updateOrdersTable();
         setupPagination();
         updateRouteSelector();
+
+        // Button xóa dữ liệu
+        document.getElementById('clearData').addEventListener('click', () => {
+            if (confirm('Bạn có chắc chắn muốn xóa tất cả dữ liệu? Hành động này không thể hoàn tác!')) {
+                localStorage.removeItem('orders');
+                orders = [];
+                updateOrdersTable();
+                setupPagination();
+                updateRouteSelector();
+                showNotification('Đã xóa tất cả dữ liệu!');
+            }
+        });
 
         // Autocomplete cho khách hàng
         customerInput.addEventListener('keyup', () => {
@@ -843,53 +1179,57 @@
             routeSuggestions.classList.add('hidden');
             
             if (query) {
-                let parts = query.split(' ');
-                if (parts.length === 2) {
-                    const startAbbr = parts[0];
-                    const endAbbr = parts[1];
-                    const startFull = routeAbbreviations[startAbbr] || startAbbr;
-                    const endFull = routeAbbreviations[endAbbr] || endAbbr;
-                    const fullQuery = `${startFull} -> ${endFull}`.toLowerCase();
-                    
-                    const matches = routes.filter(route => 
-                        route.toLowerCase().includes(fullQuery)
-                    );
-                    
-                    if (matches.length) {
-                        routeSuggestions.classList.remove('hidden');
-                        matches.forEach(match => {
-                            const div = document.createElement('div');
-                            div.classList.add('autocomplete-suggestion');
-                            div.textContent = match;
-                            div.addEventListener('click', () => {
-                                routeInput.value = match.replace(' -> ', ' ');
-                                routeSuggestions.classList.add('hidden');
-                                updateRouteDisplay(match);
-                                clearError(routeInput);
-                            });
-                            routeSuggestions.appendChild(div);
+                // Gợi ý các viết tắt phổ biến
+                const commonAbbreviations = [
+                    { abbr: "HCM HN", full: "Hồ Chí Minh -> Hà Nội" },
+                    { abbr: "HCM DN", full: "Hồ Chí Minh -> Đà Nẵng" },
+                    { abbr: "HCM HP", full: "Hồ Chí Minh -> Hải Phòng" },
+                    { abbr: "HCM CT", full: "Hồ Chí Minh -> Cần Thơ" },
+                    { abbr: "HCM DL", full: "Hồ Chí Minh -> Đà Lạt" },
+                    { abbr: "HCM VT", full: "Hồ Chí Minh -> Vũng Tàu" },
+                    { abbr: "DN QN", full: "Đà Nẵng -> Quy Nhơn" },
+                    { abbr: "HP QNI", full: "Hải Phòng -> Quảng Ninh" },
+                    { abbr: "HP QUANG NINH", full: "Hải Phòng -> Quảng Ninh" },
+                    { abbr: "HAI PHONG QUANG NINH", full: "Hải Phòng -> Quảng Ninh" },
+                    { abbr: "DA NANG QUY NHON", full: "Đà Nẵng -> Quy Nhơn" }
+                ];
+                
+                // Tìm gợi ý từ viết tắt
+                const abbrMatches = commonAbbreviations.filter(item => 
+                    item.abbr.includes(query) || item.full.toUpperCase().includes(query)
+                );
+                
+                // Tìm gợi ý từ routes thông thường
+                const routeMatches = routes.filter(route => 
+                    route.toUpperCase().includes(query)
+                );
+                
+                // Kết hợp và hiển thị gợi ý
+                const allMatches = [...new Set([...abbrMatches.map(item => item.full), ...routeMatches])];
+                
+                if (allMatches.length) {
+                    routeSuggestions.classList.remove('hidden');
+                    allMatches.forEach(match => {
+                        const div = document.createElement('div');
+                        div.classList.add('autocomplete-suggestion');
+                        div.textContent = match;
+                        
+                        // Hiển thị viết tắt nếu có
+                        const abbr = commonAbbreviations.find(item => item.full === match);
+                        if (abbr) {
+                            div.innerHTML = `${match} <small style="opacity: 0.7;">(${abbr.abbr})</small>`;
+                        }
+                        
+                        div.addEventListener('click', () => {
+                            // Truyền trực tiếp route đầy đủ để hiển thị
+                            routeText.textContent = match;
+                            routeDisplay.classList.remove('hidden');
+                            routeInput.value = match.replace(' -> ', ' ');
+                            routeSuggestions.classList.add('hidden');
+                            clearError(routeInput);
                         });
-                    }
-                } else {
-                    const matches = routes.filter(route => 
-                        route.toLowerCase().includes(query.toLowerCase())
-                    );
-                    
-                    if (matches.length) {
-                        routeSuggestions.classList.remove('hidden');
-                        matches.forEach(match => {
-                            const div = document.createElement('div');
-                            div.classList.add('autocomplete-suggestion');
-                            div.textContent = match;
-                            div.addEventListener('click', () => {
-                                routeInput.value = match.replace(' -> ', ' ');
-                                routeSuggestions.classList.add('hidden');
-                                updateRouteDisplay(match);
-                                clearError(routeInput);
-                            });
-                            routeSuggestions.appendChild(div);
-                        });
-                    }
+                        routeSuggestions.appendChild(div);
+                    });
                 }
             }
             
@@ -902,6 +1242,33 @@
             if (inputValue) {
                 let parts = inputValue.split(' ');
                 if (parts.length >= 2) {
+                    // Xử lý các trường hợp viết tắt phổ biến
+                    const input = inputValue.toUpperCase();
+                    
+                    // Mapping các viết tắt phổ biến
+                    const routeMappings = {
+                        "HCM HN": "Hồ Chí Minh -> Hà Nội",
+                        "HCM DN": "Hồ Chí Minh -> Đà Nẵng", 
+                        "HCM HP": "Hồ Chí Minh -> Hải Phòng",
+                        "HCM CT": "Hồ Chí Minh -> Cần Thơ",
+                        "HCM DL": "Hồ Chí Minh -> Đà Lạt",
+                        "HCM VT": "Hồ Chí Minh -> Vũng Tàu",
+                        "DN QN": "Đà Nẵng -> Quy Nhơn",
+                        "HP QNI": "Hải Phòng -> Quảng Ninh",
+                        "HP QUANG NINH": "Hải Phòng -> Quảng Ninh",
+                        "HAI PHONG QUANG NINH": "Hải Phòng -> Quảng Ninh",
+                        "DA NANG QUY NHON": "Đà Nẵng -> Quy Nhơn"
+                    };
+                    
+                    // Kiểm tra mapping trực tiếp trước
+                    if (routeMappings[input]) {
+                        const fullRoute = routeMappings[input];
+                        routeText.textContent = fullRoute;
+                        routeDisplay.classList.remove('hidden');
+                        return fullRoute;
+                    }
+                    
+                    // Xử lý theo cách cũ nếu không có mapping
                     const startAbbr = parts[0].toUpperCase();
                     const endAbbr = parts.slice(1).join(' ').toUpperCase();
                     const startFull = routeAbbreviations[startAbbr] || startAbbr;
@@ -1011,6 +1378,7 @@
                     <td>${i + 1}</td>
                     <td>${order.customer}</td>
                     <td>${order.route}</td>
+                    <td>${order.vehicleNumber || ''}</td>
                     <td>${order.totalPackages.toLocaleString()}</td>
                     <td>${order.totalWeight.toLocaleString()}</td>
                     <td>${order.totalVolume.toLocaleString()}</td>
@@ -1163,7 +1531,12 @@
                 customer = customerInput.value;
             }
             
-            const route = updateRouteDisplay() || routeInput.value;
+            const route = routeDisplay.classList.contains('hidden') ? 
+                (updateRouteDisplay() || routeInput.value) : 
+                routeText.textContent;
+            const vehicleNumber = document.getElementById('vehicleNumber').value;
+            
+            console.log('Route being saved:', route); // Debug log
             
             // Lấy thông tin lấy hàng/giao hàng tận nơi nếu có
             const pickupAddr = document.getElementById('customPickup').checked ? document.getElementById('pickupAddr').value : '';
@@ -1196,6 +1569,7 @@
                 id: Date.now(),
                 customer,
                 route,
+                vehicleNumber,
                 totalPackages,
                 totalWeight,
                 totalVolume,
@@ -1260,7 +1634,7 @@
         // Xem chi tiết đơn hàng
         function viewOrder(index) {
             const order = orders[index];
-            let details = `Chi tiết đơn hàng:\nKhách hàng: ${order.customer}\nTuyến đường: ${order.route}\nSố kiện: ${order.totalPackages}\nTrọng lượng: ${order.totalWeight} kg\nKhối lượng: ${order.totalVolume} m³`;
+            let details = `Chi tiết đơn hàng:\nKhách hàng: ${order.customer}\nTuyến đường: ${order.route}\nSố xe: ${order.vehicleNumber || 'Chưa có'}\nSố kiện: ${order.totalPackages}\nTrọng lượng: ${order.totalWeight} kg\nKhối lượng: ${order.totalVolume} m³`;
             
             if (order.pickupAddr) {
                 details += `\n\nLấy hàng tận nơi:\nĐịa chỉ: ${order.pickupAddr}\nNgười liên hệ: ${order.pickupContact}\nSĐT: ${order.pickupPhone}`;
@@ -1299,6 +1673,7 @@
                 'STT': orders.indexOf(order) + 1,
                 'Khách Hàng': order.customer,
                 'Tuyến Đường': order.route,
+                'Số Xe': order.vehicleNumber || '',
                 'Số Kiện': order.totalPackages,
                 'Trọng Lượng (kg)': order.totalWeight,
                 'Khối Lượng (m³)': order.totalVolume,
@@ -1321,4 +1696,4 @@
         });
     </script>
 </body>
-</html>                                                                                                       
+</html>                                                                                                  
