@@ -718,7 +718,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <header>
             <h1><i class="fas fa-truck-loading"></i> Công Cụ Nhập Liệu Phiếu Hàng</h1>
         </header>
@@ -760,6 +760,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Khách Hàng</th>
+                                <th>Cửa hàng</th>
                                 <th>Tuyến Đường</th>
                                 <th>Số Xe</th>
                                 <th>Số Kiện</th>
@@ -802,6 +803,14 @@
                                 <div class="error-message" id="customerError">Vui lòng nhập tên khách hàng</div>
                             </div>
                             
+                            <div class="form-group">
+                                <label for="storeInput">Cửa hàng/Chi nhánh:</label>
+                                <div class="autocomplete">
+                                    <input type="text" id="storeInput" placeholder="Nhập tên cửa hàng/chi nhánh...">
+                                    <div id="storeSuggestions" class="autocomplete-suggestions hidden"></div>
+                                </div>
+                            </div>
+                            
                             <div class="checkbox-group">
                                 <input type="checkbox" id="newCustomer">
                                 <label for="newCustomer">Khách hàng mới</label>
@@ -836,12 +845,18 @@
                             <div class="route-display hidden" id="routeDisplay">
                                 <i class="fas fa-route"></i> Tuyến đường: <span id="routeText"></span>
                             </div>
-                            
                             <div class="form-group">
-                                <label for="vehicleNumber">Số Xe:</label>
-                                <input type="text" id="vehicleNumber" placeholder="Nhập số xe (ví dụ: 51H-12345)">
+                                <label for="vehicleInput" class="required-label">Số xe:</label>
+                                <div class="autocomplete">
+                                    <input type="text" id="vehicleInput" placeholder="Nhập số xe hoặc tên tài xế">
+                                    <div id="vehicleSuggestions" class="autocomplete-suggestions hidden"></div>
+                                </div>
+                                <div class="error-message" id="vehicleInputError">Vui lòng nhập số xe</div>
                             </div>
-                            
+                            <div class="vehicle-display hidden" id="vehicleDisplay">
+                                <i class="fas fa-route"></i> Số xe: <span id="vehicleText"></span>
+                            </div>
+                           
                             <div class="checkbox-group">
                                 <input type="checkbox" id="customPickup">
                                 <label for="customPickup">Lấy hàng tận nơi</label>
@@ -967,6 +982,7 @@
                         <button type="reset" class="btn btn-reset"><i class="fas fa-redo"></i> Làm Mới</button>
                         <button type="submit" class="btn btn-submit"><i class="fas fa-save"></i> Tạo Phiếu</button>
                         <button type="button" class="btn btn-export" id="exportExcel"><i class="fas fa-file-excel"></i> Export Excel</button>
+                        <button type="button" class="btn btn-success" id="exportDetailReport" style="background-color: #27ae60;"><i class="fas fa-chart-bar"></i> Báo Cáo Chi Tiết</button>
                         <button type="button" class="btn btn-warning" id="clearData" style="background-color: #f39c12;"><i class="fas fa-trash"></i> Xóa Dữ Liệu</button>
                     </div>
                 </form>
@@ -1097,11 +1113,24 @@
             // Có thể thêm nhiều hơn nếu cần
         };
 
+        const vehicles = [
+            { number: "51C-12345" , driver : "Nguyễn Văn A" , phone: "0909123456"},
+            { number: "51D-67890" , driver : "Trần Thị B" , phone: "0912678901"},
+            { number: "51E-54321" , driver : "Lê Văn C" , phone: "0921543210"},
+            { number: "51F-09876" , driver : "Phạm Thị D" , phone: "0934098765"},
+            { number: "51G-11223" , driver : "Hoàng Văn E" , phone: "0945112233"},
+            { number: "51H-44556" , driver : "Vũ Thị F" , phone: "0956445566"},
+            { number: "51K-77889" , driver : "Đặng Văn G" , phone: "0966778899"},
+            { number: "51L-99000" , driver : "Bùi Thị H" , phone: "0977990001"}
+        ];
+
         // Khởi tạo dữ liệu từ localStorage nếu có
         let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        let customerStores = JSON.parse(localStorage.getItem('customerStores')) || {};
         
         // Debug: Log existing orders to check for data issues
         console.log('Loaded orders from localStorage:', orders);
+        console.log('Loaded customer stores:', customerStores);
         
         // Cấu hình phân trang
         let currentPage = 1;
@@ -1110,6 +1139,8 @@
         // DOM Elements
         const customerInput = document.getElementById('customerInput');
         const suggestions = document.getElementById('customerSuggestions');
+        const storeInput = document.getElementById('storeInput');
+        const storeSuggestions = document.getElementById('storeSuggestions');
         const routeInput = document.getElementById('routeInput');
         const routeSuggestions = document.getElementById('routeSuggestions');
         const routeDisplay = document.getElementById('routeDisplay');
@@ -1125,6 +1156,7 @@
         const totalVehiclesElement = document.getElementById('totalVehicles');
         const routeSelector = document.getElementById('routeSelector');
         const exportExcelBtn = document.getElementById('exportExcel');
+        const exportDetailReportBtn = document.getElementById('exportDetailReport');
 
         // Cập nhật danh sách đơn hàng khi tải trang
         updateOrdersTable();
@@ -1171,6 +1203,70 @@
                 }
             }
         });
+
+        // Autocomplete cho Store
+        storeInput.addEventListener('keyup', () => {
+            const query = storeInput.value.toLowerCase();
+            const selectedCustomer = customerInput.value.trim();
+            storeSuggestions.innerHTML = '';
+            storeSuggestions.classList.add('hidden');
+            
+            if (query && selectedCustomer) {
+                // Lấy danh sách stores của customer hiện tại
+                const customerStoreList = customerStores[selectedCustomer] || [];
+                const matches = customerStoreList.filter(store => 
+                    store.toLowerCase().includes(query)
+                );
+                
+                if (matches.length) {
+                    storeSuggestions.classList.remove('hidden');
+                    // Sắp xếp từ mới nhất đến cũ nhất (theo thứ tự thêm vào)
+                    matches.reverse().forEach(match => {
+                        const div = document.createElement('div');
+                        div.classList.add('autocomplete-suggestion');
+                        div.textContent = match;
+                        div.addEventListener('click', () => {
+                            storeInput.value = match;
+                            storeSuggestions.classList.add('hidden');
+                        });
+                        storeSuggestions.appendChild(div);
+                    });
+                }
+            }
+        });
+
+        //Autocomplete cho số xe - tìm kiếm cả số xe và tên tài xế
+        const vehicleInput = document.getElementById('vehicleInput');
+        const vehicleSuggestions = document.getElementById('vehicleSuggestions');
+
+        vehicleInput.addEventListener('keyup', () => {
+            const query = vehicleInput.value.toUpperCase();
+            vehicleSuggestions.innerHTML = '';
+            vehicleSuggestions.classList.add('hidden');
+            
+            if (query) {
+                const matches = vehicles.filter(v => 
+                    v.number.toUpperCase().includes(query) || 
+                    v.driver.toUpperCase().includes(query)
+                );
+                
+                if (matches.length) {
+                    vehicleSuggestions.classList.remove('hidden');
+                    matches.forEach(match => {
+                        const div = document.createElement('div');
+                        div.classList.add('autocomplete-suggestion');
+                        div.innerHTML = `<strong>${match.number}</strong> - ${match.driver}`;
+                        div.addEventListener('click', () => {
+                            vehicleInput.value = match.number;
+                            vehicleSuggestions.classList.add('hidden');
+                            clearError(vehicleInput);
+                        });
+                        vehicleSuggestions.appendChild(div);
+                    });
+                }
+            }
+        });
+
 
         // Autocomplete cho tuyến đường (hỗ trợ viết tắt và space làm phân cách)
         routeInput.addEventListener('keyup', () => {
@@ -1377,6 +1473,7 @@
                 row.innerHTML = `
                     <td>${i + 1}</td>
                     <td>${order.customer}</td>
+                    <td>${order.store || ''}</td>
                     <td>${order.route}</td>
                     <td>${order.vehicleNumber || ''}</td>
                     <td>${order.totalPackages.toLocaleString()}</td>
@@ -1503,6 +1600,13 @@
                 isValid = false;
             }
             
+            // Validate số xe
+            const vehicleInput = document.getElementById('vehicleInput');
+            if (!vehicleInput.value.trim()) {
+                showError(vehicleInput, 'Vui lòng nhập số xe');
+                isValid = false;
+            }
+            
             return isValid;
         }
 
@@ -1534,7 +1638,8 @@
             const route = routeDisplay.classList.contains('hidden') ? 
                 (updateRouteDisplay() || routeInput.value) : 
                 routeText.textContent;
-            const vehicleNumber = document.getElementById('vehicleNumber').value;
+            const vehicleNumber = document.getElementById('vehicleInput').value;
+            const store = storeInput.value.trim(); // Lấy thông tin store
             
             console.log('Route being saved:', route); // Debug log
             
@@ -1568,6 +1673,7 @@
             const newOrder = {
                 id: Date.now(),
                 customer,
+                store, // Thêm trường store
                 route,
                 vehicleNumber,
                 totalPackages,
@@ -1584,6 +1690,19 @@
             
             // Thêm vào mảng orders
             orders.unshift(newOrder);
+            
+            // Lưu store khi tạo phiếu thành công
+            if (customer && store) {
+                if (!customerStores[customer]) {
+                    customerStores[customer] = [];
+                }
+                
+                // Kiểm tra xem store đã tồn tại chưa
+                if (!customerStores[customer].includes(store)) {
+                    customerStores[customer].push(store);
+                    localStorage.setItem('customerStores', JSON.stringify(customerStores));
+                }
+            }
             
             // Lưu vào localStorage
             localStorage.setItem('orders', JSON.stringify(orders));
@@ -1628,13 +1747,20 @@
             // Xóa các lỗi
             clearError(customerInput);
             clearError(routeInput);
+            clearError(document.getElementById('vehicleInput'));
             clearError(document.getElementById('newName'));
         });
 
         // Xem chi tiết đơn hàng
         function viewOrder(index) {
             const order = orders[index];
-            let details = `Chi tiết đơn hàng:\nKhách hàng: ${order.customer}\nTuyến đường: ${order.route}\nSố xe: ${order.vehicleNumber || 'Chưa có'}\nSố kiện: ${order.totalPackages}\nTrọng lượng: ${order.totalWeight} kg\nKhối lượng: ${order.totalVolume} m³`;
+            let details = `Chi tiết đơn hàng:\nKhách hàng: ${order.customer}`;
+            
+            if (order.store) {
+                details += `\nCửa hàng: ${order.store}`;
+            }
+            
+            details += `\nTuyến đường: ${order.route}\nSố xe: ${order.vehicleNumber || 'Chưa có'}\nSố kiện: ${order.totalPackages}\nTrọng lượng: ${order.totalWeight} kg\nKhối lượng: ${order.totalVolume} m³`;
             
             if (order.pickupAddr) {
                 details += `\n\nLấy hàng tận nơi:\nĐịa chỉ: ${order.pickupAddr}\nNgười liên hệ: ${order.pickupContact}\nSĐT: ${order.pickupPhone}`;
@@ -1662,7 +1788,7 @@
             }
         }
 
-        // Export ra Excel (sử dụng thư viện SheetJS - cần thêm script bên ngoài nếu chưa có, ở đây giả định sử dụng blob)
+        // Export ra Excel với UTF-8 BOM để hiển thị font chữ Tiếng Việt đúng
         exportExcelBtn.addEventListener('click', () => {
             if (orders.length === 0) {
                 showNotification('Không có dữ liệu để export!', true);
@@ -1672,6 +1798,7 @@
             const data = orders.map(order => ({
                 'STT': orders.indexOf(order) + 1,
                 'Khách Hàng': order.customer,
+                'Cửa hàng': order.store || '',
                 'Tuyến Đường': order.route,
                 'Số Xe': order.vehicleNumber || '',
                 'Số Kiện': order.totalPackages,
@@ -1680,19 +1807,129 @@
                 'Ngày Tạo': new Date(order.date).toLocaleDateString('vi-VN')
             }));
 
-            const csvContent = "data:text/csv;charset=utf-8," + 
-                Object.keys(data[0]).join(",") + "\n" +
-                data.map(row => Object.values(row).join(",")).join("\n");
-
-            const encodedUri = encodeURI(csvContent);
+            // Tạo CSV content với UTF-8 BOM
+            const header = Object.keys(data[0]).join(",") + "\n";
+            const csvRows = data.map(row => Object.values(row).join(",")).join("\n");
+            const csvContent = header + csvRows;
+            
+            // Thêm UTF-8 BOM để Excel hiển thị font chữ Tiếng Việt đúng
+            const BOM = "\uFEFF";
+            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+            
             const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
             link.setAttribute("download", "don_hang.csv");
+            link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            URL.revokeObjectURL(url);
 
             showNotification('Đã export thành công!');
+        });
+
+        // Export báo cáo chi tiết theo tuyến
+        exportDetailReportBtn.addEventListener('click', () => {
+            if (orders.length === 0) {
+                showNotification('Không có dữ liệu để tạo báo cáo!', true);
+                return;
+            }
+
+            // Tạo báo cáo theo tuyến
+            const routeReport = {};
+            orders.forEach(order => {
+                const route = order.route;
+                if (!routeReport[route]) {
+                    routeReport[route] = {
+                        totalOrders: 0,
+                        totalPackages: 0,
+                        totalWeight: 0,
+                        totalVolume: 0,
+                        pickupDelivery: 0,
+                        stores: new Set(),
+                        customers: new Set(),
+                        orders: []
+                    };
+                }
+                
+                routeReport[route].totalOrders++;
+                routeReport[route].totalPackages += order.totalPackages;
+                routeReport[route].totalWeight += order.totalWeight;
+                routeReport[route].totalVolume += order.totalVolume;
+                routeReport[route].customers.add(order.customer);
+                
+                if (order.store) {
+                    routeReport[route].stores.add(order.store);
+                }
+                
+                if (order.pickupAddr || order.deliveryAddr) {
+                    routeReport[route].pickupDelivery++;
+                }
+                
+                routeReport[route].orders.push(order);
+            });
+
+            // Tạo nội dung Excel CSV
+            let csvContent = '';
+            
+            // Sheet 1: Thống kê tổng quan
+            csvContent += 'BÁOCÁO CHI TIẾT THEO TUYẾN\n';
+            csvContent += 'Ngày tạo báo cáo,' + new Date().toLocaleDateString('vi-VN') + '\n\n';
+            
+            csvContent += 'THỐNG KÊ TỔNG QUAN\n';
+            csvContent += `Tổng số đơn hàng,${orders.length}\n`;
+            csvContent += `Tổng số tuyến,${Object.keys(routeReport).length}\n`;
+            csvContent += `Tổng số kiện,${orders.reduce((sum, o) => sum + o.totalPackages, 0)}\n`;
+            csvContent += `Tổng trọng lượng (kg),${orders.reduce((sum, o) => sum + o.totalWeight, 0)}\n`;
+            csvContent += `Tổng khối lượng (m³),${orders.reduce((sum, o) => sum + o.totalVolume, 0)}\n`;
+            csvContent += `Số đơn giao/lấy tận nơi,${orders.filter(o => o.pickupAddr || o.deliveryAddr).length}\n\n`;
+
+            // Sheet 2: Chi tiết theo tuyến (dạng bảng)
+            csvContent += 'CHI TIẾT THEO TUYẾN\n';
+            csvContent += 'Tuyến,Số đơn,Số kiện,Trọng lượng (kg),Khối lượng (m³),Số khách hàng,Số cửa hàng,Giao/lấy tận nơi,Số xe cần ước tính\n';
+            
+            // Sắp xếp tuyến theo số đơn hàng (nhiều nhất trước)
+            const sortedRoutes = Object.keys(routeReport).sort((a, b) => 
+                routeReport[b].totalOrders - routeReport[a].totalOrders
+            );
+
+            sortedRoutes.forEach(route => {
+                const data = routeReport[route];
+                const vehiclesByWeight = Math.ceil(data.totalWeight / 5000);
+                const vehiclesByVolume = Math.ceil(data.totalVolume / 30);
+                const vehiclesNeeded = Math.max(vehiclesByWeight, vehiclesByVolume);
+                
+                csvContent += `"${route}",${data.totalOrders},${data.totalPackages},${data.totalWeight},${data.totalVolume},${data.customers.size},${data.stores.size},${data.pickupDelivery},${vehiclesNeeded}\n`;
+            });
+
+            csvContent += '\n\nCHI TIẾT KHÁCH HÀNG THEO TUYẾN\n';
+            csvContent += 'Tuyến,Khách hàng,Cửa hàng,Số kiện,Trọng lượng (kg),Khối lượng (m³),Giao/lấy tận nơi\n';
+            
+            // Chi tiết từng đơn hàng
+            sortedRoutes.forEach(route => {
+                const data = routeReport[route];
+                data.orders.forEach(order => {
+                    const hasPickupDelivery = (order.pickupAddr || order.deliveryAddr) ? 'Có' : 'Không';
+                    csvContent += `"${route}","${order.customer}","${order.store || ''}",${order.totalPackages},${order.totalWeight},${order.totalVolume},"${hasPickupDelivery}"\n`;
+                });
+            });
+
+            // Tạo file CSV với UTF-8 BOM để Excel hiển thị đúng
+            const BOM = "\uFEFF";
+            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+            
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `bao_cao_chi_tiet_${new Date().toISOString().slice(0,10)}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            showNotification('Đã tạo báo cáo Excel thành công!');
         });
     </script>
 </body>
