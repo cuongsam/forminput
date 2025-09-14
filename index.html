@@ -1,728 +1,20 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Công Cụ Nhập Liệu Phiếu Hàng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #3b82f6;
-            --accent-color: #ef4444;
-            --light-color: #f8fafc;
-            --dark-color: #1e293b;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --border-color: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #334155;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 16px;
-            margin: 0;
-            font-size: 14px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 24px 32px;
-            margin-bottom: 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        header h1 i {
-            font-size: 32px;
-            color: #fbbf24;
-        }
-        
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            padding: 32px;
-        }
-        
-        h1, h2, h3 {
-            margin-bottom: 16px;
-            color: var(--dark-color);
-            font-weight: 600;
-        }
-        
-        h2 {
-            font-size: 24px;
-            color: var(--primary-color);
-        }
-        
-        h3 {
-            font-size: 18px;
-            color: var(--dark-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .cart-header {
-            background: var(--light-color);
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .stats-control {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        
-        .stats-control label {
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-        
-        .stats-control select {
-            flex: 1;
-            max-width: 350px;
-            padding: 12px 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
-            background: white;
-            transition: all 0.2s ease;
-        }
-        
-        .stats-control select:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .cart-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            padding: 24px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .stat-card h3 {
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: var(--dark-color);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--secondary-color);
-            margin-bottom: 4px;
-        }
-        
-        .input-section {
-            background: white;
-            border-radius: 12px;
-            padding: 32px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            margin-bottom: 24px;
-        }
-        
-        .list-section {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-        
-        th, td {
-            padding: 16px 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        th {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: none;
-        }
-        
-        td {
-            background: white;
-            transition: background-color 0.2s ease;
-        }
-        
-        tr:hover td {
-            background-color: #f8fafc;
-        }
-        
-        tr:nth-child(even) td {
-            background-color: #f9fafb;
-        }
-        
-        tr:nth-child(even):hover td {
-            background-color: #f1f5f9;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-        
-        .form-section {
-            margin-bottom: 24px;
-            padding: 24px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            background: var(--light-color);
-            box-shadow: var(--shadow);
-        }
-        
-        .form-section h3 {
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--secondary-color);
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        
-        .required-label::after {
-            content: " *";
-            color: var(--danger-color);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark-color);
-            font-size: 14px;
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
-            background: white;
-            transition: all 0.2s ease;
-            font-family: inherit;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            transform: translateY(-1px);
-        }
-        
-        input.error, select.error {
-            border-color: var(--danger-color);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-        }
-        
-        .error-message {
-            color: var(--danger-color);
-            font-size: 12px;
-            margin-top: 6px;
-            display: none;
-            font-weight: 500;
-        }
-        
-        .error-message.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-            gap: 12px;
-        }
-        
-        .checkbox-group input {
-            width: auto;
-            margin: 0;
-            transform: scale(1.2);
-        }
-        
-        .checkbox-group label {
-            margin: 0;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: var(--shadow);
-            text-decoration: none;
-        }
-        
-        .btn i {
-            font-size: 14px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .btn-reset {
-            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-        }
-        
-        .btn-reset:hover {
-            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
-        }
-        
-        .btn-submit {
-            background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
-        }
-        
-        .btn-submit:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-        }
-        
-        .btn-export {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        
-        .btn-export:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-        }
-        
-        .btn-warning {
-            background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
-        }
-        
-        .btn-warning:hover {
-            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-        }
-        
-        .form-actions {
-            display: flex;
-            gap: 16px;
-            justify-content: flex-end;
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        .autocomplete {
-            position: relative;
-        }
-        
-        .autocomplete-suggestions {
-            position: absolute;
-            border: 1px solid var(--border-color);
-            border-top: none;
-            background: white;
-            width: 100%;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            border-radius: 0 0 8px 8px;
-            box-shadow: var(--shadow);
-        }
-        
-        .autocomplete-suggestion {
-            padding: 12px 16px;
-            cursor: pointer;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
-            transition: background-color 0.2s ease;
-        }
-        
-        .autocomplete-suggestion:hover {
-            background: #f1f5f9;
-        }
-        
-        .autocomplete-suggestion:last-child {
-            border-bottom: none;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .cargo-inputs {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        
-        .cargo-type {
-            margin-bottom: 20px;
-            padding: 16px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-        }
-        
-        .cargo-type h4 {
-            font-size: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        .route-display {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            color: var(--primary-color);
-            border: 1px solid #93c5fd;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 24px;
-            right: 24px;
-            padding: 16px 24px;
-            border-radius: 8px;
-            color: white;
-            background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
-            box-shadow: var(--shadow-lg);
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .notification i {
-            margin-right: 12px;
-            font-size: 16px;
-        }
-        
-        .notification.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .notification.error {
-            background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%);
-        }
-        
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin-top: 24px;
-            padding: 16px;
-        }
-        
-        .pagination button {
-            margin: 0;
-            padding: 10px 16px;
-            background: white;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            color: var(--dark-color);
-        }
-        
-        .pagination button:hover {
-            background: var(--light-color);
-            border-color: var(--secondary-color);
-            transform: translateY(-1px);
-        }
-        
-        .pagination button.active {
-            background: var(--secondary-color);
-            color: white;
-            border-color: var(--secondary-color);
-            box-shadow: var(--shadow);
-        }
-        
-        .pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .pagination button:hover:not(.active) {
-            background: #ddd;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #6b7280;
-        }
-        
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: 16px;
-            color: #9ca3af;
-        }
-        
-        .empty-state h3 {
-            font-size: 20px;
-            margin-bottom: 8px;
-            color: var(--dark-color);
-        }
-        
-        .empty-state p {
-            font-size: 14px;
-            color: #6b7280;
-        }
-        
-        .compact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .cart-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                border-radius: 12px;
-            }
-            
-            header {
-                padding: 20px;
-            }
-            
-            header h1 {
-                font-size: 24px;
-            }
-            
-            .main-content {
-                padding: 20px;
-                gap: 20px;
-            }
-            
-            .cart-stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .cargo-inputs {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .compact-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
-            
-            table {
-                font-size: 12px;
-            }
-            
-            th, td {
-                padding: 8px 6px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 20px;
-            }
-            
-            .cargo-inputs {
-                grid-template-columns: 1fr;
-            }
-            
-            .pagination {
-                flex-wrap: wrap;
-            }
-            
-            .compact-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .cargo-inputs {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .cart-stats {
-                grid-template-columns: 1fr 1fr;
-            }
-        
-            .cargo-inputs {
-                grid-template-columns: 1fr;
-            }
-            
-            .cart-stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .btn {
-                width: 100%;
-                margin-bottom: 8px;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
-            
-            .pagination {
-                flex-wrap: wrap;
-            }
-            
-            .pagination button {
-                margin-bottom: 5px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container-fluid">
         <header>
-            <h1><i class="fas fa-truck-loading"></i> Công Cụ Nhập Liệu Phiếu Hàng</h1>
+            <h1><i class="fas fa-truck"></i>Phiếu nhập hàng</h1>
         </header>
-        
+
         <div class="main-content">
             <div class="cart-header">
                 <div class="stats-control">
@@ -750,15 +42,15 @@
                     </div>
                 </div>
             </div>
-            
+
             <section class="list-section">
                 <h2><i class="fas fa-list"></i> Danh Sách Đơn Hàng</h2>
-                
+
                 <div id="ordersTableContainer">
                     <table id="ordersTable">
                         <thead>
                             <tr>
-                                <th>STT</th>
+                                <th>Ngày Tạo</th>
                                 <th>Khách Hàng</th>
                                 <th>Cửa hàng</th>
                                 <th>Tuyến Đường</th>
@@ -766,7 +58,6 @@
                                 <th>Số Kiện</th>
                                 <th>Trọng Lượng (kg)</th>
                                 <th>Khối Lượng (m³)</th>
-                                <th>Ngày Tạo</th>
                                 <th>Thao Tác</th>
                             </tr>
                         </thead>
@@ -774,26 +65,26 @@
                             <!-- Dữ liệu sẽ được thêm động bằng JS -->
                         </tbody>
                     </table>
-                    
+
                     <div class="empty-state" id="emptyState">
                         <i class="fas fa-inbox"></i>
                         <h3>Chưa có đơn hàng nào</h3>
                         <p>Hãy bắt đầu bằng cách tạo đơn hàng mới</p>
                     </div>
                 </div>
-                
+
                 <div class="pagination" id="pagination">
                     <!-- Nút phân trang sẽ được thêm bằng JS -->
                 </div>
             </section>
-            
+
             <section class="input-section">
                 <h2><i class="fas fa-plus-circle"></i> Nhập Phiếu Mới</h2>
                 <form id="inputForm">
                     <div class="form-grid">
                         <div class="form-section">
                             <h3><i class="fas fa-user"></i> Thông Tin Khách Hàng</h3>
-                            
+
                             <div class="form-group">
                                 <label for="customerInput" class="required-label">Khách Hàng:</label>
                                 <div class="autocomplete">
@@ -802,7 +93,7 @@
                                 </div>
                                 <div class="error-message" id="customerError">Vui lòng nhập tên khách hàng</div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="storeInput">Cửa hàng/Chi nhánh:</label>
                                 <div class="autocomplete">
@@ -810,12 +101,12 @@
                                     <div id="storeSuggestions" class="autocomplete-suggestions hidden"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="checkbox-group">
                                 <input type="checkbox" id="newCustomer">
                                 <label for="newCustomer">Khách hàng mới</label>
                             </div>
-                            
+
                             <div id="newCustomerForm" class="hidden">
                                 <div class="form-group">
                                     <input type="text" id="newName" placeholder="Tên khách hàng mới">
@@ -829,19 +120,20 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-section">
                             <h3><i class="fas fa-route"></i> Thông Tin Tuyến Đường</h3>
-                            
+
                             <div class="form-group">
                                 <label for="routeInput" class="required-label">Tuyến Đường:</label>
                                 <div class="autocomplete">
-                                    <input type="text" id="routeInput" placeholder="Nhập tuyến (ví dụ: HCM HN cho Hồ Chí Minh -> Hà Nội)">
+                                    <input type="text" id="routeInput"
+                                        placeholder="Nhập tuyến (ví dụ: HCM HN cho Hồ Chí Minh -> Hà Nội)">
                                     <div id="routeSuggestions" class="autocomplete-suggestions hidden"></div>
                                 </div>
                                 <div class="error-message" id="routeError">Vui lòng nhập tuyến đường</div>
                             </div>
-                            
+
                             <div class="route-display hidden" id="routeDisplay">
                                 <i class="fas fa-route"></i> Tuyến đường: <span id="routeText"></span>
                             </div>
@@ -856,12 +148,12 @@
                             <div class="vehicle-display hidden" id="vehicleDisplay">
                                 <i class="fas fa-route"></i> Số xe: <span id="vehicleText"></span>
                             </div>
-                           
+
                             <div class="checkbox-group">
                                 <input type="checkbox" id="customPickup">
                                 <label for="customPickup">Lấy hàng tận nơi</label>
                             </div>
-                            
+
                             <div id="pickupAddress" class="hidden">
                                 <div class="form-group">
                                     <input type="text" id="pickupAddr" placeholder="Địa chỉ lấy hàng">
@@ -875,12 +167,12 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="checkbox-group">
                                 <input type="checkbox" id="customDelivery">
                                 <label for="customDelivery">Giao hàng tận nơi</label>
                             </div>
-                            
+
                             <div id="deliveryAddress" class="hidden">
                                 <div class="form-group">
                                     <input type="text" id="deliveryAddr" placeholder="Địa chỉ giao hàng">
@@ -896,11 +188,12 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <h3><i class="fas fa-box"></i> Thông Tin Hàng Hóa</h3>
-                        
-                        <div class="cargo-inputs-container" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+
+                        <div class="cargo-inputs-container"
+                            style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
                             <div class="cargo-type">
                                 <h4><i class="fas fa-snowflake"></i> Hàng Đông</h4>
                                 <div class="cargo-inputs">
@@ -925,7 +218,7 @@
                                     <input type="text" placeholder="Ghi chú" class="frozen">
                                 </div>
                             </div>
-                            
+
                             <div class="cargo-type">
                                 <h4><i class="fas fa-cloud-sun"></i> Hàng Mát</h4>
                                 <div class="cargo-inputs">
@@ -938,7 +231,7 @@
                                     <div class="form-group">
                                         <input type="number" placeholder="Khối (m³)" class="vol cool">
                                     </div>
-                                   <div class="form-group">
+                                    <div class="form-group">
                                         <select placeholder="Đơn vị" class="dry">
                                             <option value="kg">Kilogram</option>
                                             <option value="m3">Mét khối</option>
@@ -950,7 +243,7 @@
                                     <input type="text" placeholder="Ghi chú" class="cool">
                                 </div>
                             </div>
-                            
+
                             <div class="cargo-type">
                                 <h4><i class="fas fa-sun"></i> Hàng Khô</h4>
                                 <div class="cargo-inputs">
@@ -977,13 +270,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="reset" class="btn btn-reset"><i class="fas fa-redo"></i> Làm Mới</button>
                         <button type="submit" class="btn btn-submit"><i class="fas fa-save"></i> Tạo Phiếu</button>
-                        <button type="button" class="btn btn-export" id="exportExcel"><i class="fas fa-file-excel"></i> Export Excel</button>
-                        <button type="button" class="btn btn-success" id="exportDetailReport" style="background-color: #27ae60;"><i class="fas fa-chart-bar"></i> Báo Cáo Chi Tiết</button>
-                        <button type="button" class="btn btn-warning" id="clearData" style="background-color: #f39c12;"><i class="fas fa-trash"></i> Xóa Dữ Liệu</button>
+                        <button type="button" class="btn btn-export" id="exportExcel"><i class="fas fa-file-excel"></i>
+                            Export Excel</button>
+                        <button type="button" class="btn btn-warning" id="clearData"
+                            style="background-color: #f39c12;"><i class="fas fa-trash"></i> Xóa Dữ Liệu</button>
                     </div>
                 </form>
             </section>
@@ -994,7 +288,7 @@
         <i class="fas fa-check-circle"></i>
         <span>Phiếu hàng đã được tạo thành công!</span>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
     <script>
         // Dữ liệu mẫu
         const customers = [
@@ -1114,28 +408,39 @@
         };
 
         const vehicles = [
-            { number: "51C-12345" , driver : "Nguyễn Văn A" , phone: "0909123456"},
-            { number: "51D-67890" , driver : "Trần Thị B" , phone: "0912678901"},
-            { number: "51E-54321" , driver : "Lê Văn C" , phone: "0921543210"},
-            { number: "51F-09876" , driver : "Phạm Thị D" , phone: "0934098765"},
-            { number: "51G-11223" , driver : "Hoàng Văn E" , phone: "0945112233"},
-            { number: "51H-44556" , driver : "Vũ Thị F" , phone: "0956445566"},
-            { number: "51K-77889" , driver : "Đặng Văn G" , phone: "0966778899"},
-            { number: "51L-99000" , driver : "Bùi Thị H" , phone: "0977990001"}
+            { number: "51C-12345", driver: "Nguyễn Văn A", phone: "0909123456" },
+            { number: "51D-67890", driver: "Trần Thị B", phone: "0912678901" },
+            { number: "51E-54321", driver: "Lê Văn C", phone: "0921543210" },
+            { number: "51F-09876", driver: "Phạm Thị D", phone: "0934098765" },
+            { number: "51G-11223", driver: "Hoàng Văn E", phone: "0945112233" },
+            { number: "51H-44556", driver: "Vũ Thị F", phone: "0956445566" },
+            { number: "51K-77889", driver: "Đặng Văn G", phone: "0966778899" },
+            { number: "51L-99000", driver: "Bùi Thị H", phone: "0977990001" }
         ];
 
         // Khởi tạo dữ liệu từ localStorage nếu có
         let orders = JSON.parse(localStorage.getItem('orders')) || [];
         let customerStores = JSON.parse(localStorage.getItem('customerStores')) || {};
-        
+
+        // Lưu dữ liệu mẫu vào localStorage nếu chưa có
+        if (!localStorage.getItem('customers')) {
+            localStorage.setItem('customers', JSON.stringify(customers));
+        }
+        if (!localStorage.getItem('routes')) {
+            localStorage.setItem('routes', JSON.stringify(routes));
+        }
+        if (!localStorage.getItem('vehicles')) {
+            localStorage.setItem('vehicles', JSON.stringify(vehicles));
+        }
+
         // Debug: Log existing orders to check for data issues
         console.log('Loaded orders from localStorage:', orders);
         console.log('Loaded customer stores:', customerStores);
-        
+
         // Cấu hình phân trang
         let currentPage = 1;
         const ordersPerPage = 10;
-        
+
         // DOM Elements
         const customerInput = document.getElementById('customerInput');
         const suggestions = document.getElementById('customerSuggestions');
@@ -1156,7 +461,6 @@
         const totalVehiclesElement = document.getElementById('totalVehicles');
         const routeSelector = document.getElementById('routeSelector');
         const exportExcelBtn = document.getElementById('exportExcel');
-        const exportDetailReportBtn = document.getElementById('exportDetailReport');
 
         // Cập nhật danh sách đơn hàng khi tải trang
         updateOrdersTable();
@@ -1180,13 +484,13 @@
             const query = customerInput.value.toLowerCase();
             suggestions.innerHTML = '';
             suggestions.classList.add('hidden');
-            
+
             if (query) {
-                const matches = customers.filter(c => 
-                    c.name.toLowerCase().includes(query) || 
+                const matches = customers.filter(c =>
+                    c.name.toLowerCase().includes(query) ||
                     c.address.toLowerCase().includes(query)
                 );
-                
+
                 if (matches.length) {
                     suggestions.classList.remove('hidden');
                     matches.forEach(match => {
@@ -1197,6 +501,11 @@
                             customerInput.value = match.name;
                             suggestions.classList.add('hidden');
                             clearError(customerInput);
+                            
+                            // Tự động điền thông tin cửa hàng nếu có
+                            if (customerStores[match.name] && customerStores[match.name].length > 0) {
+                                storeInput.value = customerStores[match.name][0];
+                            }
                         });
                         suggestions.appendChild(div);
                     });
@@ -1210,14 +519,14 @@
             const selectedCustomer = customerInput.value.trim();
             storeSuggestions.innerHTML = '';
             storeSuggestions.classList.add('hidden');
-            
+
             if (query && selectedCustomer) {
                 // Lấy danh sách stores của customer hiện tại
                 const customerStoreList = customerStores[selectedCustomer] || [];
-                const matches = customerStoreList.filter(store => 
+                const matches = customerStoreList.filter(store =>
                     store.toLowerCase().includes(query)
                 );
-                
+
                 if (matches.length) {
                     storeSuggestions.classList.remove('hidden');
                     // Sắp xếp từ mới nhất đến cũ nhất (theo thứ tự thêm vào)
@@ -1235,7 +544,7 @@
             }
         });
 
-        //Autocomplete cho số xe - tìm kiếm cả số xe và tên tài xế
+        // Autocomplete cho số xe - tìm kiếm cả số xe và tên tài xế
         const vehicleInput = document.getElementById('vehicleInput');
         const vehicleSuggestions = document.getElementById('vehicleSuggestions');
 
@@ -1243,13 +552,13 @@
             const query = vehicleInput.value.toUpperCase();
             vehicleSuggestions.innerHTML = '';
             vehicleSuggestions.classList.add('hidden');
-            
+
             if (query) {
-                const matches = vehicles.filter(v => 
-                    v.number.toUpperCase().includes(query) || 
+                const matches = vehicles.filter(v =>
+                    v.number.toUpperCase().includes(query) ||
                     v.driver.toUpperCase().includes(query)
                 );
-                
+
                 if (matches.length) {
                     vehicleSuggestions.classList.remove('hidden');
                     matches.forEach(match => {
@@ -1267,13 +576,12 @@
             }
         });
 
-
         // Autocomplete cho tuyến đường (hỗ trợ viết tắt và space làm phân cách)
         routeInput.addEventListener('keyup', () => {
             const query = routeInput.value.trim().toUpperCase();
             routeSuggestions.innerHTML = '';
             routeSuggestions.classList.add('hidden');
-            
+
             if (query) {
                 // Gợi ý các viết tắt phổ biến
                 const commonAbbreviations = [
@@ -1289,33 +597,33 @@
                     { abbr: "HAI PHONG QUANG NINH", full: "Hải Phòng -> Quảng Ninh" },
                     { abbr: "DA NANG QUY NHON", full: "Đà Nẵng -> Quy Nhơn" }
                 ];
-                
+
                 // Tìm gợi ý từ viết tắt
-                const abbrMatches = commonAbbreviations.filter(item => 
+                const abbrMatches = commonAbbreviations.filter(item =>
                     item.abbr.includes(query) || item.full.toUpperCase().includes(query)
                 );
-                
+
                 // Tìm gợi ý từ routes thông thường
-                const routeMatches = routes.filter(route => 
+                const routeMatches = routes.filter(route =>
                     route.toUpperCase().includes(query)
                 );
-                
+
                 // Kết hợp và hiển thị gợi ý
                 const allMatches = [...new Set([...abbrMatches.map(item => item.full), ...routeMatches])];
-                
+
                 if (allMatches.length) {
                     routeSuggestions.classList.remove('hidden');
                     allMatches.forEach(match => {
                         const div = document.createElement('div');
                         div.classList.add('autocomplete-suggestion');
                         div.textContent = match;
-                        
+
                         // Hiển thị viết tắt nếu có
                         const abbr = commonAbbreviations.find(item => item.full === match);
                         if (abbr) {
                             div.innerHTML = `${match} <small style="opacity: 0.7;">(${abbr.abbr})</small>`;
                         }
-                        
+
                         div.addEventListener('click', () => {
                             // Truyền trực tiếp route đầy đủ để hiển thị
                             routeText.textContent = match;
@@ -1328,7 +636,7 @@
                     });
                 }
             }
-            
+
             updateRouteDisplay();
         });
 
@@ -1340,11 +648,11 @@
                 if (parts.length >= 2) {
                     // Xử lý các trường hợp viết tắt phổ biến
                     const input = inputValue.toUpperCase();
-                    
+
                     // Mapping các viết tắt phổ biến
                     const routeMappings = {
                         "HCM HN": "Hồ Chí Minh -> Hà Nội",
-                        "HCM DN": "Hồ Chí Minh -> Đà Nẵng", 
+                        "HCM DN": "Hồ Chí Minh -> Đà Nẵng",
                         "HCM HP": "Hồ Chí Minh -> Hải Phòng",
                         "HCM CT": "Hồ Chí Minh -> Cần Thơ",
                         "HCM DL": "Hồ Chí Minh -> Đà Lạt",
@@ -1355,7 +663,7 @@
                         "HAI PHONG QUANG NINH": "Hải Phòng -> Quảng Ninh",
                         "DA NANG QUY NHON": "Đà Nẵng -> Quy Nhơn"
                     };
-                    
+
                     // Kiểm tra mapping trực tiếp trước
                     if (routeMappings[input]) {
                         const fullRoute = routeMappings[input];
@@ -1363,7 +671,7 @@
                         routeDisplay.classList.remove('hidden');
                         return fullRoute;
                     }
-                    
+
                     // Xử lý theo cách cũ nếu không có mapping
                     const startAbbr = parts[0].toUpperCase();
                     const endAbbr = parts.slice(1).join(' ').toUpperCase();
@@ -1392,7 +700,7 @@
         document.getElementById('customPickup').addEventListener('change', (e) => {
             document.getElementById('pickupAddress').classList.toggle('hidden', !e.target.checked);
         });
-        
+
         document.getElementById('customDelivery').addEventListener('change', (e) => {
             document.getElementById('deliveryAddress').classList.toggle('hidden', !e.target.checked);
         });
@@ -1401,16 +709,16 @@
         function updateRouteSelector() {
             // Lấy tất cả các tuyến đường duy nhất từ orders
             const uniqueRoutes = [...new Set(orders.map(order => order.route))];
-            
+
             routeSelector.innerHTML = '<option value="">-- Chọn tuyến đường --</option><option value="All">All</option>';
-            
+
             uniqueRoutes.forEach(route => {
                 const option = document.createElement('option');
                 option.value = route;
                 option.textContent = route;
                 routeSelector.appendChild(option);
             });
-            
+
             // Nếu có tuyến đường, chọn tuyến đầu tiên
             if (uniqueRoutes.length > 0) {
                 routeSelector.value = uniqueRoutes[0];
@@ -1431,7 +739,7 @@
             } else {
                 routeOrders = orders.filter(order => order.route === route);
             }
-            
+
             if (routeOrders.length > 0) {
                 const totalWeight = routeOrders.reduce((sum, order) => sum + order.totalWeight, 0);
                 const totalVolume = routeOrders.reduce((sum, order) => sum + order.totalVolume, 0);
@@ -1439,7 +747,7 @@
                 const vehiclesByWeight = Math.ceil(totalWeight / 5000);
                 const vehiclesByVolume = Math.ceil(totalVolume / 30);
                 const vehiclesNeeded = Math.max(vehiclesByWeight, vehiclesByVolume);
-                
+
                 totalOrdersElement.textContent = routeOrders.length;
                 totalWeightElement.textContent = totalWeight.toLocaleString();
                 totalVolumeElement.textContent = totalVolume.toLocaleString();
@@ -1455,23 +763,23 @@
         // Cập nhật bảng đơn hàng
         function updateOrdersTable() {
             ordersTableBody.innerHTML = '';
-            
+
             if (orders.length === 0) {
                 emptyState.style.display = 'block';
                 return;
             }
-            
+
             emptyState.style.display = 'none';
-            
+
             // Tính chỉ số bắt đầu và kết thúc cho trang hiện tại
             const startIndex = (currentPage - 1) * ordersPerPage;
             const endIndex = Math.min(startIndex + ordersPerPage, orders.length);
-            
+
             for (let i = startIndex; i < endIndex; i++) {
                 const order = orders[i];
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${i + 1}</td>
+                    <td>${new Date(order.date).toLocaleDateString('vi-VN')}</td>
                     <td>${order.customer}</td>
                     <td>${order.store || ''}</td>
                     <td>${order.route}</td>
@@ -1479,8 +787,9 @@
                     <td>${order.totalPackages.toLocaleString()}</td>
                     <td>${order.totalWeight.toLocaleString()}</td>
                     <td>${order.totalVolume.toLocaleString()}</td>
-                    <td>${new Date(order.date).toLocaleDateString('vi-VN')}</td>
+                    
                     <td>
+                        <button onclick="window.open('transport_note.html?id=${order.id}', '_blank')" class="btn btn-info">Xem phiếu</button>
                         <button class="btn" onclick="viewOrder(${i})"><i class="fas fa-eye"></i></button>
                         <button class="btn btn-reset" onclick="deleteOrder(${i})"><i class="fas fa-trash"></i></button>
                     </td>
@@ -1492,13 +801,13 @@
         // Thiết lập phân trang
         function setupPagination() {
             paginationElement.innerHTML = '';
-            
+
             if (orders.length === 0) {
                 return;
             }
-            
+
             const pageCount = Math.ceil(orders.length / ordersPerPage);
-            
+
             // Nút Previous
             if (currentPage > 1) {
                 const prevButton = document.createElement('button');
@@ -1510,7 +819,7 @@
                 });
                 paginationElement.appendChild(prevButton);
             }
-            
+
             // Các nút trang
             for (let i = 1; i <= pageCount; i++) {
                 const pageButton = document.createElement('button');
@@ -1525,7 +834,7 @@
                 });
                 paginationElement.appendChild(pageButton);
             }
-            
+
             // Nút Next
             if (currentPage < pageCount) {
                 const nextButton = document.createElement('button');
@@ -1542,15 +851,15 @@
         // Hiển thị thông báo
         function showNotification(message, isError = false) {
             notification.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i><span>${message}</span>`;
-            
+
             if (isError) {
                 notification.classList.add('error');
             } else {
                 notification.classList.remove('error');
             }
-            
+
             notification.classList.add('show');
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
@@ -1578,7 +887,7 @@
         // Validate form
         function validateForm() {
             let isValid = true;
-            
+
             // Validate khách hàng
             const isNewCustomer = document.getElementById('newCustomer').checked;
             if (isNewCustomer) {
@@ -1593,27 +902,27 @@
                     isValid = false;
                 }
             }
-            
+
             // Validate tuyến đường
             if (!routeInput.value.trim()) {
                 showError(routeInput, 'Vui lòng nhập tuyến đường');
                 isValid = false;
             }
-            
+
             // Validate số xe
             const vehicleInput = document.getElementById('vehicleInput');
             if (!vehicleInput.value.trim()) {
                 showError(vehicleInput, 'Vui lòng nhập số xe');
                 isValid = false;
             }
-            
+
             return isValid;
         }
 
         // Xử lý submit form
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             if (!validateForm()) {
                 // Focus vào trường đầu tiên bị lỗi
                 const firstError = form.querySelector('.error');
@@ -1622,7 +931,7 @@
                 }
                 return;
             }
-            
+
             const isNewCustomer = document.getElementById('newCustomer').checked;
             let customer;
             if (isNewCustomer) {
@@ -1631,44 +940,56 @@
                 const newPhone = document.getElementById('newPhone').value;
                 // Thêm khách hàng mới vào danh sách (nếu cần)
                 customers.push({ name: customer, address: newAddress, phone: newPhone });
+                localStorage.setItem('customers', JSON.stringify(customers));
             } else {
                 customer = customerInput.value;
             }
-            
-            const route = routeDisplay.classList.contains('hidden') ? 
-                (updateRouteDisplay() || routeInput.value) : 
+
+            const route = routeDisplay.classList.contains('hidden') ?
+                (updateRouteDisplay() || routeInput.value) :
                 routeText.textContent;
             const vehicleNumber = document.getElementById('vehicleInput').value;
             const store = storeInput.value.trim(); // Lấy thông tin store
-            
+
             console.log('Route being saved:', route); // Debug log
-            
+
             // Lấy thông tin lấy hàng/giao hàng tận nơi nếu có
             const pickupAddr = document.getElementById('customPickup').checked ? document.getElementById('pickupAddr').value : '';
             const pickupContact = document.getElementById('customPickup').checked ? document.getElementById('pickupContact').value : '';
             const pickupPhone = document.getElementById('customPickup').checked ? document.getElementById('pickupPhone').value : '';
-            
+
             const deliveryAddr = document.getElementById('customDelivery').checked ? document.getElementById('deliveryAddr').value : '';
             const deliveryContact = document.getElementById('customDelivery').checked ? document.getElementById('deliveryContact').value : '';
             const deliveryPhone = document.getElementById('customDelivery').checked ? document.getElementById('deliveryPhone').value : '';
-            
-            // Tính tổng kiện, kg và khối lượng
+
+            // Tính tổng kiện, kg và khối lượng theo từng loại hàng
             let totalPackages = 0;
             let totalWeight = 0;
             let totalVolume = 0;
-            
-            document.querySelectorAll('.pkg').forEach(input => {
-                totalPackages += parseInt(input.value) || 0;
-            });
-            
-            document.querySelectorAll('.kg').forEach(input => {
-                totalWeight += parseFloat(input.value) || 0;
-            });
-            
-            document.querySelectorAll('.vol').forEach(input => {
-                totalVolume += parseFloat(input.value) || 0;
-            });
-            
+
+            // Lấy chi tiết hàng đông
+            const frozenPkg = parseInt(document.querySelector('.pkg.frozen').value) || 0;
+            const frozenWeight = parseFloat(document.querySelector('.kg.frozen').value) || 0;
+            const frozenVolume = parseFloat(document.querySelector('.vol.frozen').value) || 0;
+            const frozenNote = document.querySelector('input.frozen[type="text"]').value || '';
+
+            // Lấy chi tiết hàng mát
+            const coolPkg = parseInt(document.querySelector('.pkg.cool').value) || 0;
+            const coolWeight = parseFloat(document.querySelector('.kg.cool').value) || 0;
+            const coolVolume = parseFloat(document.querySelector('.vol.cool').value) || 0;
+            const coolNote = document.querySelector('input.cool[type="text"]').value || '';
+
+            // Lấy chi tiết hàng khô
+            const dryPkg = parseInt(document.querySelector('.pkg.dry').value) || 0;
+            const dryWeight = parseFloat(document.querySelector('.kg.dry').value) || 0;
+            const dryVolume = parseFloat(document.querySelector('.vol.dry').value) || 0;
+            const dryNote = document.querySelector('input.dry[type="text"]').value || '';
+
+            // Tính tổng
+            totalPackages = frozenPkg + coolPkg + dryPkg;
+            totalWeight = frozenWeight + coolWeight + dryWeight;
+            totalVolume = frozenVolume + coolVolume + dryVolume;
+
             // Tạo đơn hàng mới
             const newOrder = {
                 id: Date.now(),
@@ -1679,6 +1000,27 @@
                 totalPackages,
                 totalWeight,
                 totalVolume,
+                // Chi tiết hàng đông
+                frozen: {
+                    packages: frozenPkg,
+                    weight: frozenWeight,
+                    volume: frozenVolume,
+                    note: frozenNote
+                },
+                // Chi tiết hàng mát
+                cool: {
+                    packages: coolPkg,
+                    weight: coolWeight,
+                    volume: coolVolume,
+                    note: coolNote
+                },
+                // Chi tiết hàng khô
+                dry: {
+                    packages: dryPkg,
+                    weight: dryWeight,
+                    volume: dryVolume,
+                    note: dryNote
+                },
                 pickupAddr,
                 pickupContact,
                 pickupPhone,
@@ -1687,43 +1029,44 @@
                 deliveryPhone,
                 date: new Date().toISOString()
             };
-            
+
             // Thêm vào mảng orders
             orders.unshift(newOrder);
-            
+
             // Lưu store khi tạo phiếu thành công
             if (customer && store) {
                 if (!customerStores[customer]) {
                     customerStores[customer] = [];
                 }
-                
+
                 // Kiểm tra xem store đã tồn tại chưa
                 if (!customerStores[customer].includes(store)) {
                     customerStores[customer].push(store);
                     localStorage.setItem('customerStores', JSON.stringify(customerStores));
                 }
             }
-            
+
             // Lưu vào localStorage
             localStorage.setItem('orders', JSON.stringify(orders));
-            
+
             // Cập nhật bảng
             currentPage = 1;
             updateOrdersTable();
             setupPagination();
             updateRouteSelector();
-            
+
             // Hiển thị thông báo
             showNotification('Phiếu hàng đã được tạo thành công!');
-            
+
             // Reset form
+            //chỗ lấy tận nơi ch
             form.reset();
             document.querySelectorAll('.hidden').forEach(el => {
                 if (!el.id.includes('Address') && !el.id.includes('CustomerForm')) {
                     el.classList.add('hidden');
                 }
             });
-            
+
             // Cập nhật cart header nếu đang hiển thị
             if (routeSelector.value === route || routeSelector.value === 'All') {
                 updateCartHeader(routeSelector.value);
@@ -1739,11 +1082,12 @@
                 }
             });
             
+
             // Bỏ chọn các checkbox
             document.getElementById('newCustomer').checked = false;
             document.getElementById('customPickup').checked = false;
             document.getElementById('customDelivery').checked = false;
-            
+
             // Xóa các lỗi
             clearError(customerInput);
             clearError(routeInput);
@@ -1755,21 +1099,39 @@
         function viewOrder(index) {
             const order = orders[index];
             let details = `Chi tiết đơn hàng:\nKhách hàng: ${order.customer}`;
-            
+
             if (order.store) {
                 details += `\nCửa hàng: ${order.store}`;
             }
-            
-            details += `\nTuyến đường: ${order.route}\nSố xe: ${order.vehicleNumber || 'Chưa có'}\nSố kiện: ${order.totalPackages}\nTrọng lượng: ${order.totalWeight} kg\nKhối lượng: ${order.totalVolume} m³`;
-            
+
+            details += `\nTuyến đường: ${order.route}\nSố xe: ${order.vehicleNumber || 'Chưa có'}`;
+
+            // Hiển thị chi tiết từng loại hàng
+            if (order.frozen && (order.frozen.packages > 0 || order.frozen.weight > 0 || order.frozen.volume > 0)) {
+                details += `\n\nHàng Đông:\n- Số kiện: ${order.frozen.packages}\n- Trọng lượng: ${order.frozen.weight} kg\n- Khối lượng: ${order.frozen.volume} m³`;
+                if (order.frozen.note) details += `\n- Ghi chú: ${order.frozen.note}`;
+            }
+
+            if (order.cool && (order.cool.packages > 0 || order.cool.weight > 0 || order.cool.volume > 0)) {
+                details += `\n\nHàng Mát:\n- Số kiện: ${order.cool.packages}\n- Trọng lượng: ${order.cool.weight} kg\n- Khối lượng: ${order.cool.volume} m³`;
+                if (order.cool.note) details += `\n- Ghi chú: ${order.cool.note}`;
+            }
+
+            if (order.dry && (order.dry.packages > 0 || order.dry.weight > 0 || order.dry.volume > 0)) {
+                details += `\n\nHàng Khô:\n- Số kiện: ${order.dry.packages}\n- Trọng lượng: ${order.dry.weight} kg\n- Khối lượng: ${order.dry.volume} m³`;
+                if (order.dry.note) details += `\n- Ghi chú: ${order.dry.note}`;
+            }
+
+            details += `\n\nTổng cộng:\n- Số kiện: ${order.totalPackages}\n- Trọng lượng: ${order.totalWeight} kg\n- Khối lượng: ${order.totalVolume} m³`;
+
             if (order.pickupAddr) {
                 details += `\n\nLấy hàng tận nơi:\nĐịa chỉ: ${order.pickupAddr}\nNgười liên hệ: ${order.pickupContact}\nSĐT: ${order.pickupPhone}`;
             }
-            
+
             if (order.deliveryAddr) {
                 details += `\n\nGiao hàng tận nơi:\nĐịa chỉ: ${order.deliveryAddr}\nNgười liên hệ: ${order.deliveryContact}\nSĐT: ${order.deliveryPhone}`;
             }
-            
+
             alert(details);
         }
 
@@ -1782,155 +1144,167 @@
                 setupPagination();
                 updateRouteSelector();
                 showNotification('Đơn hàng đã được xóa!');
-                
+
                 // Cập nhật cart header nếu đang hiển thị
                 updateCartHeader(routeSelector.value);
             }
         }
 
         // Export ra Excel với UTF-8 BOM để hiển thị font chữ Tiếng Việt đúng
-        exportExcelBtn.addEventListener('click', () => {
+        exportExcelBtn.addEventListener('click', async () => {
             if (orders.length === 0) {
                 showNotification('Không có dữ liệu để export!', true);
                 return;
             }
 
-            const data = orders.map(order => ({
-                'STT': orders.indexOf(order) + 1,
-                'Khách Hàng': order.customer,
-                'Cửa hàng': order.store || '',
-                'Tuyến Đường': order.route,
-                'Số Xe': order.vehicleNumber || '',
-                'Số Kiện': order.totalPackages,
-                'Trọng Lượng (kg)': order.totalWeight,
-                'Khối Lượng (m³)': order.totalVolume,
-                'Ngày Tạo': new Date(order.date).toLocaleDateString('vi-VN')
-            }));
+            try {
+                // Tạo workbook và worksheet
+                const workbook = new ExcelJS.Workbook();
+                const worksheet = workbook.addWorksheet('Đơn hàng');
 
-            // Tạo CSV content với UTF-8 BOM
-            const header = Object.keys(data[0]).join(",") + "\n";
-            const csvRows = data.map(row => Object.values(row).join(",")).join("\n");
-            const csvContent = header + csvRows;
-            
-            // Thêm UTF-8 BOM để Excel hiển thị font chữ Tiếng Việt đúng
-            const BOM = "\uFEFF";
-            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
-            
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", "don_hang.csv");
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+                // Định nghĩa headers với 2 dòng
+                // Dòng 1: Header chính (có merge)
+                const headerRow1 = worksheet.addRow([
+                    'STT', 'Khách Hàng', 'Cửa hàng', 'Tuyến Đường', 'Số Xe',
+                    'Hàng Đông', '', '', // 3 cột cho Hàng Đông
+                    'Hàng Mát', '', '', // 3 cột cho Hàng Mát
+                    'Hàng Khô', '', '', // 3 cột cho Hàng Khô
+                    'Tổng Số Kiện', 'Tổng Trọng Lượng (kg)', 'Tổng Khối Lượng (m³)',
+                    'Địa chỉ lấy hàng', 'Liên hệ lấy hàng', 'SĐT lấy hàng',
+                    'Địa chỉ giao hàng', 'Liên hệ giao hàng', 'SĐT giao hàng',
+                    'Ngày Tạo'
+                ]);
 
-            showNotification('Đã export thành công!');
-        });
+                // Dòng 2: Header con
+                worksheet.addRow([
+                    '', '', '', '', '', // 5 cột đầu không có header con
+                    'Số kiện', 'Trọng lượng (kg)', 'Khối lượng (m³)', // Header con cho Hàng Đông
+                    'Số kiện', 'Trọng lượng (kg)', 'Khối lượng (m³)', // Header con cho Hàng Mát
+                    'Số kiện', 'Trọng lượng (kg)', 'Khối lượng (m³)', // Header con cho Hàng Khô
+                    '', '', '', // Các cột tổng
+                    '', '', '',
+                    '', '', '',
+                    ''
+                ]);
 
-        // Export báo cáo chi tiết theo tuyến
-        exportDetailReportBtn.addEventListener('click', () => {
-            if (orders.length === 0) {
-                showNotification('Không có dữ liệu để tạo báo cáo!', true);
-                return;
-            }
+                // Merge các ô cho header chính
+                worksheet.mergeCells('F1:H1'); // Hàng Đông (merge 3 cột F,G,H)
+                worksheet.mergeCells('I1:K1'); // Hàng Mát (merge 3 cột I,J,K)
+                worksheet.mergeCells('L1:N1'); // Hàng Khô (merge 3 cột L,M,N)
 
-            // Tạo báo cáo theo tuyến
-            const routeReport = {};
-            orders.forEach(order => {
-                const route = order.route;
-                if (!routeReport[route]) {
-                    routeReport[route] = {
-                        totalOrders: 0,
-                        totalPackages: 0,
-                        totalWeight: 0,
-                        totalVolume: 0,
-                        pickupDelivery: 0,
-                        stores: new Set(),
-                        customers: new Set(),
-                        orders: []
+                // Style cho header
+                headerRow1.eachCell((cell) => {
+                    cell.fill = {
+                        type: 'pattern',
+                        pattern: 'solid',
+                        fgColor: { argb: 'FF1E3A8A' }
                     };
-                }
-                
-                routeReport[route].totalOrders++;
-                routeReport[route].totalPackages += order.totalPackages;
-                routeReport[route].totalWeight += order.totalWeight;
-                routeReport[route].totalVolume += order.totalVolume;
-                routeReport[route].customers.add(order.customer);
-                
-                if (order.store) {
-                    routeReport[route].stores.add(order.store);
-                }
-                
-                if (order.pickupAddr || order.deliveryAddr) {
-                    routeReport[route].pickupDelivery++;
-                }
-                
-                routeReport[route].orders.push(order);
-            });
-
-            // Tạo nội dung Excel CSV
-            let csvContent = '';
-            
-            // Sheet 1: Thống kê tổng quan
-            csvContent += 'BÁOCÁO CHI TIẾT THEO TUYẾN\n';
-            csvContent += 'Ngày tạo báo cáo,' + new Date().toLocaleDateString('vi-VN') + '\n\n';
-            
-            csvContent += 'THỐNG KÊ TỔNG QUAN\n';
-            csvContent += `Tổng số đơn hàng,${orders.length}\n`;
-            csvContent += `Tổng số tuyến,${Object.keys(routeReport).length}\n`;
-            csvContent += `Tổng số kiện,${orders.reduce((sum, o) => sum + o.totalPackages, 0)}\n`;
-            csvContent += `Tổng trọng lượng (kg),${orders.reduce((sum, o) => sum + o.totalWeight, 0)}\n`;
-            csvContent += `Tổng khối lượng (m³),${orders.reduce((sum, o) => sum + o.totalVolume, 0)}\n`;
-            csvContent += `Số đơn giao/lấy tận nơi,${orders.filter(o => o.pickupAddr || o.deliveryAddr).length}\n\n`;
-
-            // Sheet 2: Chi tiết theo tuyến (dạng bảng)
-            csvContent += 'CHI TIẾT THEO TUYẾN\n';
-            csvContent += 'Tuyến,Số đơn,Số kiện,Trọng lượng (kg),Khối lượng (m³),Số khách hàng,Số cửa hàng,Giao/lấy tận nơi,Số xe cần ước tính\n';
-            
-            // Sắp xếp tuyến theo số đơn hàng (nhiều nhất trước)
-            const sortedRoutes = Object.keys(routeReport).sort((a, b) => 
-                routeReport[b].totalOrders - routeReport[a].totalOrders
-            );
-
-            sortedRoutes.forEach(route => {
-                const data = routeReport[route];
-                const vehiclesByWeight = Math.ceil(data.totalWeight / 5000);
-                const vehiclesByVolume = Math.ceil(data.totalVolume / 30);
-                const vehiclesNeeded = Math.max(vehiclesByWeight, vehiclesByVolume);
-                
-                csvContent += `"${route}",${data.totalOrders},${data.totalPackages},${data.totalWeight},${data.totalVolume},${data.customers.size},${data.stores.size},${data.pickupDelivery},${vehiclesNeeded}\n`;
-            });
-
-            csvContent += '\n\nCHI TIẾT KHÁCH HÀNG THEO TUYẾN\n';
-            csvContent += 'Tuyến,Khách hàng,Cửa hàng,Số kiện,Trọng lượng (kg),Khối lượng (m³),Giao/lấy tận nơi\n';
-            
-            // Chi tiết từng đơn hàng
-            sortedRoutes.forEach(route => {
-                const data = routeReport[route];
-                data.orders.forEach(order => {
-                    const hasPickupDelivery = (order.pickupAddr || order.deliveryAddr) ? 'Có' : 'Không';
-                    csvContent += `"${route}","${order.customer}","${order.store || ''}",${order.totalPackages},${order.totalWeight},${order.totalVolume},"${hasPickupDelivery}"\n`;
+                    cell.font = {
+                        bold: true,
+                        color: { argb: 'FFFFFFFF' }
+                    };
+                    cell.border = {
+                        top: { style: 'thin' },
+                        left: { style: 'thin' },
+                        bottom: { style: 'thin' },
+                        right: { style: 'thin' }
+                    };
                 });
-            });
 
-            // Tạo file CSV với UTF-8 BOM để Excel hiển thị đúng
-            const BOM = "\uFEFF";
-            const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
-            
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `bao_cao_chi_tiet_${new Date().toISOString().slice(0,10)}.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+                // Style cho header con
+                worksheet.getRow(2).eachCell((cell) => {
+                    cell.fill = {
+                        type: 'pattern',
+                        pattern: 'solid',
+                        fgColor: { argb: 'FF3B82F6' }
+                    };
+                    cell.font = {
+                        bold: true,
+                        color: { argb: 'FFFFFFFF' }
+                    };
+                    cell.border = {
+                        top: { style: 'thin' },
+                        left: { style: 'thin' },
+                        bottom: { style: 'thin' },
+                        right: { style: 'thin' }
+                    };
+                });
 
-            showNotification('Đã tạo báo cáo Excel thành công!');
+                // Căn giữa các header chính
+                ['F1', 'I1', 'L1'].forEach(cell => {
+                    worksheet.getCell(cell).alignment = {
+                        vertical: 'middle',
+                        horizontal: 'center'
+                    };
+                });
+
+                // Đổ dữ liệu
+                orders.forEach((order, index) => {
+                    const row = worksheet.addRow([
+                        index + 1,
+                        order.customer,
+                        order.store || '',
+                        order.route,
+                        order.vehicleNumber || '',
+                        // Hàng Đông
+                        (order.frozen && order.frozen.packages) || 0,
+                        (order.frozen && order.frozen.weight) || 0,
+                        (order.frozen && order.frozen.volume) || 0,
+                        // Hàng Mát
+                        (order.cool && order.cool.packages) || 0,
+                        (order.cool && order.cool.weight) || 0,
+                        (order.cool && order.cool.volume) || 0,
+                        // Hàng Khô
+                        (order.dry && order.dry.packages) || 0,
+                        (order.dry && order.dry.weight) || 0,
+                        (order.dry && order.dry.volume) || 0,
+                        // Tổng
+                        order.totalPackages,
+                        order.totalWeight,
+                        order.totalVolume,
+                        // Địa chỉ
+                        order.pickupAddr || '',
+                        order.pickupContact || '',
+                        order.pickupPhone || '',
+                        order.deliveryAddr || '',
+                        order.deliveryContact || '',
+                        order.deliveryPhone || '',
+                        new Date(order.date).toLocaleDateString('vi-VN')
+                    ]);
+                });
+
+                // Tự động điều chỉnh độ rộng cột
+                worksheet.columns.forEach(column => {
+                    let maxLength = 0;
+                    column.eachCell({ includeEmpty: true }, cell => {
+                        const columnLength = cell.value ? cell.value.toString().length : 10;
+                        if (columnLength > maxLength) {
+                            maxLength = columnLength;
+                        }
+                    });
+                    column.width = maxLength < 10 ? 10 : maxLength + 2;
+                });
+
+                // Tạo file và download
+                const buffer = await workbook.xlsx.writeBuffer();
+                const blob = new Blob([buffer], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'don_hang_chi_tiet.xlsx';
+                a.click();
+                URL.revokeObjectURL(url);
+
+                showNotification('Đã export Excel chi tiết thành công!');
+            } catch (error) {
+                console.error('Lỗi khi export Excel:', error);
+                showNotification('Có lỗi xảy ra khi export Excel!', true);
+            }
         });
+
     </script>
 </body>
-</html>                                                                                                  
+
+</html>
