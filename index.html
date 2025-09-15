@@ -501,7 +501,7 @@
                             customerInput.value = match.name;
                             suggestions.classList.add('hidden');
                             clearError(customerInput);
-                            
+
                             // Tự động điền thông tin cửa hàng nếu có
                             if (customerStores[match.name] && customerStores[match.name].length > 0) {
                                 storeInput.value = customerStores[match.name][0];
@@ -784,9 +784,9 @@
                     <td>${order.store || ''}</td>
                     <td>${order.route}</td>
                     <td>${order.vehicleNumber || ''}</td>
-                    <td>${order.totalPackages.toLocaleString()}</td>
-                    <td>${order.totalWeight.toLocaleString()}</td>
-                    <td>${order.totalVolume.toLocaleString()}</td>
+                   <td>${order.totalPackages ? order.totalPackages.toLocaleString() : '0'}</td>
+<td>${order.totalWeight ? order.totalWeight.toLocaleString() : '0'}</td>
+<td>${order.totalVolume ? order.totalVolume.toLocaleString() : '0'}</td>
                     
                     <td>
                         <button onclick="window.open('transport_note.html?id=${order.id}', '_blank')" class="btn btn-info">Xem phiếu</button>
@@ -997,9 +997,9 @@
                 store, // Thêm trường store
                 route,
                 vehicleNumber,
-                totalPackages,
-                totalWeight,
-                totalVolume,
+                totalPackages: totalPackages || 0,
+                totalWeight: totalWeight || 0,
+                totalVolume: totalVolume || 0,
                 // Chi tiết hàng đông
                 frozen: {
                     packages: frozenPkg,
@@ -1081,7 +1081,7 @@
                     el.classList.add('hidden');
                 }
             });
-            
+
 
             // Bỏ chọn các checkbox
             document.getElementById('newCustomer').checked = false;
