@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phiếu Vận Chuyển</title>
+    <title>Phiếu Báo Cước</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style-transport.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
@@ -26,7 +26,7 @@
         <!-- Header -->
         <div class="header">
             <img src="logo1.png" alt="Logo" class="logo">
-            <h1>Phiếu Vận Chuyển</h1>
+            <h1>Phiếu Báo Cước</h1>
             <div class="bill-info">
                 <p>Số phiếu: <span id="billNumber"></span></p>
                 <p>Ngày tạo: <span id="billDate"></span></p>
@@ -136,14 +136,6 @@
                     <span class="info-content" id="ticketNumber"></span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Tài xế:</span>
-                    <span class="info-content" id="driver"></span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">SĐT tài xế:</span>
-                    <span class="info-content" id="driverPhone"></span>
-                </div>
-                <div class="info-row">
                     <span class="info-label">Ngày gửi:</span>
                     <span class="info-content" id="sendDate"></span>
                 </div>
@@ -158,8 +150,14 @@
                     <span class="info-label">Phương thức thanh toán:</span>
                     <span class="info-content" id="paymentMethod"></span>
                 </div>
+                <div class="info-row">
+                    <span class="info-label">Mã QR:</span>
+                    <span class="info-content" id="qrCode"></span>
+                </div>
                 
             </div>
+                <!-- thêm hiển thị mã QR tại đây -->
+               
         </div>
         
         <!-- Additional Services -->
@@ -212,7 +210,6 @@
     <script>
         // Dữ liệu mẫu - sync với index.html
         const customers = JSON.parse(localStorage.getItem('customers')) || [];
-        const vehicles = JSON.parse(localStorage.getItem('vehicles')) || [];
 
         // Load dữ liệu từ localStorage
         let orders = [];
@@ -237,10 +234,7 @@
             return customers.find(c => c.name === customerName) || {};
         }
         
-        // Function để tìm xe theo số
-        function findVehicle(vehicleNumber) {
-            return vehicles.find(v => v.number === vehicleNumber) || {};
-        }
+        
         
         
 
@@ -264,10 +258,9 @@
 
             // Tìm thông tin khách hàng
             const customerInfo = findCustomer(order.customer);
-            const vehicleInfo = findVehicle(order.vehicleNumber);
 
             // Populate basic info
-            document.getElementById('billNumber').textContent = `${order.id}`;
+            document.getElementById('billNumber').textContent = `${order.ticketNumber}`;
             document.getElementById('billDate').textContent = new Date(order.date).toLocaleDateString('vi-VN');
             
             // Sender info (khách hàng)
@@ -327,8 +320,6 @@
             // Transportation
             document.getElementById('route').textContent = order.route || 'N/A';
             document.getElementById('ticketNumber').textContent = order.ticketNumber || 'Chưa có';
-            document.getElementById('driver').textContent = vehicleInfo.driver || order.driver || 'Chưa phân công';
-            document.getElementById('driverPhone').textContent = vehicleInfo.phone || order.driverPhone || 'N/A';
             document.getElementById('sendDate').textContent = new Date(order.date).toLocaleDateString('vi-VN');
             
             // Payment information
@@ -341,7 +332,48 @@
             };
             document.getElementById('paymentMethod').textContent = paymentMethodNames[order.paymentMethod] || order.paymentMethod || 'Chưa xác định';
             
-            // Không render QR tại phiếu vận chuyển (chỉ hiển thị từ danh sách đơn)
+            // QR Code for payment
+            (function renderPaymentQR() {
+                const qrContainer = document.getElementById('qrCode');
+                if (!qrContainer) return;
+                try {
+                    qrContainer.innerHTML = '';
+                    const qrPayload = {
+                        billNumber: order.ticketNumber || '',
+                        amount: order.paymentAmount || 0,
+                        method: order.paymentMethod || '',
+                        customer: order.customer || ''
+                    };
+                    const qrText = JSON.stringify(qrPayload);
+                    if (typeof QRCode !== 'undefined' && QRCode.toCanvas) {
+                        const canvas = document.createElement('canvas');
+                        QRCode.toCanvas(canvas, qrText, { width: 132, errorCorrectionLevel: 'M' }, function(error) {
+                            if (error) {
+                                console.error('QR generation error:', error);
+                                qrContainer.textContent = 'Không tạo được mã QR';
+                                return;
+                            }
+                            canvas.style.width = '132px';
+                            canvas.style.height = '132px';
+                            qrContainer.appendChild(canvas);
+                        });
+                    } else if (typeof window.generateQRCode === 'function') {
+                        // Fallback: in case local qrcode.js exposes a helper
+                        const img = window.generateQRCode(qrText);
+                        if (img) {
+                            qrContainer.appendChild(img);
+                        } else {
+                            qrContainer.textContent = 'Không tạo được mã QR';
+                        }
+                    } else {
+                        qrContainer.textContent = 'Thư viện QRCode chưa sẵn sàng';
+                    }
+                } catch (e) {
+                    console.error('Unexpected QR error:', e);
+                }
+            })();
+            
+            
             
             // Additional Services - bao gồm cả dịch vụ lấy và giao tận nơi
             const servicesBody = document.getElementById('additionalServicesBody');

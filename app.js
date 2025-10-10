@@ -665,7 +665,8 @@ const CUSTOMERS = [
         name: "CÔNG TY CỔ PHẦN SXKD VÀ XNK DÂU TẰM TƠ"
     },
     {
-        code_number: "CQ101932",name: "CÔNG TY CỔ PHẦN THỰC PHẨM CHOLIMEX (CHOLIMEX FOOD JSC)"},
+        code_number: "CQ101932", name: "CÔNG TY CỔ PHẦN THỰC PHẨM CHOLIMEX (CHOLIMEX FOOD JSC)"
+    },
     {
         code_number: "CQ101938",
         name: "CÔNG TY TNHH PHÂN PHỐI SÀNH ĐIỆU"
@@ -19446,77 +19447,77 @@ const CUSTOMERS = [
 
 const routes = [
     [
-        {"Tên Tuyến": "giao hàng Big C Đà Nẵng","Mã tuyến": "Q1-BIGC-C-D.NAG","Nơi nhận": "HCM","Nơi Giao": "DAN"},
-        {"Tên Tuyến": "Giao hàng Big C Long Biên - Hà Nội","Mã tuyến": "Q1-BIGC-C-HNLB","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "Giao hàng Big C Thăng long - Hà Nội","Mã tuyến": "Q1-BIGC-C-HNTL","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "Giao hàng Big C Vinh Phúc","Mã tuyến": "Q1-BIGC-C-HNVP","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "Giao hàng Big C Huế","Mã tuyến": "Q1-BIGC-C-HUE","Nơi nhận": "HCM","Nơi Giao": "NNQ10014"},
-        {"Tên Tuyến": "Giao hàng Big C Nha Trang","Mã tuyến": "Q1-BIGC-C-N.TRG","Nơi nhận": "HCM","Nơi Giao": "NHA"},
-        {"Tên Tuyến": "Giao hàng Big C Thanh Hóa","Mã tuyến": "Q1-BIGC-C-T.HOA","Nơi nhận": "HCM","Nơi Giao": "TH"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Hà Nội","Mã tuyến": "Q1-BN-01","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Hải Phòng","Mã tuyến": "Q1-BN-02","Nơi nhận": "HCM","Nơi Giao": "HAI"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Hà Tỉnh","Mã tuyến": "Q1-BN-03","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "Giao hàng từ HCM đi  Huế","Mã tuyến": "Q1-BN-04","Nơi nhận": "HCM","Nơi Giao": "NNQ10014"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Phan Thiết","Mã tuyến": "Q1-BN-06","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Quy Nhơn","Mã tuyến": "Q1-BN-07","Nơi nhận": "HCM","Nơi Giao": "NNQ10013"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Bắc Ninh","Mã tuyến": "Q1-BN-08","Nơi nhận": "HCM","Nơi Giao": "HY"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Đà Nẵng","Mã tuyến": "Q1-BN-09","Nơi nhận": "HCM","Nơi Giao": "DAN"},
-        {"Tên Tuyến": "Giao hàng HCM-Đà Lạt-Nha Trang","Mã tuyến": "Q1-BN-10","Nơi nhận": "HCM","Nơi Giao": "NHA"},
-        {"Tên Tuyến": "Giao hàng từ  HCM di Thanh Hóa","Mã tuyến": "Q1-BN-11","Nơi nhận": "HCM","Nơi Giao": "TH"},
-        {"Tên Tuyến": "GIAO HÀNG TỪ HCM ĐI PHÚ QUỐC","Mã tuyến": "Q1-BN-13","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Cần Thơ","Mã tuyến": "Q1-BN-14","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Vũng Tàu","Mã tuyến": "Q1-BN-16","Nơi nhận": "HCM","Nơi Giao": "VT"},
-        {"Tên Tuyến": "Giao hàng HCM-Đà Lạt","Mã tuyến": "Q1-BN-17","Nơi nhận": "HCM","Nơi Giao": "DL"},
-        {"Tên Tuyến": "giao hàng từ HCM đi  Phú Quốc  (Giao tận nơi)","Mã tuyến": "Q1-MK-C-F-SGPQ","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "giao hàng Metro Bà Rịa","Mã tuyến": "Q1-MT-C-BRIA","Nơi nhận": "HCM","Nơi Giao": "VT"},
-        {"Tên Tuyến": "giao hàng Metro Cần Thơ","Mã tuyến": "Q1-MT-C-C.THO","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "Giao hảng Metro C Thơ, Metro LongXuyen, Metro Rach gia","Mã tuyến": "Q1-MT-C-CT.LX.R","Nơi nhận": "HCM","Nơi Giao": "NNQ10041"},
-        {"Tên Tuyến": "Giao hàng Metro ĐÀ NẴNG.","Mã tuyến": "Q1-MT-C-D.NANG","Nơi nhận": "HCM","Nơi Giao": "DAN"},
-        {"Tên Tuyến": "giao hàng Metro Đông Anh, Metro Quy Nhơn, Metro Bắc Giang","Mã tuyến": "Q1-MT-C-D.ANH.Q.N.BG","Nơi nhận": "HCM","Nơi Giao": "NNQ10041"},
-        {"Tên Tuyến": "giao hàng từ HCM đi Buon Ma Thuoc  (Giao tận nơi)","Mã tuyến": "Q1-MT-C-F-SGBM","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "Giao hàng từ HCM đi  Metro Hà Đông  (Giao tận nơi)","Mã tuyến": "Q1-MT-C-F-SGHD","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "Giao hàng Metro Nha Trang","Mã tuyến": "Q1-MT-C-SGNTRA","Nơi nhận": "HCM","Nơi Giao": "NHA"},
-        {"Tên Tuyến": "giao hàng Metro Hoàng Mai - Hà Nội","Mã tuyến": "Q1-MT-C-H.MAI","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "giao hàng Metro Hai Phong","Mã tuyến": "Q1-MT-C-H.PHG","Nơi nhận": "HCM","Nơi Giao": "HAI"},
-        {"Tên Tuyến": "Giao hang  tai Metro Ha Long","Mã tuyến": "Q1-MT-C-HLONG","Nơi nhận": "HCM","Nơi Giao": "NNQ10020"},
-        {"Tên Tuyến": "giao hàng Metro Kiên Giang","Mã tuyến": "Q1-MT-C-K.GIANG","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "giao hàng Metro Quy Nhơn","Mã tuyến": "Q1-MT-C-Q.NHON","Nơi nhận": "HCM","Nơi Giao": "NNQ10013"},
-        {"Tên Tuyến": "Giao hàng tại Metro Quảng Ninh","Mã tuyến": "Q1-MT-C-QUANINH","Nơi nhận": "HCM","Nơi Giao": "NNQ10020"},
-        {"Tên Tuyến": "giao hàng Metro C An Phú","Mã tuyến": "Q1-MT-C-SGAP","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "giao hàng Metro ThăngLong - Hà Nội","Mã tuyến": "Q1-MT-C-TLONG","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "giao hàng Metro Vũng Tàu","Mã tuyến": "Q1-MT-C-V.TAU","Nơi nhận": "HCM","Nơi Giao": "VT"},
-        {"Tên Tuyến": "giao hang Metro Vinh","Mã tuyến": "Q1-MT-C-VINH","Nơi nhận": "HCM","Nơi Giao": "VINH"},
-        {"Tên Tuyến": "Giao hàng Phúc Long tại các Cửa Hàng ở  Hà Nội","Mã tuyến": "Q1-PL-SGHN","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "GIAO HÀNG TẬN NƠI HẢI PHÒNG","Mã tuyến": "Q1-SGHP","Nơi nhận": "HCM","Nơi Giao": "HAI"},
-        {"Tên Tuyến": "SÀI GÒN - HÀ NỘI","Mã tuyến": "Q1-SGNH","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "SAI GON GIAO TUY HOA","Mã tuyến": "Q1-SG-T.HOA","Nơi nhận": "HCM","Nơi Giao": "TUY"},
-        {"Tên Tuyến": "Giao hang tu HCM di Da lat","Mã tuyến": "Q1-SN-C-DL","Nơi nhận": "HCM","Nơi Giao": "DL"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi ĐakLak (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGDL","Nơi nhận": "HCM","Nơi Giao": "PY"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Đà Nẵng    (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGDN","Nơi nhận": "HCM","Nơi Giao": "DAN"},
-        {"Tên Tuyến": "GIAO HÀNG TỪ HCM ĐẾN DN","Mã tuyến": "Q1-SN-C-F-SGDNA","Nơi nhận": "HCM","Nơi Giao": "DAN"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Quảng Nam Hội An (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGHA","Nơi nhận": "HCM","Nơi Giao": "NNQ10042"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Hà Đông (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGHD","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Hà Nội   (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGHN","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Hải Phòng   (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGHP","Nơi nhận": "HCM","Nơi Giao": "HAI"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi  Huế  (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGHU","Nơi nhận": "HCM","Nơi Giao": "NNQ10014"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Hưng Yên (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGHY","Nơi nhận": "HCM","Nơi Giao": "HY"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Long Biên  (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGLB","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "Giao hang tai Ninh Thuan ,Cam Ranh","Mã tuyến": "Q1-SN-CF-SGNITH","Nơi nhận": "HCM","Nơi Giao": "NNQ10012"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Nha trang  (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGNT","Nơi nhận": "HCM","Nơi Giao": "NHA"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Phan Thiết   (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGPT","Nơi nhận": "HCM","Nơi Giao": "PT"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Quy Nhơn   (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGQN","Nơi nhận": "HCM","Nơi Giao": "NNQ10013"},
-        {"Tên Tuyến": "giao hang toi Quang Ngai","Mã tuyến": "Q1-SN-CF-SGQNG","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "Giao Hàng Từ HCM đi Quảng Ngãi","Mã tuyến": "Q1-SN-C-F-SGQNG","Nơi nhận": "HCM","Nơi Giao": ""},
-        {"Tên Tuyến": "giao hang tu HCM di Thanh hoa","Mã tuyến": "Q1-SN-C-F-SGTHH","Nơi nhận": "HCM","Nơi Giao": "TH"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Vinh   (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGVH","Nơi nhận": "HCM","Nơi Giao": "vinh"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi VInh","Mã tuyến": "Q1-SN-C-F-SGVINH","Nơi nhận": "HCM","Nơi Giao": "vinh"},
-        {"Tên Tuyến": "Giao hàng HCM đi Vĩnh Phúc","Mã tuyến": "Q1-SN-C-F-SGVP","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "Giao hàng từ HCM đi Aeon Xuân Thủy  (Giao tận nơi)","Mã tuyến": "Q1-SN-C-F-SGXT","Nơi nhận": "HCM","Nơi Giao": "HN"},
-        {"Tên Tuyến": "giao hàng ở Nghệ An","Mã tuyến": "Q1-SN-C-SGN.AN","Nơi nhận": "HCM","Nơi Giao": "vinh"},
-        {"Tên Tuyến": "vận chuyển hàng lạnh từ HCM đi Nha Trang","Mã tuyến": "Q1-SN-C-W-SGNT","Nơi nhận": "HCM","Nơi Giao": "NHA"},
-        {"Tên Tuyến": "vận chuyển hàng lạnh từ HCM-Vinh","Mã tuyến": "Q1-SN-C-W-SGVH","Nơi nhận": "HCM","Nơi Giao": "vinh"},
-        {"Tên Tuyến": "giao hàng từ HCM đi Nha Trang-Đà Lạt (giao tận nơi)","Mã tuyến": "Q1-SN-DL-SGNT","Nơi nhận": "HCM","Nơi Giao": "DL"},
-        
+        { "Tên Tuyến": "giao hàng Big C Đà Nẵng", "Mã tuyến": "Q1-BIGC-C-D.NAG", "Nơi nhận": "HCM", "Nơi Giao": "DAN" },
+        { "Tên Tuyến": "Giao hàng Big C Long Biên - Hà Nội", "Mã tuyến": "Q1-BIGC-C-HNLB", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "Giao hàng Big C Thăng long - Hà Nội", "Mã tuyến": "Q1-BIGC-C-HNTL", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "Giao hàng Big C Vinh Phúc", "Mã tuyến": "Q1-BIGC-C-HNVP", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "Giao hàng Big C Huế", "Mã tuyến": "Q1-BIGC-C-HUE", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10014" },
+        { "Tên Tuyến": "Giao hàng Big C Nha Trang", "Mã tuyến": "Q1-BIGC-C-N.TRG", "Nơi nhận": "HCM", "Nơi Giao": "NHA" },
+        { "Tên Tuyến": "Giao hàng Big C Thanh Hóa", "Mã tuyến": "Q1-BIGC-C-T.HOA", "Nơi nhận": "HCM", "Nơi Giao": "TH" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Hà Nội", "Mã tuyến": "Q1-BN-01", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Hải Phòng", "Mã tuyến": "Q1-BN-02", "Nơi nhận": "HCM", "Nơi Giao": "HAI" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Hà Tỉnh", "Mã tuyến": "Q1-BN-03", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi  Huế", "Mã tuyến": "Q1-BN-04", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10014" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Phan Thiết", "Mã tuyến": "Q1-BN-06", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Quy Nhơn", "Mã tuyến": "Q1-BN-07", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10013" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Bắc Ninh", "Mã tuyến": "Q1-BN-08", "Nơi nhận": "HCM", "Nơi Giao": "HY" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Đà Nẵng", "Mã tuyến": "Q1-BN-09", "Nơi nhận": "HCM", "Nơi Giao": "DAN" },
+        { "Tên Tuyến": "Giao hàng HCM-Đà Lạt-Nha Trang", "Mã tuyến": "Q1-BN-10", "Nơi nhận": "HCM", "Nơi Giao": "NHA" },
+        { "Tên Tuyến": "Giao hàng từ  HCM di Thanh Hóa", "Mã tuyến": "Q1-BN-11", "Nơi nhận": "HCM", "Nơi Giao": "TH" },
+        { "Tên Tuyến": "GIAO HÀNG TỪ HCM ĐI PHÚ QUỐC", "Mã tuyến": "Q1-BN-13", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Cần Thơ", "Mã tuyến": "Q1-BN-14", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Vũng Tàu", "Mã tuyến": "Q1-BN-16", "Nơi nhận": "HCM", "Nơi Giao": "VT" },
+        { "Tên Tuyến": "Giao hàng HCM-Đà Lạt", "Mã tuyến": "Q1-BN-17", "Nơi nhận": "HCM", "Nơi Giao": "DL" },
+        { "Tên Tuyến": "giao hàng từ HCM đi  Phú Quốc  (Giao tận nơi)", "Mã tuyến": "Q1-MK-C-F-SGPQ", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "giao hàng Metro Bà Rịa", "Mã tuyến": "Q1-MT-C-BRIA", "Nơi nhận": "HCM", "Nơi Giao": "VT" },
+        { "Tên Tuyến": "giao hàng Metro Cần Thơ", "Mã tuyến": "Q1-MT-C-C.THO", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "Giao hảng Metro C Thơ, Metro LongXuyen, Metro Rach gia", "Mã tuyến": "Q1-MT-C-CT.LX.R", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10041" },
+        { "Tên Tuyến": "Giao hàng Metro ĐÀ NẴNG.", "Mã tuyến": "Q1-MT-C-D.NANG", "Nơi nhận": "HCM", "Nơi Giao": "DAN" },
+        { "Tên Tuyến": "giao hàng Metro Đông Anh, Metro Quy Nhơn, Metro Bắc Giang", "Mã tuyến": "Q1-MT-C-D.ANH.Q.N.BG", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10041" },
+        { "Tên Tuyến": "giao hàng từ HCM đi Buon Ma Thuoc  (Giao tận nơi)", "Mã tuyến": "Q1-MT-C-F-SGBM", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi  Metro Hà Đông  (Giao tận nơi)", "Mã tuyến": "Q1-MT-C-F-SGHD", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "Giao hàng Metro Nha Trang", "Mã tuyến": "Q1-MT-C-SGNTRA", "Nơi nhận": "HCM", "Nơi Giao": "NHA" },
+        { "Tên Tuyến": "giao hàng Metro Hoàng Mai - Hà Nội", "Mã tuyến": "Q1-MT-C-H.MAI", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "giao hàng Metro Hai Phong", "Mã tuyến": "Q1-MT-C-H.PHG", "Nơi nhận": "HCM", "Nơi Giao": "HAI" },
+        { "Tên Tuyến": "Giao hang  tai Metro Ha Long", "Mã tuyến": "Q1-MT-C-HLONG", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10020" },
+        { "Tên Tuyến": "giao hàng Metro Kiên Giang", "Mã tuyến": "Q1-MT-C-K.GIANG", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "giao hàng Metro Quy Nhơn", "Mã tuyến": "Q1-MT-C-Q.NHON", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10013" },
+        { "Tên Tuyến": "Giao hàng tại Metro Quảng Ninh", "Mã tuyến": "Q1-MT-C-QUANINH", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10020" },
+        { "Tên Tuyến": "giao hàng Metro C An Phú", "Mã tuyến": "Q1-MT-C-SGAP", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "giao hàng Metro ThăngLong - Hà Nội", "Mã tuyến": "Q1-MT-C-TLONG", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "giao hàng Metro Vũng Tàu", "Mã tuyến": "Q1-MT-C-V.TAU", "Nơi nhận": "HCM", "Nơi Giao": "VT" },
+        { "Tên Tuyến": "giao hang Metro Vinh", "Mã tuyến": "Q1-MT-C-VINH", "Nơi nhận": "HCM", "Nơi Giao": "VINH" },
+        { "Tên Tuyến": "Giao hàng Phúc Long tại các Cửa Hàng ở  Hà Nội", "Mã tuyến": "Q1-PL-SGHN", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "GIAO HÀNG TẬN NƠI HẢI PHÒNG", "Mã tuyến": "Q1-SGHP", "Nơi nhận": "HCM", "Nơi Giao": "HAI" },
+        { "Tên Tuyến": "SÀI GÒN - HÀ NỘI", "Mã tuyến": "Q1-SGNH", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "SAI GON GIAO TUY HOA", "Mã tuyến": "Q1-SG-T.HOA", "Nơi nhận": "HCM", "Nơi Giao": "TUY" },
+        { "Tên Tuyến": "Giao hang tu HCM di Da lat", "Mã tuyến": "Q1-SN-C-DL", "Nơi nhận": "HCM", "Nơi Giao": "DL" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi ĐakLak (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGDL", "Nơi nhận": "HCM", "Nơi Giao": "PY" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Đà Nẵng    (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGDN", "Nơi nhận": "HCM", "Nơi Giao": "DAN" },
+        { "Tên Tuyến": "GIAO HÀNG TỪ HCM ĐẾN DN", "Mã tuyến": "Q1-SN-C-F-SGDNA", "Nơi nhận": "HCM", "Nơi Giao": "DAN" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Quảng Nam Hội An (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGHA", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10042" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Hà Đông (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGHD", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Hà Nội   (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGHN", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Hải Phòng   (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGHP", "Nơi nhận": "HCM", "Nơi Giao": "HAI" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi  Huế  (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGHU", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10014" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Hưng Yên (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGHY", "Nơi nhận": "HCM", "Nơi Giao": "HY" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Long Biên  (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGLB", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "Giao hang tai Ninh Thuan ,Cam Ranh", "Mã tuyến": "Q1-SN-CF-SGNITH", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10012" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Nha trang  (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGNT", "Nơi nhận": "HCM", "Nơi Giao": "NHA" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Phan Thiết   (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGPT", "Nơi nhận": "HCM", "Nơi Giao": "PT" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Quy Nhơn   (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGQN", "Nơi nhận": "HCM", "Nơi Giao": "NNQ10013" },
+        { "Tên Tuyến": "giao hang toi Quang Ngai", "Mã tuyến": "Q1-SN-CF-SGQNG", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "Giao Hàng Từ HCM đi Quảng Ngãi", "Mã tuyến": "Q1-SN-C-F-SGQNG", "Nơi nhận": "HCM", "Nơi Giao": "" },
+        { "Tên Tuyến": "giao hang tu HCM di Thanh hoa", "Mã tuyến": "Q1-SN-C-F-SGTHH", "Nơi nhận": "HCM", "Nơi Giao": "TH" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Vinh   (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGVH", "Nơi nhận": "HCM", "Nơi Giao": "vinh" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi VInh", "Mã tuyến": "Q1-SN-C-F-SGVINH", "Nơi nhận": "HCM", "Nơi Giao": "vinh" },
+        { "Tên Tuyến": "Giao hàng HCM đi Vĩnh Phúc", "Mã tuyến": "Q1-SN-C-F-SGVP", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "Giao hàng từ HCM đi Aeon Xuân Thủy  (Giao tận nơi)", "Mã tuyến": "Q1-SN-C-F-SGXT", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
+        { "Tên Tuyến": "giao hàng ở Nghệ An", "Mã tuyến": "Q1-SN-C-SGN.AN", "Nơi nhận": "HCM", "Nơi Giao": "vinh" },
+        { "Tên Tuyến": "vận chuyển hàng lạnh từ HCM đi Nha Trang", "Mã tuyến": "Q1-SN-C-W-SGNT", "Nơi nhận": "HCM", "Nơi Giao": "NHA" },
+        { "Tên Tuyến": "vận chuyển hàng lạnh từ HCM-Vinh", "Mã tuyến": "Q1-SN-C-W-SGVH", "Nơi nhận": "HCM", "Nơi Giao": "vinh" },
+        { "Tên Tuyến": "giao hàng từ HCM đi Nha Trang-Đà Lạt (giao tận nơi)", "Mã tuyến": "Q1-SN-DL-SGNT", "Nơi nhận": "HCM", "Nơi Giao": "DL" },
+
     ]
 ]
 
@@ -19530,7 +19531,7 @@ class OrderManager {
         this.ordersPerPage = 10;
         this.isEditMode = false;
         this.currentEditId = null;
-        
+
         this.init();
     }
 
@@ -19551,27 +19552,27 @@ class OrderManager {
         // Form events
         document.getElementById('inputForm').addEventListener('submit', (e) => this.handleFormSubmit(e));
         document.getElementById('cancelEdit').addEventListener('click', () => this.cancelEdit());
-        
+
         // Export buttons
         document.getElementById('exportExcel').addEventListener('click', () => this.exportExcel());
         document.getElementById('exportSummary').addEventListener('click', () => this.exportSummary());
         document.getElementById('clearData').addEventListener('click', () => this.clearData());
-        
+
         // Route selector
         document.getElementById('routeSelector').addEventListener('change', (e) => this.updateCartHeader(e.target.value));
-        
+
         // Toggle sections
         this.setupToggleSections();
-        
+
         // Autocomplete
         this.setupAutocomplete();
-        
+
         // Number formatting
         this.setupNumberFormatting();
-        
+
         // Real-time calculations
         this.setupRealTimeCalculations();
-        
+
         // QR Modal
         this.setupQRModal();
     }
@@ -19594,38 +19595,38 @@ class OrderManager {
 
         const customerInput = document.getElementById('customerInput');
         const customerSuggestions = document.getElementById('customerSuggestions');
-        
+
         customerInput.addEventListener('blur', () => {
             setTimeout(() => {
                 customerSuggestions.classList.add('hidden');
             }, 200);
         });
-        
+
         // Tương tự cho route và store
         const routeInput = document.getElementById('routeInput');
         const routeSuggestions = document.getElementById('routeSuggestions');
-        
+
         routeInput.addEventListener('blur', () => {
             setTimeout(() => {
                 routeSuggestions.classList.add('hidden');
             }, 200);
         });
 
-     const storeInput = document.getElementById('storeInput');
-            const storeSuggestions = document.getElementById('storeSuggestions');
-            
-            storeInput.addEventListener('blur', () => {
-                setTimeout(() => {
-                    storeSuggestions.classList.add('hidden');
-                }, 200);
+        const storeInput = document.getElementById('storeInput');
+        const storeSuggestions = document.getElementById('storeSuggestions');
+
+        storeInput.addEventListener('blur', () => {
+            setTimeout(() => {
+                storeSuggestions.classList.add('hidden');
+            }, 200);
         });
 
         // Customer autocomplete
         this.setupCustomerAutocomplete();
-        
+
         // Store autocomplete
         this.setupStoreAutocomplete();
-        
+
         // Route autocomplete
         this.setupRouteAutocomplete();
     }
@@ -19642,8 +19643,8 @@ class OrderManager {
             if (query.length < 2) return;
 
             const customers = JSON.parse(localStorage.getItem('customers')) || CUSTOMERS;
-            const matches = customers.filter(c => 
-                c.name.toLowerCase().includes(query) || 
+            const matches = customers.filter(c =>
+                c.name.toLowerCase().includes(query) ||
                 (c.code_number && c.code_number.toLowerCase().includes(query))
             );
 
@@ -19681,7 +19682,7 @@ class OrderManager {
             if (query.length < 2 || !customerName) return;
 
             const stores = this.customerStores[customerName] || [];
-            const matches = stores.filter(store => 
+            const matches = stores.filter(store =>
                 store.toLowerCase().includes(query)
             );
 
@@ -19705,22 +19706,22 @@ class OrderManager {
     setupRouteAutocomplete() {
         const routeInput = document.getElementById('routeInput');
         const suggestions = document.getElementById('routeSuggestions');
-    
+
         routeInput.addEventListener('input', this.debounce(() => {
             const query = routeInput.value.trim().toLowerCase();
             suggestions.innerHTML = '';
             suggestions.classList.add('hidden');
-    
+
             if (query.length < 2) return;
-    
+
             // Tìm kiếm trong routes
-            const matches = routes[0].filter(route => 
+            const matches = routes[0].filter(route =>
                 route["Tên Tuyến"].toLowerCase().includes(query) ||
                 route["Mã tuyến"].toLowerCase().includes(query) ||
                 route["Nơi nhận"].toLowerCase().includes(query) ||
                 route["Nơi Giao"].toLowerCase().includes(query)
             ).slice(0, 10);
-    
+
             if (matches.length > 0) {
                 suggestions.classList.remove('hidden');
                 matches.forEach(route => {
@@ -19743,7 +19744,7 @@ class OrderManager {
                 });
             }
         }, 300));
-    
+
         routeInput.addEventListener('blur', () => {
             setTimeout(() => {
                 suggestions.classList.add('hidden');
@@ -19752,25 +19753,25 @@ class OrderManager {
         });
     }
 
-    
+
 
     updateRouteDisplay() {
         const routeInput = document.getElementById('routeInput');
         const routeText = document.getElementById('routeText');
         const routeDisplay = document.getElementById('routeDisplay');
-    
+
         const inputValue = routeInput.value.trim();
         if (!inputValue) {
             routeDisplay.classList.add('hidden');
             return null;
         }
-    
+
         // Tìm route trong danh sách
-        const foundRoute = routes[0].find(route => 
-            route["Tên Tuyến"] === inputValue || 
+        const foundRoute = routes[0].find(route =>
+            route["Tên Tuyến"] === inputValue ||
             route["Mã tuyến"] === inputValue
         );
-    
+
         if (foundRoute) {
             // Nếu tìm thấy route trong danh sách
             routeText.textContent = `${foundRoute["Tên Tuyến"]} (${foundRoute["Mã tuyến"]})`;
@@ -19797,14 +19798,14 @@ class OrderManager {
     }
     parseCustomRoute(input) {
         const trimmedInput = input.trim();
-        
+
         // Kiểm tra định dạng "điểm bắt đầu -> điểm đến"
         if (trimmedInput.includes('->')) {
             const parts = trimmedInput.split('->');
             if (parts.length === 2) {
                 const from = parts[0].trim();
                 const to = parts[1].trim();
-                
+
                 return {
                     isValid: true,
                     display: `${from} -> ${to}`,
@@ -19815,7 +19816,7 @@ class OrderManager {
                 };
             }
         }
-        
+
         // Nếu không có dấu "->", coi như toàn bộ là tên route
         return {
             isValid: true,
@@ -19827,7 +19828,7 @@ class OrderManager {
         };
     }
 
-   
+
 
     setupNumberFormatting() {
         // Định dạng số cho các trường số
@@ -19842,7 +19843,7 @@ class OrderManager {
             input.addEventListener('blur', (e) => {
                 this.formatMoneyInput(e.target);
             });
-            
+
             input.addEventListener('focus', (e) => {
                 e.target.value = e.target.value.replace(/,/g, '');
             });
@@ -19858,7 +19859,7 @@ class OrderManager {
             'deliveryQuantity', 'deliveryPrice', 'deliveryUnit',
             'paymentAmount' // Thêm paymentAmount để sync
         ];
-        
+
         calculationFields.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
@@ -19875,7 +19876,7 @@ class OrderManager {
         const frozenPackages = this.parseNumber(document.getElementById('frozenPackages').value);
         const coolPackages = this.parseNumber(document.getElementById('coolPackages').value);
         const dryPackages = this.parseNumber(document.getElementById('dryPackages').value);
-        
+
         const frozenWeight = this.parseNumber(document.getElementById('frozenWeight').value);
         const coolWeight = this.parseNumber(document.getElementById('coolWeight').value);
         const dryWeight = this.parseNumber(document.getElementById('dryWeight').value);
@@ -19891,30 +19892,30 @@ class OrderManager {
         const frozenWeight = this.parseNumber(document.getElementById('frozenWeight').value);
         const coolWeight = this.parseNumber(document.getElementById('coolWeight').value);
         const dryWeight = this.parseNumber(document.getElementById('dryWeight').value);
-        
+
         const totalWeight = frozenWeight + coolWeight + dryWeight;
-        
+
         const totalWeightField = document.getElementById('totalWeightCalc');
         if (totalWeightField) {
             totalWeightField.value = totalWeight > 0 ? totalWeight : '';
         }
-        
+
         return totalWeight;
     }
-    
+
     calculateTotalFee() {
         const defaultFreight = this.parseMoney(document.getElementById('defaultFreight').value);
         const isMinimalFee = document.getElementById('minimalFee').checked;
         const totalWeight = this.calculateTotalWeight();
-        
+
         const pickupQuantity = this.parseNumber(document.getElementById('pickupQuantity').value);
         const pickupPrice = this.parseMoney(document.getElementById('pickupPrice').value);
         const pickupUnit = document.getElementById('pickupUnit').value;
-        
+
         const deliveryQuantity = this.parseNumber(document.getElementById('deliveryQuantity').value);
         const deliveryPrice = this.parseMoney(document.getElementById('deliveryPrice').value);
         const deliveryUnit = document.getElementById('deliveryUnit').value;
-        
+
         // Tính phí vận chuyển
         let transportFee = 0;
         if (isMinimalFee) {
@@ -19922,7 +19923,7 @@ class OrderManager {
         } else {
             transportFee = defaultFreight * totalWeight; // cước vận chuyển nhân với total kg
         }
-        
+
         // Tính phí dịch vụ pickup
         let pickupTotal = 0;
         if (pickupQuantity > 0 && pickupPrice > 0) {
@@ -19932,7 +19933,7 @@ class OrderManager {
                 pickupTotal = pickupQuantity * pickupPrice;
             }
         }
-        
+
         // Tính phí dịch vụ delivery
         let deliveryTotal = 0;
         if (deliveryQuantity > 0 && deliveryPrice > 0) {
@@ -19942,32 +19943,32 @@ class OrderManager {
                 deliveryTotal = deliveryQuantity * deliveryPrice;
             }
         }
-        
+
         // Cập nhật thành tiền
         const pickupTotalField = document.getElementById('pickupTotal');
         if (pickupTotalField) {
             pickupTotalField.value = pickupTotal > 0 ? pickupTotal.toLocaleString() : '';
         }
-        
+
         const deliveryTotalField = document.getElementById('deliveryTotal');
         if (deliveryTotalField) {
             deliveryTotalField.value = deliveryTotal > 0 ? deliveryTotal.toLocaleString() : '';
         }
-        
+
         // Tổng cước = cước vận chuyển + phí lấy hàng + phí giao hàng
         const totalFee = transportFee + pickupTotal + deliveryTotal;
-        
+
         const totalFeeField = document.getElementById('totalFee');
         if (totalFeeField) {
             totalFeeField.value = totalFee > 0 ? totalFee.toLocaleString() : '';
         }
-    
+
         // Tự động cập nhật số tiền thanh toán bằng tổng giá trị cước
         const paymentAmount = document.getElementById('paymentAmount');
         if (paymentAmount) {
             paymentAmount.value = totalFee > 0 ? totalFee.toLocaleString() : '';
         }
-        
+
         return totalFee;
     }
 
@@ -19975,7 +19976,7 @@ class OrderManager {
     syncPaymentAmount() {
         const totalFeeField = document.getElementById('totalFee');
         const paymentAmountField = document.getElementById('paymentAmount');
-        
+
         if (totalFeeField && paymentAmountField) {
             const totalFeeValue = totalFeeField.value.replace(/,/g, '');
             if (totalFeeValue && totalFeeValue !== '0') {
@@ -20009,7 +20010,7 @@ class OrderManager {
         }
 
         const formData = this.collectFormData();
-        
+
         try {
             if (this.isEditMode) {
                 this.updateOrder(formData);
@@ -20024,7 +20025,7 @@ class OrderManager {
 
             this.resetForm();
             this.updateUI();
-            
+
         } catch (error) {
             console.error('Error saving order:', error);
             this.showNotification('Có lỗi xảy ra khi lưu đơn hàng!', 'error');
@@ -20034,7 +20035,7 @@ class OrderManager {
     collectFormData() {
         const isNewCustomer = document.getElementById('newCustomer').checked;
         let customer;
-        
+
         if (isNewCustomer) {
             customer = document.getElementById('newName').value;
             const newCustomer = {
@@ -20046,13 +20047,13 @@ class OrderManager {
         } else {
             customer = document.getElementById('customerInput').value;
         }
-    
+
         const routeName = document.getElementById('routeInput').value;
         const routeCode = document.getElementById('routeCode').value;
         const routeFrom = document.getElementById('routeFrom').value;
         const routeTo = document.getElementById('routeTo').value;
         const store = document.getElementById('storeInput').value;
-    
+
         // Thu thập dữ liệu hàng hóa
         const cargoData = {
             frozen: {
@@ -20071,11 +20072,11 @@ class OrderManager {
                 unit: document.getElementById('dryUnit').value
             }
         };
-    
+
         // Tính tổng
         const totalPackages = cargoData.frozen.packages + cargoData.cool.packages + cargoData.dry.packages;
         const totalWeight = cargoData.frozen.weight + cargoData.cool.weight + cargoData.dry.weight;
-    
+
         return {
             id: this.isEditMode ? this.currentEditId : Date.now(),
             customer,
@@ -20158,14 +20159,14 @@ class OrderManager {
         const dryPackages = this.parseNumber(document.getElementById('dryPackages').value);
         const dryWeight = this.parseNumber(document.getElementById('dryWeight').value);
 
-        return (frozenPackages + coolPackages + dryPackages) > 0 || 
-               (frozenWeight + coolWeight + dryWeight) > 0;
+        return (frozenPackages + coolPackages + dryPackages) > 0 ||
+            (frozenWeight + coolWeight + dryWeight) > 0;
     }
 
     createOrder(orderData) {
         this.orders.unshift(orderData);
         this.saveOrders();
-        
+
         // Lưu thông tin cửa hàng nếu có
         if (orderData.customer && orderData.store) {
             this.addCustomerStore(orderData.customer, orderData.store);
@@ -20237,7 +20238,7 @@ class OrderManager {
         document.getElementById('paymentMethod').value = order.paymentMethod || 'bank_transfer';
         document.getElementById('defaultFreight').value = order.defaultFreight ? order.defaultFreight.toLocaleString() : '';
         document.getElementById('minimalFee').checked = order.isMinimalFee || false;
-        
+
         // Thông tin pickup và delivery
         document.getElementById('pickupQuantity').value = order.pickupQuantity || '';
         document.getElementById('pickupPrice').value = order.pickupPrice ? order.pickupPrice.toLocaleString() : '';
@@ -20287,18 +20288,18 @@ class OrderManager {
     resetForm() {
         document.getElementById('inputForm').reset();
         this.clearAllErrors();
-        
+
         // Ẩn các section ẩn
         this.toggleElement('newCustomerForm', false);
         this.toggleElement('pickupAddress', false);
         this.toggleElement('deliveryAddress', false);
         this.toggleElement('routeDisplay', false);
-        
+
         // Bỏ chọn checkbox
         document.getElementById('newCustomer').checked = false;
         document.getElementById('customPickup').checked = false;
         document.getElementById('customDelivery').checked = false;
-        
+
         // Xóa suggestions
         document.querySelectorAll('.autocomplete-suggestions').forEach(el => {
             el.classList.add('hidden');
@@ -20333,7 +20334,7 @@ class OrderManager {
                 <td class="text-center"><strong>${order.customer}</strong></td>
                 <td class="text-center"><strong>${order.route}</strong></td>
                 <td class="text-center"><strong>${order.ticketNumber || ''}</strong></td>
-                <td class="text-center"><strong>${order.totalPackages ? Number(order.totalPackages).toLocaleString() : '0'}</strong></td>
+                <td class="text-center"><strong>${order.totalWeight ? Number(order.totalWeight).toLocaleString() : '0'}</strong></td>
                 <td class="text-center">
                     <input type="text" class="money-input" data-order-id="${order.id}" 
                            value="${order.totalFee ? Number(order.totalFee).toLocaleString() : ''}" 
@@ -20364,7 +20365,7 @@ class OrderManager {
     updateOrderTotalFee(input) {
         const orderId = parseInt(input.dataset.orderId);
         const totalFee = this.parseMoney(input.value);
-        
+
         const order = this.orders.find(o => o.id === orderId);
         if (order) {
             order.totalFee = totalFee;
@@ -20413,7 +20414,7 @@ class OrderManager {
         const uniqueRoutes = [...new Set(this.orders.map(order => order.route))].filter(route => route);
 
         selector.innerHTML = '<option value="">-- Chọn tuyến đường --</option><option value="all">Tất cả</option>';
-        
+
         uniqueRoutes.forEach(route => {
             const option = document.createElement('option');
             option.value = route;
@@ -20456,7 +20457,7 @@ class OrderManager {
 
         const qrHtml = generateQRCode(amount, ticket, order.customer, 300, 300);
 
-        document.getElementById('qrModalTitle').textContent = `QR THANH TOÁN - Phiếu ${ticket}`;
+        document.getElementById('qrModalTitle').textContent = `PHIẾU THU - Số: ${ticket}`;
         document.getElementById('qrModalContent').innerHTML = `
             <div class="text-center">
                 ${qrHtml}
@@ -20538,7 +20539,7 @@ class OrderManager {
     showError(inputId, message) {
         const input = document.getElementById(inputId);
         const errorElement = document.getElementById(inputId + 'Error');
-        
+
         if (input) input.classList.add('error');
         if (errorElement) {
             errorElement.textContent = message;
@@ -20549,7 +20550,7 @@ class OrderManager {
     clearError(inputId) {
         const input = document.getElementById(inputId);
         const errorElement = document.getElementById(inputId + 'Error');
-        
+
         if (input) input.classList.remove('error');
         if (errorElement) {
             errorElement.classList.remove('show');
@@ -20564,14 +20565,14 @@ class OrderManager {
     showNotification(message, type = 'success') {
         const notification = document.getElementById('notification');
         const messageElement = document.getElementById('notificationMessage');
-        
+
         if (!notification || !messageElement) return;
-        
+
         messageElement.textContent = message;
         notification.className = `notification ${type === 'error' ? 'error' : 'success'}`;
         notification.classList.remove('hidden');
         notification.classList.add('show');
-        
+
         setTimeout(() => {
             notification.classList.remove('show');
             notification.classList.add('hidden');
@@ -20614,49 +20615,52 @@ class OrderManager {
         }
     }
 
+    
+
     async exportSummary() {
         if (this.orders.length === 0) {
             this.showNotification('Không có dữ liệu để export!', 'error');
             return;
         }
-    
+
         try {
             const workbook = new ExcelJS.Workbook();
             const ws = workbook.addWorksheet('Tổng hợp');
-            
+
             // Header row
-            ws.addRow([
+            ws.addRow(["Số phiếu",
                 "Người thanh toán", "Người gửi hàng", "Mã tuyến", "Số kiện", "Khối lượng",
                 "Tính theo giá", "Ngày lập", "Mã hàng", "Đvt", "Số kiện", "Số kg",
                 "Đvt giá", "SL tính giá", "Giá", "Mã thuế", "Người nhận", "Mã chi phí",
                 "Dvt", "Số lượng", "Đơn giá", "Mã thuế", "Mã quyển", "Nơi giao", "Nơi nhận"
             ]);
-    
+
             // Data rows
             this.orders.forEach(order => {
+                const soPhieu = order.ticketNumber ;
                 const orderDate = new Date(order.date);
                 const month = String(orderDate.getMonth() + 1).padStart(2, '0');
-                
+
                 // Lấy code_number của customer
                 const customers = JSON.parse(localStorage.getItem('customers')) || CUSTOMERS;
                 const customerData = customers.find(c => c.name === order.customer);
                 const customerCode = customerData ? customerData.code_number : order.customer;
-    
+
                 const maQuyen = `PLQ125${month}`;
-                
+
                 // Sử dụng thông tin route mới
                 const routeCode = order.routeCode || '';
                 const noiGiao = order.routeTo || '';  // Nơi giao
                 const noiNhan = order.routeFrom || ''; // Nơi nhận
-                
+
                 // Tính toán đơn vị tính giá và số lượng tính giá cho vận chuyển chính
                 const isMinimalFee = order.isMinimalFee || false;
                 const dvtTinhGia = isMinimalFee ? 'Chuyến' : 'Kg';
                 const slTinhGia = isMinimalFee ? 1 : (order.totalWeight || 0);
-                
+
                 // Giá cước vận chuyển
                 const giaCuoc = order.defaultFreight || 0;
-    
+
                 // Thông tin dịch vụ
                 const hasPickup = order.pickupAddr && order.pickupPrice > 0;
                 const hasDelivery = order.deliveryAddr && order.deliveryPrice > 0;
@@ -20666,102 +20670,136 @@ class OrderManager {
                 const deliveryQuantity = order.deliveryQuantity || 1;
                 const pickupPrice = order.pickupPrice || 0;
                 const deliveryPrice = order.deliveryPrice || 0;
-    
-                
+
+
+                console.log('customerCode');
+
+
                 // DÒNG CHÍNH CHO VẬN CHUYỂN HÀNG HÓA
                 if (!hasDelivery && !hasPickup) {
-                    ws.addRow([
-                    customerCode, // Người thanh toán = code_number
-                    customerCode, // Người gửi hàng = code_number
-                    routeCode, // Mã tuyến
-                    order.totalPackages || 0, // Số kiện
-                    order.totalWeight || 0, // Khối lượng
-                    0, // Tính theo giá
-                    orderDate.toLocaleDateString('vi-VN'), // Ngày lập
-                    '0033-1605010', // Mã hàng
-                    'Kg', // Đvt
-                    order.totalPackages || 0, // Số kiện (cột thứ 2)
-                    order.totalWeight || 0, // Số kg
-                    dvtTinhGia, // Đvt tính giá
-                    slTinhGia, // SL tính giá
-                    giaCuoc, // Giá = giá cước
-                    '08', // Mã thuế
-                    customerCode, // Người nhận = code_number
-                    '', // Mã chi phí (để trống cho dòng chính)
-                    '', // Dvt
-                    '', // Số lượng
-                    '', // Đơn giá
-                    '', // Mã thuế
-                    maQuyen, // Mã quyển
-                    noiGiao, // Nơi giao
-                    noiNhan  // Nơi nhận
-                    ]);
+                    ws.addRow(
+                        [   
+                            soPhieu,
+                            customerCode, // Người thanh toán = code_number
+                            customerCode, // Người gửi hàng = code_number
+                            routeCode, // Mã tuyến
+                            order.totalPackages || 0, // Số kiện
+                            order.totalWeight || 0, // Khối lượng
+                            0, // Tính theo giá
+                            orderDate.toLocaleDateString('vi-VN'), // Ngày lập
+                            '0033-1605010', // Mã hàng
+                            'Kg', // Đvt
+                            order.totalPackages || 0, // Số kiện (cột thứ 2)
+                            order.totalWeight || 0, // Số kg
+                            dvtTinhGia, // Đvt tính giá
+                            slTinhGia, // SL tính giá
+                            giaCuoc, // Giá = giá cước
+                            '08', // Mã thuế
+                            customerCode, // Người nhận = code_number
+                            '', // Mã chi phí (để trống cho dòng chính)
+                            '', // Dvt
+                            '', // Số lượng
+                            '', // Đơn giá
+                            '', // Mã thuế
+                            maQuyen, // Mã quyển
+                            noiGiao, // Nơi giao
+                            noiNhan  // Nơi nhận
+                        ]
+                    );
                 }
-                
-                // DÒNG DỊCH VỤ LẤY HÀNG (nếu có)
-                if (hasPickup) {
-                    ws.addRow([
-                        customerCode, // Người thanh toán
-                        customerCode, // Người gửi hàng
-                        routeCode, // Mã tuyến
-                        order.totalPackages || 0, // Số kiện
-                        order.totalWeight || 0, // Khối lượng
-                        0, // Tính theo giá
-                        orderDate.toLocaleDateString('vi-VN'), // Ngày lập
-                        '0033-1605010', // Mã hàng
-                        'Kg', // Đvt
-                        order.totalPackages || 0, // Số kiện (cột thứ 2)
-                        order.totalWeight || 0, // Số kg
-                        pickupUnit, // Đvt giá
-                        pickupQuantity, // SL tính giá
-                        pickupPrice, // Giá
-                        '08', // Mã thuế
-                        customerCode, // Người nhận
-                        'DT053', // Mã chi phí
-                        pickupUnit, // Dvt
-                        pickupQuantity, // Số lượng
-                        pickupPrice, // Đơn giá
-                        '08', // Mã thuế
-                        maQuyen, // Mã quyển
-                        noiGiao, // Nơi giao
-                        noiNhan  // Nơi nhận
-                    ]);
+                else if ((hasPickup) || (hasDelivery)) {
+                    ws.addRow(
+                        [
+                            soPhieu,
+                            customerCode, // Người thanh toán
+                            customerCode, // Người gửi hàng
+                            routeCode, // Mã tuyến
+                            order.totalPackages || 0, // Số kiện
+                            order.totalWeight || 0, // Khối lượng
+                            0, // Tính theo giá
+                            orderDate.toLocaleDateString('vi-VN'), // Ngày lập
+                            '0033-1605010', // Mã hàng
+                            'Kg', // Đvt
+                            order.totalPackages || 0, // Số kiện (cột thứ 2)
+                            order.totalWeight || 0, // Số kg
+                            dvtTinhGia, // Đvt tính giá
+                            slTinhGia, // SL tính giá
+                            giaCuoc, // Giá = giá cước
+                            '08', // Mã thuế
+                            customerCode, // Người nhận = code_number
+                            'DT053', // Mã chi phí (để trống cho dòng chính)
+                            pickupUnit || deliveryUnit,  // Dvt
+                            pickupQuantity || deliveryQuantity, // Số lượng
+                            pickupPrice || deliveryPrice, // Đơn giá
+                            '08', // Mã thuế
+                            maQuyen, // Mã quyển
+                            noiGiao, // Nơi giao
+                            noiNhan  // Nơi nhận
+                        ]);
                 }
-                
-                // DÒNG DỊCH VỤ GIAO HÀNG (nếu có)
-                if (hasDelivery) {
-                    ws.addRow([
-                        customerCode, // Người thanh toán
-                        customerCode, // Người gửi hàng
-                        routeCode, // Mã tuyến
-                        order.totalPackages || 0, // Số kiện
-                        order.totalWeight || 0, // Khối lượng
-                        0, // Tính theo giá
-                        orderDate.toLocaleDateString('vi-VN'), // Ngày lập
-                        '0033-1605010', // Mã hàng
-                        'Kg', // Đvt
-                        order.totalPackages || 0, // Số kiện (cột thứ 2)
-                        order.totalWeight || 0, // Số kg
-                        deliveryUnit, // Đvt giá
-                        deliveryQuantity, // SL tính giá
-                        deliveryPrice, // Giá
-                        '08', // Mã thuế
-                        customerCode, // Người nhận
-                        'DT053', // Mã chi phí
-                        deliveryUnit, // Dvt
-                        deliveryQuantity, // Số lượng
-                        deliveryPrice, // Đơn giá
-                        '08', // Mã thuế
-                        maQuyen, // Mã quyển
-                        noiGiao, // Nơi giao
-                        noiNhan  // Nơi nhận
-                    ]);
+                else if (hasPickup && hasDelivery) {
+                    ws.addRow(
+                        [
+                            soPhieu,
+                            customerCode, // Người thanh toán
+                            customerCode, // Người gửi hàng
+                            routeCode, // Mã tuyến
+                            order.totalPackages || 0, // Số kiện
+                            order.totalWeight || 0, // Khối lượng
+                            0, // Tính theo giá
+                            orderDate.toLocaleDateString('vi-VN'), // Ngày lập
+                            '0033-1605010', // Mã hàng
+                            'Kg', // Đvt
+                            order.totalPackages || 0, // Số kiện (cột thứ 2)
+                            order.totalWeight || 0, // Số kg
+                            dvtTinhGia, // Đvt tính giá
+                            slTinhGia, // SL tính giá
+                            giaCuoc, // Giá = giá cước
+                            '08', // Mã thuế
+                            customerCode, // Người nhận = code_number
+                            'DT053', // Mã chi phí (để trống cho dòng chính)
+                            pickupUnit, // Dvt
+                            pickupQuantity, // Số lượng
+                            pickupPrice, // Đơn giá
+                            '08', // Mã thuế
+                            maQuyen, // Mã quyển
+                            noiGiao, // Nơi giao
+                            noiNhan  // Nơi nhận
+                        ]);
+                    ws.addRow(
+                        [
+                            soPhieu,
+                            customerCode, // Người thanh toán
+                            customerCode, // Người gửi hàng
+                            routeCode, // Mã tuyến
+                            order.totalPackages || 0, // Số kiện
+                            order.totalWeight || 0, // Khối lượng
+                            0, // Tính theo giá
+                            orderDate.toLocaleDateString('vi-VN'), // Ngày lập
+                            '0033-1605010', // Mã hàng
+                            'Kg', // Đvt
+                            order.totalPackages || 0, // Số kiện (cột thứ 2)
+                            '', // Số kg
+                            '',  // Đvt tính giá
+                            '',  // SL tính giá
+                            '', // Giá = giá cước
+                            '',  // Mã thuế
+                            customerCode, // Người nhận = code_number
+                            'DT053', // Mã chi phí (để trống cho dòng chính)
+                            deliveryUnit, // Dvt
+                            deliveryQuantity, // Số lượng
+                            deliveryPrice, // Đơn giá
+                            '08', // Mã thuế
+                            maQuyen, // Mã quyển
+                            noiGiao, // Nơi giao
+                            noiNhan  // Nơi nhận
+                        ]);
                 }
             });
-    
+
             const buf = await workbook.xlsx.writeBuffer();
-            const blob = new Blob([buf], { 
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+            const blob = new Blob([buf], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -20769,25 +20807,24 @@ class OrderManager {
             a.download = `tong_hop_don_hang_${new Date().toISOString().split('T')[0]}.xlsx`;
             a.click();
             URL.revokeObjectURL(url);
-            
+
             this.showNotification('Đã export Excel tổng hợp thành công!');
         } catch (error) {
             console.error('Lỗi khi export Excel tổng hợp:', error);
             this.showNotification('Có lỗi xảy ra khi export Excel tổng hợp!', 'error');
         }
     }
-    
-           
+
 
 }
 
 // Khởi tạo ứng dụng khi DOM đã load
 let orderManager;
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     orderManager = new OrderManager();
 });
 
 // Hàm toàn cục để gọi từ HTML
-window.scrollToInputSection = function() {
+window.scrollToInputSection = function () {
     if (orderManager) orderManager.scrollToInputSection();
 };

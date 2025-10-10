@@ -7,8 +7,8 @@ function generateQRCode(amount, ticketNumber, customerName = '', width = 200, he
     
     // Tạo nội dung chuyển khoản với tên khách hàng và số phiếu
     const transferContent = customerName ? 
-        `THANH TOAN PHIEU ${ticketNumber} - ${customerName}` : 
-        `THANH TOAN PHIEU ${ticketNumber}`;
+        `TT PHIEU : ${ticketNumber}`: 
+        `TT PHIEU : ${ticketNumber}`;
 
     const addInfo = encodeURIComponent(transferContent);
     const amt = Number(amount || 0);
