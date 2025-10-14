@@ -19446,7 +19446,7 @@ const CUSTOMERS = [
 ];
 
 const routes = [
-    [
+    
         { "Tên Tuyến": "giao hàng Big C Đà Nẵng", "Mã tuyến": "Q1-BIGC-C-D.NAG", "Nơi nhận": "HCM", "Nơi Giao": "DAN" },
         { "Tên Tuyến": "Giao hàng Big C Long Biên - Hà Nội", "Mã tuyến": "Q1-BIGC-C-HNLB", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
         { "Tên Tuyến": "Giao hàng Big C Thăng long - Hà Nội", "Mã tuyến": "Q1-BIGC-C-HNTL", "Nơi nhận": "HCM", "Nơi Giao": "HN" },
@@ -19517,10 +19517,50 @@ const routes = [
         { "Tên Tuyến": "vận chuyển hàng lạnh từ HCM đi Nha Trang", "Mã tuyến": "Q1-SN-C-W-SGNT", "Nơi nhận": "HCM", "Nơi Giao": "NHA" },
         { "Tên Tuyến": "vận chuyển hàng lạnh từ HCM-Vinh", "Mã tuyến": "Q1-SN-C-W-SGVH", "Nơi nhận": "HCM", "Nơi Giao": "vinh" },
         { "Tên Tuyến": "giao hàng từ HCM đi Nha Trang-Đà Lạt (giao tận nơi)", "Mã tuyến": "Q1-SN-DL-SGNT", "Nơi nhận": "HCM", "Nơi Giao": "DL" },
+    
+];
 
-    ]
-]
+// Quy chuẩn mặt hàng
+const PRODUCT_NAMES = [
+    { name: "Thịt bò đông lạnh", type: "frozen" },
+    { name: "Thịt heo đông lạnh", type: "frozen" },
+    { name: "Thịt gà đông lạnh", type: "frozen" },
+    { name: "Cá đông lạnh", type: "frozen" },
+    { name: "Tôm đông lạnh", type: "frozen" },
+    { name: "Kem đông lạnh", type: "frozen" },
+    { name: "Thịt tươi", type: "cool" },
+    { name: "Cá tươi", type: "cool" },
+    { name: "Sữa tươi", type: "cool" },
+    { name: "Phô mai", type: "cool" },
+    { name: "Rau củ tươi", type: "cool" },
+    { name: "Trái cây tươi", type: "cool" },
+    { name: "Gạo", type: "dry" },
+    { name: "Bột mì", type: "dry" },
+    { name: "Đồ khô", type: "dry" },
+    { name: "Hàng khô thông thường", type: "dry" }
+];
 
+// Quy cách đóng gói
+const PACKAGING_OPTIONS = [
+    "Túi nilon dày 0.1mm chống rò rỉ",
+    "Thùng carton cách nhiệt",
+    "Túi hút chân không",
+    "Hộp nhựa kín",
+    "Bao PP",
+    "Pallet bọc màng co",
+    "Thùng xốp + đá khô",
+    "Gel đông lạnh"
+];
+
+// Nhiệt độ bảo quản
+const TEMPERATURES = [
+    "-18°C đến -23°C (Đông lạnh thực phẩm)",
+    "Dưới -18°C (Kem)",
+    "0°C đến 4°C (Thịt tươi, cá tươi)",
+    "2°C đến 5°C (Sữa, phô mai)",
+    "4°C đến 8°C (Rau củ, trái cây)",
+    "Nhiệt độ phòng (Hàng khô)"
+];
 
 
 class OrderManager {
@@ -19531,6 +19571,8 @@ class OrderManager {
         this.ordersPerPage = 10;
         this.isEditMode = false;
         this.currentEditId = null;
+        this.filteredOrders = []; // Để lưu orders sau khi filter theo ngày
+        this.cargoTypes = ['frozen', 'cool', 'dry']; // Các loại hàng hóa
 
         this.init();
     }
@@ -19538,6 +19580,7 @@ class OrderManager {
     init() {
         this.initializeData();
         this.setupEventListeners();
+        this.updateCargoDetails(); // Khởi tạo chi tiết hàng hóa
         this.updateUI();
     }
 
@@ -19555,7 +19598,8 @@ class OrderManager {
 
         // Export buttons
         document.getElementById('exportExcel').addEventListener('click', () => this.exportExcel());
-        document.getElementById('exportSummary').addEventListener('click', () => this.exportSummary());
+     
+        document.getElementById('exportParkingList').addEventListener('click', () => this.exportParkingList());
         document.getElementById('clearData').addEventListener('click', () => this.clearData());
 
         // Route selector
@@ -19563,6 +19607,14 @@ class OrderManager {
 
         // Toggle sections
         this.setupToggleSections();
+
+        // Quarantine toggle
+        document.getElementById('isQuarantine').addEventListener('change', (e) => {
+            this.toggleElement('quarantineSection', e.target.checked);
+            this.calculateTotalFee();
+        });
+
+        document.getElementById('quarantineFee').addEventListener('input', () => this.calculateTotalFee());
 
         // Autocomplete
         this.setupAutocomplete();
@@ -19572,6 +19624,16 @@ class OrderManager {
 
         // Real-time calculations
         this.setupRealTimeCalculations();
+
+        // Cargo changes to update details
+        this.cargoTypes.forEach(type => {
+            const weightId = `${type}Weight`;
+            const packagesId = `${type}Packages`;
+            const weightEl = document.getElementById(weightId);
+            const packagesEl = document.getElementById(packagesId);
+            if (weightEl) weightEl.addEventListener('input', () => this.updateCargoDetails());
+            if (packagesEl) packagesEl.addEventListener('input', () => this.updateCargoDetails());
+        });
 
         // QR Modal
         this.setupQRModal();
@@ -19591,8 +19653,53 @@ class OrderManager {
         });
     }
 
-    setupAutocomplete() {
+    updateCargoDetails() {
+        const container = document.getElementById('cargoDetailsContainer');
+        container.innerHTML = '';
 
+        this.cargoTypes.forEach(type => {
+            const weight = this.parseNumber(document.getElementById(`${type}Weight`).value);
+            const packages = this.parseNumber(document.getElementById(`${type}Packages`).value);
+            if (weight > 0 || packages > 0) {
+                const detailSection = document.createElement('div');
+                detailSection.className = `cargo-detail-section ${type}`;
+                detailSection.innerHTML = `
+                    <h4>${type === 'frozen' ? 'Hàng Đông Lạnh' : type === 'cool' ? 'Hàng Mát' : 'Hàng Khô'}</h4>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Tên mặt hàng:</label>
+                            <div class="autocomplete">
+                                <input type="text" class="productName-${type}" placeholder="Nhập tên mặt hàng">
+                                <div class="productSuggestions-${type} autocomplete-suggestions hidden"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Quy cách đóng gói:</label>
+                            <div class="autocomplete">
+                                <input type="text" class="packaging-${type}" placeholder="Quy cách đóng gói">
+                                <div class="packagingSuggestions-${type} autocomplete-suggestions hidden"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Nhiệt độ bảo quản:</label>
+                            <div class="autocomplete">
+                                <input type="text" class="storageTemp-${type}" placeholder="Nhiệt độ bảo quản">
+                                <div class="tempSuggestions-${type} autocomplete-suggestions hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(detailSection);
+
+                // Setup autocomplete for this section
+                this.setupProductAutocomplete(`.productName-${type}`, `.productSuggestions-${type}`);
+                this.setupPackagingAutocomplete(`.packaging-${type}`, `.packagingSuggestions-${type}`);
+                this.setupTempAutocomplete(`.storageTemp-${type}`, `.tempSuggestions-${type}`);
+            }
+        });
+    }
+
+    setupAutocomplete() {
         const customerInput = document.getElementById('customerInput');
         const customerSuggestions = document.getElementById('customerSuggestions');
 
@@ -19602,7 +19709,7 @@ class OrderManager {
             }, 200);
         });
 
-        // Tương tự cho route và store
+        // Tương tự cho route 
         const routeInput = document.getElementById('routeInput');
         const routeSuggestions = document.getElementById('routeSuggestions');
 
@@ -19612,6 +19719,7 @@ class OrderManager {
             }, 200);
         });
 
+        // Tương tự cho store
         const storeInput = document.getElementById('storeInput');
         const storeSuggestions = document.getElementById('storeSuggestions');
 
@@ -19629,6 +19737,111 @@ class OrderManager {
 
         // Route autocomplete
         this.setupRouteAutocomplete();
+    }
+
+    setupProductAutocomplete(selector, suggestionsSelector) {
+        const input = document.querySelector(selector);
+        const suggestions = document.querySelector(suggestionsSelector);
+
+        if (!input || !suggestions) return;
+
+        input.addEventListener('input', this.debounce(() => {
+            const query = input.value.toLowerCase();
+            suggestions.innerHTML = '';
+            suggestions.classList.add('hidden');
+
+            if (query.length < 2) return;
+
+            const matches = PRODUCT_NAMES.filter(p => p.name.toLowerCase().includes(query));
+
+            if (matches.length > 0) {
+                suggestions.classList.remove('hidden');
+                matches.forEach(product => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-suggestion';
+                    div.innerHTML = `<strong>${this.highlightText(product.name, query)}</strong>`;
+                    div.addEventListener('click', () => {
+                        input.value = product.name;
+                        suggestions.classList.add('hidden');
+                    });
+                    suggestions.appendChild(div);
+                });
+            }
+        }, 300));
+
+        input.addEventListener('blur', () => {
+            setTimeout(() => suggestions.classList.add('hidden'), 200);
+        });
+    }
+
+    setupPackagingAutocomplete(selector, suggestionsSelector) {
+        const input = document.querySelector(selector);
+        const suggestions = document.querySelector(suggestionsSelector);
+
+        if (!input || !suggestions) return;
+
+        input.addEventListener('input', this.debounce(() => {
+            const query = input.value.toLowerCase();
+            suggestions.innerHTML = '';
+            suggestions.classList.add('hidden');
+
+            if (query.length < 2) return;
+
+            const matches = PACKAGING_OPTIONS.filter(p => p.toLowerCase().includes(query));
+
+            if (matches.length > 0) {
+                suggestions.classList.remove('hidden');
+                matches.forEach(pack => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-suggestion';
+                    div.textContent = pack;
+                    div.addEventListener('click', () => {
+                        input.value = pack;
+                        suggestions.classList.add('hidden');
+                    });
+                    suggestions.appendChild(div);
+                });
+            }
+        }, 300));
+
+        input.addEventListener('blur', () => {
+            setTimeout(() => suggestions.classList.add('hidden'), 200);
+        });
+    }
+
+    setupTempAutocomplete(selector, suggestionsSelector) {
+        const input = document.querySelector(selector);
+        const suggestions = document.querySelector(suggestionsSelector);
+
+        if (!input || !suggestions) return;
+
+        input.addEventListener('input', this.debounce(() => {
+            const query = input.value.toLowerCase();
+            suggestions.innerHTML = '';
+            suggestions.classList.add('hidden');
+
+            if (query.length < 2) return;
+
+            const matches = TEMPERATURES.filter(t => t.toLowerCase().includes(query));
+
+            if (matches.length > 0) {
+                suggestions.classList.remove('hidden');
+                matches.forEach(temp => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-suggestion';
+                    div.textContent = temp;
+                    div.addEventListener('click', () => {
+                        input.value = temp;
+                        suggestions.classList.add('hidden');
+                    });
+                    suggestions.appendChild(div);
+                });
+            }
+        }, 300));
+
+        input.addEventListener('blur', () => {
+            setTimeout(() => suggestions.classList.add('hidden'), 200);
+        });
     }
 
     setupCustomerAutocomplete() {
@@ -19715,7 +19928,7 @@ class OrderManager {
             if (query.length < 2) return;
 
             // Tìm kiếm trong routes
-            const matches = routes[0].filter(route =>
+            const matches = routes.filter(route =>
                 route["Tên Tuyến"].toLowerCase().includes(query) ||
                 route["Mã tuyến"].toLowerCase().includes(query) ||
                 route["Nơi nhận"].toLowerCase().includes(query) ||
@@ -19753,8 +19966,6 @@ class OrderManager {
         });
     }
 
-
-
     updateRouteDisplay() {
         const routeInput = document.getElementById('routeInput');
         const routeText = document.getElementById('routeText');
@@ -19767,7 +19978,7 @@ class OrderManager {
         }
 
         // Tìm route trong danh sách
-        const foundRoute = routes[0].find(route =>
+        const foundRoute = routes.find(route =>
             route["Tên Tuyến"] === inputValue ||
             route["Mã tuyến"] === inputValue
         );
@@ -19857,6 +20068,7 @@ class OrderManager {
             'defaultFreight', 'minimalFee',
             'pickupQuantity', 'pickupPrice', 'pickupUnit',
             'deliveryQuantity', 'deliveryPrice', 'deliveryUnit',
+            'quarantineFee',
             'paymentAmount' // Thêm paymentAmount để sync
         ];
 
@@ -19916,6 +20128,8 @@ class OrderManager {
         const deliveryPrice = this.parseMoney(document.getElementById('deliveryPrice').value);
         const deliveryUnit = document.getElementById('deliveryUnit').value;
 
+        const quarantineFee = document.getElementById('isQuarantine').checked ? this.parseMoney(document.getElementById('quarantineFee').value) : 0;
+
         // Tính phí vận chuyển
         let transportFee = 0;
         if (isMinimalFee) {
@@ -19955,8 +20169,13 @@ class OrderManager {
             deliveryTotalField.value = deliveryTotal > 0 ? deliveryTotal.toLocaleString() : '';
         }
 
-        // Tổng cước = cước vận chuyển + phí lấy hàng + phí giao hàng
-        const totalFee = transportFee + pickupTotal + deliveryTotal;
+        const quarantineDisplay = document.getElementById('quarantineFeeDisplay');
+        if (quarantineDisplay) {
+            quarantineDisplay.value = quarantineFee > 0 ? quarantineFee.toLocaleString() : '';
+        }
+
+        // Tổng cước = cước vận chuyển + phí lấy hàng + phí giao hàng + phí kiểm dịch
+        const totalFee = transportFee + pickupTotal + deliveryTotal + quarantineFee;
 
         const totalFeeField = document.getElementById('totalFee');
         if (totalFeeField) {
@@ -20054,28 +20273,75 @@ class OrderManager {
         const routeTo = document.getElementById('routeTo').value;
         const store = document.getElementById('storeInput').value;
 
+        // Logic thông tin người nhận
+        let recipientInfo = {};
+        const hasStore = !!store;
+        const hasCustomDelivery = document.getElementById('customDelivery').checked;
+        if (!hasStore && !hasCustomDelivery) {
+            recipientInfo = {
+                name: document.getElementById('recipientName').value,
+                phone: document.getElementById('recipientPhone').value,
+                address: '',
+                contact: ''
+            };
+        } else if (hasStore) {
+            // Sử dụng thông tin store làm người nhận
+            recipientInfo = { name: store, address: '', contact: '', phone: '' };
+        } else if (hasCustomDelivery) {
+            // Sử dụng thông tin giao tận nơi
+            recipientInfo = {
+                name: document.getElementById('deliveryContact').value || '',
+                address: document.getElementById('deliveryAddr').value,
+                contact: document.getElementById('deliveryContact').value || '',
+                phone: document.getElementById('deliveryPhone').value || ''
+            };
+        }
+
         // Thu thập dữ liệu hàng hóa
         const cargoData = {
             frozen: {
                 packages: this.parseNumber(document.getElementById('frozenPackages').value),
                 weight: this.parseNumber(document.getElementById('frozenWeight').value),
-                unit: document.getElementById('frozenUnit').value
+                unit: document.getElementById('frozenUnit').value,
+                details: {
+                    productName: document.querySelector('.productName-frozen')?.value || '',
+                    packaging: document.querySelector('.packaging-frozen')?.value || '',
+                    storageTemp: document.querySelector('.storageTemp-frozen')?.value || ''
+                }
             },
             cool: {
                 packages: this.parseNumber(document.getElementById('coolPackages').value),
                 weight: this.parseNumber(document.getElementById('coolWeight').value),
-                unit: document.getElementById('coolUnit').value
+                unit: document.getElementById('coolUnit').value,
+                details: {
+                    productName: document.querySelector('.productName-cool')?.value || '',
+                    packaging: document.querySelector('.packaging-cool')?.value || '',
+                    storageTemp: document.querySelector('.storageTemp-cool')?.value || ''
+                }
             },
             dry: {
                 packages: this.parseNumber(document.getElementById('dryPackages').value),
                 weight: this.parseNumber(document.getElementById('dryWeight').value),
-                unit: document.getElementById('dryUnit').value
+                unit: document.getElementById('dryUnit').value,
+                details: {
+                    productName: document.querySelector('.productName-dry')?.value || '',
+                    packaging: document.querySelector('.packaging-dry')?.value || '',
+                    storageTemp: document.querySelector('.storageTemp-dry')?.value || ''
+                }
             }
         };
 
         // Tính tổng
         const totalPackages = cargoData.frozen.packages + cargoData.cool.packages + cargoData.dry.packages;
         const totalWeight = cargoData.frozen.weight + cargoData.cool.weight + cargoData.dry.weight;
+
+        // Quarantine info
+        const isQuarantine = document.getElementById('isQuarantine').checked;
+        const quarantineInfo = isQuarantine ? {
+            certificate: document.getElementById('quarantineCertificate').value,
+            fee: this.parseMoney(document.getElementById('quarantineFee').value),
+            date: document.getElementById('quarantineDate').value
+        } : null;
 
         return {
             id: this.isEditMode ? this.currentEditId : Date.now(),
@@ -20089,12 +20355,12 @@ class OrderManager {
             defaultFreight: this.parseMoney(document.getElementById('defaultFreight').value),
             isMinimalFee: document.getElementById('minimalFee').checked,
             cargoData,
-            cargoNote: document.getElementById('cargoNote').value,
+            cargoNote: '', // No cargoNote in HTML, can add if needed
             totalPackages,
             totalWeight: this.calculateTotalWeight(),
             totalFee: this.calculateTotalFee(),
             paymentAmount: this.calculateTotalFee(), // Luôn bằng totalFee
-            paymentMethod: document.getElementById('paymentMethod').value,
+            paymentMethod: 'bank_transfer', // Default, can add field
             pickupQuantity: this.parseNumber(document.getElementById('pickupQuantity').value),
             pickupPrice: this.parseMoney(document.getElementById('pickupPrice').value),
             pickupTotal: this.parseMoney(document.getElementById('pickupTotal').value),
@@ -20107,6 +20373,9 @@ class OrderManager {
             deliveryAddr: document.getElementById('customDelivery').checked ? document.getElementById('deliveryAddr').value : '',
             deliveryContact: document.getElementById('customDelivery').checked ? document.getElementById('deliveryContact').value : '',
             deliveryPhone: document.getElementById('customDelivery').checked ? document.getElementById('deliveryPhone').value : '',
+            recipientInfo, // Thêm thông tin người nhận
+            quarantineInfo,
+            qrCode: null, // Trường QR code, sẽ được set khi generate
             date: new Date().toISOString()
         };
     }
@@ -20139,6 +20408,16 @@ class OrderManager {
         if (!document.getElementById('ticketNumberInput').value.trim()) {
             this.showError('ticketNumberInput', 'Vui lòng nhập số phiếu');
             isValid = false;
+        }
+
+        // Validate thông tin người nhận nếu cần
+        const hasStore = !!document.getElementById('storeInput').value;
+        const hasCustomDelivery = document.getElementById('customDelivery').checked;
+        if (!hasStore && !hasCustomDelivery) {
+            if (!document.getElementById('recipientName').value.trim()) {
+                this.showError('recipientName', 'Vui lòng nhập tên người nhận');
+                isValid = false;
+            }
         }
 
         // Validate hàng hóa
@@ -20211,6 +20490,12 @@ class OrderManager {
         // Cập nhật hiển thị tuyến đường
         this.updateRouteDisplay();
 
+        // Điền thông tin người nhận
+        if (order.recipientInfo) {
+            document.getElementById('recipientName').value = order.recipientInfo.name || '';
+            document.getElementById('recipientPhone').value = order.recipientInfo.phone || '';
+        }
+
         // Điền thông tin hàng hóa
         if (order.cargoData && order.cargoData.frozen) {
             document.getElementById('frozenPackages').value = order.cargoData.frozen.packages || '';
@@ -20231,11 +20516,11 @@ class OrderManager {
         }
 
         // Ghi chú hàng hóa
-        document.getElementById('cargoNote').value = order.cargoNote || '';
+        // document.getElementById('cargoNote').value = order.cargoNote || ''; // No field
 
         // Thông tin thanh toán
         document.getElementById('paymentAmount').value = order.totalFee ? order.totalFee.toLocaleString() : '';
-        document.getElementById('paymentMethod').value = order.paymentMethod || 'bank_transfer';
+        // document.getElementById('paymentMethod').value = order.paymentMethod || 'bank_transfer'; // No field
         document.getElementById('defaultFreight').value = order.defaultFreight ? order.defaultFreight.toLocaleString() : '';
         document.getElementById('minimalFee').checked = order.isMinimalFee || false;
 
@@ -20263,6 +20548,28 @@ class OrderManager {
             document.getElementById('deliveryContact').value = order.deliveryContact || '';
             document.getElementById('deliveryPhone').value = order.deliveryPhone || '';
         }
+
+        // Quarantine
+        if (order.quarantineInfo) {
+            document.getElementById('isQuarantine').checked = true;
+            this.toggleElement('quarantineSection', true);
+            document.getElementById('quarantineCertificate').value = order.quarantineInfo.certificate || '';
+            document.getElementById('quarantineFee').value = order.quarantineInfo.fee ? order.quarantineInfo.fee.toLocaleString() : '';
+            document.getElementById('quarantineDate').value = order.quarantineInfo.date || '';
+        }
+
+        // Update cargo details after filling weights
+        this.updateCargoDetails();
+
+        // Fill details from data
+        this.cargoTypes.forEach(type => {
+            if (order.cargoData && order.cargoData[type] && order.cargoData[type].details) {
+                const details = order.cargoData[type].details;
+                document.querySelector(`.productName-${type}`)?.setAttribute('value', details.productName || '');
+                document.querySelector(`.packaging-${type}`)?.setAttribute('value', details.packaging || '');
+                document.querySelector(`.storageTemp-${type}`)?.setAttribute('value', details.storageTemp || '');
+            }
+        });
 
         // Tính lại tổng phí
         this.calculateTotalFee();
@@ -20294,16 +20601,56 @@ class OrderManager {
         this.toggleElement('pickupAddress', false);
         this.toggleElement('deliveryAddress', false);
         this.toggleElement('routeDisplay', false);
+        this.toggleElement('quarantineSection', false);
 
         // Bỏ chọn checkbox
         document.getElementById('newCustomer').checked = false;
         document.getElementById('customPickup').checked = false;
         document.getElementById('customDelivery').checked = false;
+        document.getElementById('isQuarantine').checked = false;
 
         // Xóa suggestions
         document.querySelectorAll('.autocomplete-suggestions').forEach(el => {
             el.classList.add('hidden');
         });
+
+        this.updateCargoDetails();
+    }
+
+    // Filter theo ngày
+    filterByDate() {
+        const fromDate = document.getElementById('fromDate').value;
+        const toDate = document.getElementById('toDate').value;
+
+        if (!fromDate || !toDate) {
+            this.showNotification('Vui lòng chọn cả ngày bắt đầu và ngày kết thúc', 'error');
+            return;
+        }
+
+        const from = new Date(fromDate);
+        const to = new Date(toDate);
+        to.setDate(to.getDate() + 1); // Bao gồm ngày kết thúc
+
+        this.filteredOrders = this.orders.filter(order => {
+            const orderDate = new Date(order.date);
+            return orderDate >= from && orderDate < to;
+        });
+
+        this.currentPage = 1;
+        this.updateOrdersTable();
+        this.setupPagination();
+        this.updateCartHeader();
+    }
+
+    clearDateFilter() {
+        document.getElementById('fromDate').value = '';
+        document.getElementById('toDate').value = '';
+        this.filteredOrders = [];
+        this.updateUI();
+    }
+
+    getDisplayOrders() {
+        return this.filteredOrders.length > 0 ? this.filteredOrders : this.orders;
     }
 
     updateUI() {
@@ -20317,7 +20664,9 @@ class OrderManager {
         const tbody = document.querySelector('#ordersTable tbody');
         const emptyState = document.getElementById('emptyState');
 
-        if (this.orders.length === 0) {
+        const displayOrders = this.getDisplayOrders();
+
+        if (displayOrders.length === 0) {
             emptyState.style.display = 'block';
             tbody.innerHTML = '';
             return;
@@ -20326,9 +20675,9 @@ class OrderManager {
         emptyState.style.display = 'none';
 
         const startIndex = (this.currentPage - 1) * this.ordersPerPage;
-        const endIndex = Math.min(startIndex + this.ordersPerPage, this.orders.length);
+        const endIndex = Math.min(startIndex + this.ordersPerPage, displayOrders.length);
 
-        tbody.innerHTML = this.orders.slice(startIndex, endIndex).map((order, index) => `
+        tbody.innerHTML = displayOrders.slice(startIndex, endIndex).map((order, index) => `
             <tr>
                 <td class="text-center">${new Date(order.date).toLocaleDateString('vi-VN')}</td>
                 <td class="text-center"><strong>${order.customer}</strong></td>
@@ -20339,6 +20688,9 @@ class OrderManager {
                     <input type="text" class="money-input" data-order-id="${order.id}" 
                            value="${order.totalFee ? Number(order.totalFee).toLocaleString() : ''}" 
                            placeholder="0" onblur="orderManager.updateOrderTotalFee(this)">
+                </td>
+                <td class="text-center">
+                    <span class="qr-status ${order.qrCode ? 'has-qr' : ''}">${order.qrCode ? 'Có QR' : 'Chưa có'}</span>
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
@@ -20375,7 +20727,8 @@ class OrderManager {
 
     setupPagination() {
         const pagination = document.getElementById('pagination');
-        const pageCount = Math.ceil(this.orders.length / this.ordersPerPage);
+        const displayOrders = this.getDisplayOrders();
+        const pageCount = Math.ceil(displayOrders.length / this.ordersPerPage);
 
         if (pageCount <= 1) {
             pagination.innerHTML = '';
@@ -20425,10 +20778,10 @@ class OrderManager {
 
     updateCartHeader(selectedRoute = null) {
         const route = selectedRoute || document.getElementById('routeSelector').value;
-        let filteredOrders = this.orders;
+        let filteredOrders = this.getDisplayOrders();
 
         if (route && route !== 'all') {
-            filteredOrders = this.orders.filter(order => order.route === route);
+            filteredOrders = filteredOrders.filter(order => order.route === route);
         }
 
         const totalWeight = filteredOrders.reduce((sum, order) => sum + (order.totalWeight || 0), 0);
@@ -20455,6 +20808,11 @@ class OrderManager {
             return;
         }
 
+        // Generate QR và lưu vào order
+        const qrCodeValue = `QR_${ticket}_${Date.now()}`; // Mã QR đơn giản, có thể thay bằng QR thực
+        order.qrCode = qrCodeValue;
+        this.saveOrders();
+
         const qrHtml = generateQRCode(amount, ticket, order.customer, 300, 300);
 
         document.getElementById('qrModalTitle').textContent = `PHIẾU THU - Số: ${ticket}`;
@@ -20466,11 +20824,13 @@ class OrderManager {
                     <p><strong>Khách hàng:</strong> ${order.customer}</p>
                     <p><strong>Ngày tạo:</strong> ${new Date(order.date).toLocaleDateString('vi-VN')}</p>
                     <p><strong>Số phiếu:</strong> ${ticket}</p>
+                    <p><strong>Mã QR:</strong> ${qrCodeValue}</p>
                 </div>
             </div>
         `;
 
         this.showQRModal();
+        this.updateUI(); // Cập nhật bảng để hiển thị QR status
     }
 
     showQRModal() {
@@ -20479,6 +20839,75 @@ class OrderManager {
 
     hideQRModal() {
         document.getElementById('qrModalBackdrop').classList.add('hidden');
+    }
+
+    // Export Parking List theo mẫu, multiple rows for cargo types
+    async exportParkingList() {
+        const displayOrders = this.getDisplayOrders();
+        if (displayOrders.length === 0) {
+            this.showNotification('Không có dữ liệu để export!', 'error');
+            return;
+        }
+
+        try {
+            const workbook = new ExcelJS.Workbook();
+            const ws = workbook.addWorksheet('Sheet1');
+
+            // Header row1
+            ws.addRow(['No', 'Mã Phiếu giao nhận (70)', 'Tên khách hàng (NGƯỜI GỬI HÀNG)', 'Tên hàng (6)', 'Quy cách đóng gói', 'Nhiệt độ bảo quản (10)', 'Số Lượng', 'Trọng Lượng gộp (8)', '(23)', 'Số Khối (9)', '(22)', 'Yêu cầu Konoike Vina khi NHẬN hàng vận chuyển', '', '', '', 'Nhận hàng tại Kho/bãi KNK', 'Nhận tại Kho Khách hàng', '', '', '', '', 'Yêu cầu Konoike Vina khi GIAO hàng vận chuyển', '', '', '', '', '', '', '', 'Số xe Nam Bắc (kèm điện thoại lái xe)', 'Ghi Chú', 'KẾ HOẠCH GIAO HÀNG', '']);
+            ws.addRow(['', '', '', 'Số kiện (7)', '(21)', '', '', '', '', '', '', '', 'Tỉnh', 'Phường', 'Liên lạc', 'Ghi chú', '', 'Người nhận', 'Mã Người nhận (36)', 'Tỉnh', 'Phường', 'Liên lạc', 'Ghi chú', '', '', 'Số xe', 'Lái xe', 'Ngày giờ dự kiến giao']);
+            ws.addRow(['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']);
+
+            let rowNum = 4;
+            let globalNo = 1;
+            displayOrders.forEach((order) => {
+                const customers = JSON.parse(localStorage.getItem('customers')) || CUSTOMERS;
+                const customerData = customers.find(c => c.name === order.customer);
+                const customerCode = customerData ? customerData.code_number : '';
+
+                const nhanHangTai = order.pickupAddr || 'Kho KNK';
+                const keHoachGiaoHang = order.deliveryAddr || (order.store || 'Kho KNK') + ', ' + order.route;
+
+                // For each cargo type with data
+                this.cargoTypes.forEach(type => {
+                    const cargo = order.cargoData[type];
+                    if (cargo && (cargo.packages > 0 || cargo.weight > 0)) {
+                        const details = cargo.details || {};
+                        const tenHang = details.productName || (type === 'frozen' ? '(40RF) CONT 40\' LẠNH' : 'Hàng Thường');
+                        const quyCach = details.packaging || 'Cần thông tin';
+                        const nhietDo = details.storageTemp || 'Cần thông tin';
+                        const soLuong = cargo.packages || 0;
+                        const trongLuong = cargo.weight || 0;
+                        const soKhoi = null;
+
+                        // Dòng chính
+                        ws.addRow([
+                            globalNo++, '', order.customer, tenHang, quyCach, nhietDo, soLuong, trongLuong, '(23)', soKhoi, '(22)',
+                            null, null, null, null, null, nhanHangTai, '', order.customer, customerCode,
+                            null, null, null, null, '', '', '', 'Ngày giờ dự kiến giao', keHoachGiaoHang, '', ''
+                        ]);
+
+                        rowNum++;
+                    }
+                });
+            });
+
+            const buf = await workbook.xlsx.writeBuffer();
+            const blob = new Blob([buf], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `mẫu parkinglist_${new Date().toISOString().split('T')[0]}.xlsx`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            this.showNotification('Đã export Parking List thành công!');
+        } catch (error) {
+            console.error('Lỗi khi export Parking List:', error);
+            this.showNotification('Có lỗi xảy ra khi export Parking List!', 'error');
+        }
     }
 
     // Utility methods
@@ -20617,8 +21046,9 @@ class OrderManager {
 
     
 
-    async exportSummary() {
-        if (this.orders.length === 0) {
+    async exportExcel() {
+        const displayOrders = this.getDisplayOrders();
+        if (displayOrders.length === 0) {
             this.showNotification('Không có dữ liệu để export!', 'error');
             return;
         }
@@ -20636,7 +21066,7 @@ class OrderManager {
             ]);
 
             // Data rows
-            this.orders.forEach(order => {
+            displayOrders.forEach(order => {
                 const soPhieu = order.ticketNumber ;
                 const orderDate = new Date(order.date);
                 const month = String(orderDate.getMonth() + 1).padStart(2, '0');
@@ -20664,8 +21094,8 @@ class OrderManager {
                 // Thông tin dịch vụ
                 const hasPickup = order.pickupAddr && order.pickupPrice > 0;
                 const hasDelivery = order.deliveryAddr && order.deliveryPrice > 0;
-                const pickupUnit = order.pickupUnit || 'Chuyến';
-                const deliveryUnit = order.deliveryUnit || 'Chuyến';
+                const pickupUnit = 'Chuyến'; // Default
+                const deliveryUnit = 'Chuyến'; // Default
                 const pickupQuantity = order.pickupQuantity || 1;
                 const deliveryQuantity = order.deliveryQuantity || 1;
                 const pickupPrice = order.pickupPrice || 0;

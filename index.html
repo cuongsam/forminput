@@ -21,7 +21,6 @@
             </a>
             <button class="nav-btn" onclick="scrollToInputSection()" title="Tạo phiếu">
                 <i class="fas fa-plus-circle"></i>
-        
             </button>
         </div>
 
@@ -36,6 +35,14 @@
                     <select id="routeSelector">
                         <option value="">-- Chọn tuyến đường --</option>
                     </select>
+                </div>
+                <div class="date-filter" id="dateFilter">
+                    <label>Lọc theo ngày:</label>
+                    <input type="date" id="fromDate" />
+                    <span>đến</span>
+                    <input type="date" id="toDate" />
+                    <button onclick="orderManager.filterByDate()">Lọc</button>
+                    <button onclick="orderManager.clearDateFilter()">Xóa</button>
                 </div>
                 <div class="cart-stats">
                     <div class="stat-card">
@@ -70,6 +77,7 @@
                                 <th>Số Phiếu</th>
                                 <th>Tải Trọng</th>
                                 <th>Tổng cước (VND)</th>
+                                <th>QR Code</th>
                                 <th>Thao Tác</th>
                             </tr>
                         </thead>
@@ -94,45 +102,60 @@
                 <h2><i class="fas fa-plus-circle"></i> Nhập Phiếu Mới</h2>
                 <form id="inputForm">
                     <div class="form-grid">
+                        <!-- Hàng 1: Thông tin khách hàng và thông tin tuyến đường -->
                         <div class="form-section">
-                            <h3><i class="fas fa-user"></i> Thông Tin Khách Hàng</h3>
-
-                            <div class="form-group">
-                                <label for="customerInput" class="required-label">Khách Hàng:</label>
-                                <div class="autocomplete">
-                                    <input type="text" id="customerInput" placeholder="Nhập tên khách hàng...">
-                                    <div id="customerSuggestions" class="autocomplete-suggestions hidden"></div>
-                                </div>
-                                <input type="hidden" id="customer_id">
-                                <div class="error-message" id="customerError">Vui lòng nhập tên khách hàng</div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="storeInput">Cửa hàng/Chi nhánh:</label>
-                                <div class="autocomplete">
-                                    <input type="text" id="storeInput" placeholder="Nhập tên cửa hàng/chi nhánh...">
-                                    <div id="storeSuggestions" class="autocomplete-suggestions hidden"></div>
-                                </div>
-                                <input type="hidden" id="store_id">
-                            </div>
-
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="newCustomer">
-                                <label for="newCustomer">Khách hàng mới</label>
-                            </div>
-
-                            <div id="newCustomerForm" class="hidden">
-                                <div class="form-row-3">
+                            <div class="form-section2">
+                                <h3><i class="fas fa-user"></i> Thông Tin Khách Hàng</h3>
+                                <div class="form-row-2">
                                     <div class="form-group">
-                                        <input type="text" id="newName" placeholder="Tên khách hàng mới">
-                                        <div class="error-message" id="newNameError">Vui lòng nhập tên khách hàng mới
+                                        <label for="customerInput" class="required-label">Khách Hàng:</label>
+                                        <div class="autocomplete">
+                                            <input type="text" id="customerInput" placeholder="Nhập tên khách hàng...">
+                                            <div id="customerSuggestions" class="autocomplete-suggestions hidden"></div>
                                         </div>
+                                        <input type="hidden" id="customer_id">
+                                        <div class="error-message" id="customerError">Vui lòng nhập tên khách hàng</div>
                                     </div>
+
                                     <div class="form-group">
-                                        <input type="text" id="newAddress" placeholder="Địa chỉ">
+                                        <label for="storeInput">Cửa hàng/Chi nhánh:</label>
+                                        <div class="autocomplete">
+                                            <input type="text" id="storeInput"
+                                                placeholder="Nhập tên cửa hàng/chi nhánh...">
+                                            <div id="storeSuggestions" class="autocomplete-suggestions hidden"></div>
+                                        </div>
+                                        <input type="hidden" id="store_id">
                                     </div>
-                                    <div class="form-group">
-                                        <input type="text" id="newPhone" placeholder="Số điện thoại">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipientInfo">Thông Tin Người Nhận:</label>
+                                    <div class="recipient-row">
+                                        <input type="text" id="recipientName" placeholder="Tên người nhận">
+                                        <input type="text" id="recipientPhone" placeholder="Số điện thoại người nhận">
+                                    </div>
+                                    <div class="error-message" id="recipientError">Vui lòng nhập thông tin người nhận
+                                        nếu không có store và không giao tận nơi</div>
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="newCustomer">
+                                    <label for="newCustomer">Khách hàng mới</label>
+                                </div>
+
+                                <div id="newCustomerForm" class="hidden">
+                                    <div class="form-row-3">
+                                        <div class="form-group">
+                                            <input type="text" id="newName" placeholder="Tên khách hàng mới">
+                                            <div class="error-message" id="newNameError">Vui lòng nhập tên khách hàng
+                                                mới</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="newAddress" placeholder="Địa chỉ">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="newPhone" placeholder="Số điện thoại">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -178,185 +201,215 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Hàng 2: Lấy và giao tận nơi, Thông tin hàng hóa -->
                         <div class="form-section">
-                            <div class="form-row-2">
-                                <!-- Lấy hàng tận nơi -->
-                                <div class="service-group">
-                                    <div class="checkbox-group">
-                                        <input type="checkbox" id="customPickup">
-                                        <label for="customPickup">Lấy hàng tận nơi</label>
+                            <div class="form-section1">
+                                <div class="form-row-2">
+                                    <!-- Lấy hàng tận nơi -->
+                                    <div class="service-group">
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="customPickup">
+                                            <label for="customPickup">Lấy hàng tận nơi</label>
+                                        </div>
+
+                                        <div id="pickupAddress" class="hidden">
+                                            <div class="form-group">
+                                                <input type="text" id="pickupAddr" placeholder="Địa chỉ lấy hàng">
+                                            </div>
+                                            <div class="compact-grid">
+                                                <div class="form-group">
+                                                    <input type="text" id="pickupContact" placeholder="Người liên lạc">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" id="pickupPhone" placeholder="Số điện thoại">
+                                                </div>
+                                            </div>
+                                            <div class="fee-grid-2">
+                                                <div class="form-group">
+                                                    <label>Số lượng:</label>
+                                                    <input type="text" id="pickupQuantity" class="number-input"
+                                                        placeholder="Số lượng">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Đơn vị:</label>
+                                                    <select id="pickupUnit">
+                                                        <option value="Chuyến">Chuyến</option>
+                                                        <option value="kg">kg</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Giá:</label>
+                                                    <input type="text" id="pickupPrice" class="money-input"
+                                                        placeholder="Giá">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Thành tiền:</label>
+                                                    <input type="text" id="pickupTotal" class="money-input"
+                                                        placeholder="Thành tiền" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div id="pickupAddress" class="hidden">
-                                        <div class="form-group">
-                                            <input type="text" id="pickupAddr" placeholder="Địa chỉ lấy hàng">
+                                    <!-- Giao hàng tận nơi -->
+                                    <div class="service-group">
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="customDelivery">
+                                            <label for="customDelivery">Giao hàng tận nơi</label>
                                         </div>
-                                        <div class="compact-grid">
-                                            <div class="form-group">
-                                                <input type="text" id="pickupContact" placeholder="Người liên lạc">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" id="pickupPhone" placeholder="Số điện thoại">
-                                            </div>
-                                        </div>
-                                        <div class="fee-grid-2">
-                                            <div class="form-group">
-                                                <label>Số lượng:</label>
-                                                <input type="text" id="pickupQuantity" class="number-input"
-                                                    placeholder="Số lượng">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Đơn vị:</label>
-                                                <select id="pickupUnit">
-                                                    <option value="Chuyến">Chuyến</option>
-                                                    <option value="kg">kg</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Giá:</label>
-                                                <input type="text" id="pickupPrice" class="money-input"
-                                                    placeholder="Giá">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Thành tiền:</label>
-                                                <input type="text" id="pickupTotal" class="money-input"
-                                                    placeholder="Thành tiền" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Giao hàng tận nơi -->
-                                <div class="service-group">
-                                    <div class="checkbox-group">
-                                        <input type="checkbox" id="customDelivery">
-                                        <label for="customDelivery">Giao hàng tận nơi</label>
+                                        <div id="deliveryAddress" class="hidden">
+                                            <div class="form-group">
+                                                <input type="text" id="deliveryAddr" placeholder="Địa chỉ giao hàng">
+                                            </div>
+                                            <div class="compact-grid">
+                                                <div class="form-group">
+                                                    <input type="text" id="deliveryContact"
+                                                        placeholder="Người liên lạc">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" id="deliveryPhone" placeholder="Số điện thoại">
+                                                </div>
+                                            </div>
+                                            <div class="fee-grid-2">
+                                                <div class="form-group">
+                                                    <label>Số lượng:</label>
+                                                    <input type="text" id="deliveryQuantity" class="number-input"
+                                                        placeholder="Số lượng">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Đơn vị:</label>
+                                                    <select id="deliveryUnit">
+                                                        <option value="Chuyến">Chuyến</option>
+                                                        <option value="kg">Kg</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Giá:</label>
+                                                    <input type="text" id="deliveryPrice" class="money-input"
+                                                        placeholder="Giá">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Thành tiền:</label>
+                                                    <input type="text" id="deliveryTotal" class="money-input"
+                                                        placeholder="Thành tiền" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div id="deliveryAddress" class="hidden">
-                                        <div class="form-group">
-                                            <input type="text" id="deliveryAddr" placeholder="Địa chỉ giao hàng">
-                                        </div>
-                                        <div class="compact-grid">
-                                            <div class="form-group">
-                                                <input type="text" id="deliveryContact" placeholder="Người liên lạc">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" id="deliveryPhone" placeholder="Số điện thoại">
-                                            </div>
-                                        </div>
-                                        <div class="fee-grid-2">
-                                            <div class="form-group">
-                                                <label>Số lượng:</label>
-                                                <input type="text" id="deliveryQuantity" class="number-input"
-                                                    placeholder="Số lượng">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Đơn vị:</label>
-                                                <select id="deliveryUnit">
-                                                    <option value="Chuyến">Chuyến</option>
-                                                    <option value="kg">kg</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Giá:</label>
-                                                <input type="text" id="deliveryPrice" class="money-input"
-                                                    placeholder="Giá">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Thành tiền:</label>
-                                                <input type="text" id="deliveryTotal" class="money-input"
-                                                    placeholder="Thành tiền" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
 
+                        <div class="form-section">
+                            <h3><i class="fas fa-box"></i> Thông Tin Hàng Hóa</h3>
 
-
-                        <div class="col-row">
-                            <div class="form-section">
-                                <h3><i class="fas fa-box"></i> Thông Tin Hàng Hóa</h3>
-
+                            <!-- Hàng Đông Lạnh -->
+                            <div class="cargo-types-horizontal">
                                 <!-- Hàng Đông Lạnh -->
-                                <div class="cargo-types-horizontal">
-                                    <!-- Hàng Đông Lạnh -->
-                                    <div class="cargo-type">
-                                        <h4><i class="fas fa-snowflake"></i> Hàng Đông Lạnh</h4>
-                                        <div class="cargo-inputs-compact">
-                                            <div class="form-group">
-                                                <label for="frozenPackages">Số kiện:</label>
-                                                <input type="text" id="frozenPackages" class="number-input"
-                                                    placeholder="Số kiện">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="frozenWeight">Tải trọng (kg/cbm):</label>
-                                                <input type="text" id="frozenWeight" class="number-input"
-                                                    placeholder="Tải trọng">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="frozenUnit">Đơn vị:</label>
-                                                <input type="text" id="frozenUnit" placeholder="Đơn vị" value="kg">
-                                            </div>
+                                <div class="cargo-type">
+                                    <h4><i class="fas fa-snowflake"></i> Hàng Đông Lạnh</h4>
+                                    <div class="cargo-inputs-compact">
+                                        <div class="form-group">
+                                            <label for="frozenPackages">Số kiện:</label>
+                                            <input type="text" id="frozenPackages" class="number-input"
+                                                placeholder="Số kiện">
                                         </div>
-                                    </div>
-
-                                    <!-- Hàng Mát -->
-                                    <div class="cargo-type">
-                                        <h4><i class="fas fa-thermometer-half"></i> Hàng Mát</h4>
-                                        <div class="cargo-inputs-compact">
-                                            <div class="form-group">
-                                                <label for="coolPackages">Số kiện:</label>
-                                                <input type="text" id="coolPackages" class="number-input"
-                                                    placeholder="Số kiện">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="coolWeight">Tải trọng (kg/cbm):</label>
-                                                <input type="text" id="coolWeight" class="number-input"
-                                                    placeholder="Tải trọng">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="coolUnit">Đơn vị:</label>
-                                                <input type="text" id="coolUnit" placeholder="Đơn vị" value="kg">
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="frozenWeight">Tải trọng (kg/cbm):</label>
+                                            <input type="text" id="frozenWeight" class="number-input"
+                                                placeholder="Tải trọng">
                                         </div>
-                                    </div>
-
-                                    <!-- Hàng Khô -->
-                                    <div class="cargo-type">
-                                        <h4><i class="fas fa-box"></i> Hàng Khô</h4>
-                                        <div class="cargo-inputs-compact">
-                                            <div class="form-group">
-                                                <label for="dryPackages">Số kiện:</label>
-                                                <input type="text" id="dryPackages" class="number-input"
-                                                    placeholder="Số kiện">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="dryWeight">Tải trọng (kg/cbm):</label>
-                                                <input type="text" id="dryWeight" class="number-input"
-                                                    placeholder="Tải trọng">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="dryUnit">Đơn vị:</label>
-                                                <input type="text" id="dryUnit" placeholder="Đơn vị" value="kg">
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="frozenUnit">Đơn vị:</label>
+                                            <input type="text" id="frozenUnit" placeholder="Đơn vị" value="kg">
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Ghi chú chung -->
-                                <div class="form-group">
-                                    <label for="cargoNote">Ghi chú hàng hóa:</label>
-                                    <input type="text" id="cargoNote" placeholder="Ghi chú chung về hàng hóa">
+                                <!-- Hàng Mát -->
+                                <div class="cargo-type">
+                                    <h4><i class="fas fa-thermometer-half"></i> Hàng Mát</h4>
+                                    <div class="cargo-inputs-compact">
+                                        <div class="form-group">
+                                            <label for="coolPackages">Số kiện:</label>
+                                            <input type="text" id="coolPackages" class="number-input"
+                                                placeholder="Số kiện">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="coolWeight">Tải trọng (kg/cbm):</label>
+                                            <input type="text" id="coolWeight" class="number-input"
+                                                placeholder="Tải trọng">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="coolUnit">Đơn vị:</label>
+                                            <input type="text" id="coolUnit" placeholder="Đơn vị" value="kg">
+                                        </div>
+                                    </div>
                                 </div>
 
+                                <!-- Hàng Khô -->
+                                <div class="cargo-type">
+                                    <h4><i class="fas fa-box"></i> Hàng Khô</h4>
+                                    <div class="cargo-inputs-compact">
+                                        <div class="form-group">
+                                            <label for="dryPackages">Số kiện:</label>
+                                            <input type="text" id="dryPackages" class="number-input"
+                                                placeholder="Số kiện">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dryWeight">Tải trọng (kg/cbm):</label>
+                                            <input type="text" id="dryWeight" class="number-input"
+                                                placeholder="Tải trọng">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dryUnit">Đơn vị:</label>
+                                            <input type="text" id="dryUnit" placeholder="Đơn vị" value="kg">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- Hàng 3: Chi tiết hàng hóa (full width) -->
+                        <div class="form-section full-width-section">
+                            <div class="form-section3">
+                            <h3><i class="fas fa-info-circle"></i> Chi Tiết Hàng Hóa</h3>
 
-                        <div class="form-section">
+                            <!-- Dynamic chi tiết for each cargo type -->
+                            <div id="cargoDetailsContainer">
+                                <!-- Will be populated dynamically -->
+                            </div>
+
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="isQuarantine">
+                                <label for="isQuarantine">Hàng thuộc diện kiểm dịch</label>
+                            </div>
+
+                            <div id="quarantineSection" class="quarantine-section hidden">
+                                <h4>Thông tin kiểm dịch</h4>
+                                <div class="quarantine-fields">
+                                    <div class="form-group">
+                                        <label for="quarantineCertificate">Số phiếu kiểm dịch:</label>
+                                        <input type="text" id="quarantineCertificate" placeholder="Số phiếu">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quarantineFee">Phí kiểm dịch (VND):</label>
+                                        <input type="text" id="quarantineFee" class="money-input" placeholder="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quarantineDate">Ngày kiểm dịch:</label>
+                                        <input type="date" id="quarantineDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+</div>
+                        <!-- Hàng 4: Tổng giá trị cước (full width) -->
+                        <div class="form-section full-width-section">
                             <h3><i class="fas fa-calculator"></i> Tổng Giá Trị Cước</h3>
                             <div class="total-fee-container">
                                 <div class="fee-summary">
@@ -376,27 +429,26 @@
                                             <span class="unit">VND</span>
                                         </div>
                                     </div>
+                                    <div class="fee-item" id="quarantineFeeItem">
+                                        <label>Phí kiểm dịch:</label>
+                                        <div class="fee-value">
+                                            <input type="text" id="quarantineFeeDisplay" class="money-input" readonly
+                                                placeholder="0">
+                                            <span class="unit">VND</span>
+                                        </div>
+                                    </div>
                                     <div class="fee-item highlight">
                                         <label>Số tiền thanh toán:</label>
                                         <div class="fee-value">
                                             <input type="text" id="paymentAmount" class="money-input"
-                                                placeholder="Tự động tính" >
+                                                placeholder="Tự động tính">
                                             <span class="unit">VND</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group hidden">
-                                    <label for="paymentMethod">Phương thức thanh toán:</label>
-                                    <select id="paymentMethod">
-                                        <option value="bank_transfer">Chuyển khoản</option>
-                                        <option value="cash">Tiền mặt</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                     </div>
-
-
 
                     <div class="form-actions">
                         <button type="reset" class="btn btn-reset"><i class="fas fa-redo"></i> Làm Mới</button>
@@ -405,11 +457,10 @@
                                 class="fas fa-times"></i> Hủy chỉnh sửa</button>
                         <button type="button" class="btn btn-export" id="exportExcel"><i class="fas fa-file-excel"></i>
                             Export Excel</button>
-                        <button type="button" class="btn btn-export" id="exportSummary"><i
-                                class="fas fa-file-export"></i>
-                            Export Excel (tổng hợp)</button>
-                        <button type="button" class="btn btn-warning" id="clearData"
-                            style="background-color: #f39c12;"><i class="fas fa-trash"></i> Xóa Dữ Liệu</button>
+                        <button type="button" class="btn btn-export" id="exportParkingList"><i
+                                class="fas fa-file-excel"></i> Export Parking List</button>
+                        <button type="button" class="btn btn-warning" id="clearData"><i class="fas fa-trash"></i> Xóa Dữ
+                            Liệu</button>
                     </div>
                 </form>
             </section>
