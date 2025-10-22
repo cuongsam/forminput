@@ -1,8 +1,60 @@
 // Dữ liệu mẫu và cấu hình
 const CUSTOMERS = [
-    { id: 1, name: "Công ty TNHH ABC", code_number: "C001", address: "123 Đường A, Quận 1, TP.HCM", phone: "0909123456" },
-    { id: 2, name: "Công ty Cổ phần XYZ", code_number: "C002", address: "456 Đường B, Quận 2, TP.HCM", phone: "0909234567" },
-    { id: 3, name: "Công ty TNHH Thương mại Dịch vụ 123", code_number: "C003", address: "789 Đường C, Quận 3, TP.HCM", phone: "0909345678" }
+    {
+        code_number: "CQ100001",
+        name: "CÔNG TY CỔ PHẦN GIAO NHẬN KHO VẬN NGOẠI THƯƠNG VIỆT NAM",
+        type: "HĐ"
+    },
+    {
+        code_number: "CQ100008",
+        name: "CÔNG TY TNHH HIKARI VIỆT NAM",
+        type: "KL"
+    },
+    {
+        code_number: "CQ100009",
+        name: "PHÒNG DỰ ÁN",
+        type: "KL"
+    },
+    {
+        code_number: "CQ100012",
+        name: "PHÒNG LOGISTICS",
+        type: "KL"
+    },
+    {
+        code_number: "CQ100014",
+        name: "CÔNG TY TNHH THỦY SẢN NIGICO (NIGICO CO.,LTD)",
+        type: "KL"
+    },
+    {
+        code_number: "CQ100016",
+        name: "PHÒNG GIAO NHẬN",
+        type: "HĐ"
+    },
+    {
+        code_number: "CQ100023",
+        name: "CÔNG TY CỔ PHẦN LOGISTICS VINALINK",
+        type: "HĐ"
+    },
+    {
+        code_number: "CQ100029",
+        name: "CÔNG TY TNHH RIKEN VIỆT NAM",
+        type: "HĐ"
+    },
+    {
+        code_number: "CQ100043",
+        name: "CÔNG TY CỔ PHẦN THỦY SẢN SÓC TRĂNG",
+        type: "HĐ"
+    },
+    {
+        code_number: "CQ100046",
+        name: "CÔNG TY CỔ PHẦN XUẤT NHẬP KHẨU THỦY SẢN MIỀN TRUNG",
+        type: "HĐ"
+    },
+    {
+        code_number: "CQ100052",
+        name: "CÔNG TY TNHH IWATANI VIỆT NAM",
+        type: "HĐ"
+    },
 ];
 
 // Dữ liệu tuyến đường mẫu
@@ -15,44 +67,31 @@ const routes = [
 ];
 // Quy chuẩn mặt hàng
 const PRODUCT_NAMES = [
-    { name: "Thịt bò đông lạnh", type: "frozen" },
-    { name: "Thịt heo đông lạnh", type: "frozen" },
-    { name: "Thịt gà đông lạnh", type: "frozen" },
-    { name: "Cá đông lạnh", type: "frozen" },
-    { name: "Tôm đông lạnh", type: "frozen" },
-    { name: "Kem đông lạnh", type: "frozen" },
-    { name: "Thịt tươi", type: "cool" },
-    { name: "Cá tươi", type: "cool" },
-    { name: "Sữa tươi", type: "cool" },
-    { name: "Phô mai", type: "cool" },
-    { name: "Rau củ tươi", type: "cool" },
-    { name: "Trái cây tươi", type: "cool" },
-    { name: "Gạo", type: "dry" },
-    { name: "Bột mì", type: "dry" },
-    { name: "Đồ khô", type: "dry" },
-    { name: "Hàng khô thông thường", type: "dry" }
+    { name: "FROZEN ÂM 20°C", type: "frozen" },
+    { name: "FRESH ÂM 2°C-DƯƠNG 4°C", type: "fresh" },
+    { name: "CHILL DƯƠNG 4°C-DƯƠNG 10°C", type: "chill" },
+    { name: "NORMAL DƯƠNG 15°C-DƯƠNG 20°C", type: "normal" }
 ];
+    
+
+
+
 
 // Quy cách đóng gói
 const PACKAGING_OPTIONS = [
-    "Túi nilon dày 0.1mm chống rò rỉ",
-    "Thùng carton cách nhiệt",
-    "Túi hút chân không",
-    "Hộp nhựa kín",
-    "Bao PP",
-    "Pallet bọc màng co",
-    "Thùng xốp + đá khô",
-    "Gel đông lạnh"
+    "Thùng carton",
+    "Thùng xốp",
+    "Bao bì nhựa",
+    "Pallet",
+    "Khác",
 ];
 
 // Nhiệt độ bảo quản
 const TEMPERATURES = [
-    "-18°C đến -23°C (Đông lạnh thực phẩm)",
+    "-18°C đến -23°C (Thực Phẩm Đông Lạnh)",
     "Dưới -18°C (Kem)",
-    "0°C đến 4°C (Thịt tươi, cá tươi)",
-    "2°C đến 5°C (Sữa, phô mai)",
-    "4°C đến 8°C (Rau củ, trái cây)",
-    "Nhiệt độ phòng (Hàng khô)"
+    "0°C đến 8°C (Thực Phẩm Tươi)",
+    "Nhiệt độ khác (Mặt hàng khác...)"
 ];
 
 
@@ -79,9 +118,9 @@ class OrderManager {
 
     initializeData() {
         // Khởi tạo dữ liệu mẫu
-        if (!localStorage.getItem('customers')) {
-            localStorage.setItem('customers', JSON.stringify(CUSTOMERS));
-        }
+        localStorage.setItem('customers', JSON.stringify(CUSTOMERS));
+       
+       
     }
 
     setupEventListeners() {
@@ -91,7 +130,7 @@ class OrderManager {
 
         // Export buttons
         document.getElementById('exportExcel').addEventListener('click', () => this.exportExcel());
-     
+
         document.getElementById('exportParkingList').addEventListener('click', () => this.exportParkingList());
         document.getElementById('clearData').addEventListener('click', () => this.clearData());
 
@@ -644,7 +683,7 @@ class OrderManager {
         // Tính phí dịch vụ delivery
         let deliveryTotal = 0;
         if (deliveryQuantity > 0 && deliveryPrice > 0) {
-            if (deliveryUnit === 'kg') {
+            if (deliveryUnit === 'Kg') {
                 deliveryTotal = deliveryQuantity * deliveryPrice;
             } else { // Chuyến
                 deliveryTotal = deliveryQuantity * deliveryPrice;
@@ -897,21 +936,74 @@ class OrderManager {
             isValid = false;
         }
 
+
+
         // Validate số phiếu
         if (!document.getElementById('ticketNumberInput').value.trim()) {
             this.showError('ticketNumberInput', 'Vui lòng nhập số phiếu');
+            isValid = false;
+        }
+        if (!document.getElementById('defaultFreight').value.trim() || this.parseMoney(document.getElementById('defaultFreight').value) <= 0) {
+            this.showError('defaultFreight', 'Vui lòng nhập cước phí mặc định');
+            isValid = false;
+        }
+        // Validate tổng trọng lượng hàng hóa > 0
+        if ((document.getElementById('frozenWeight').value + document.getElementById('coolWeight').value + document.getElementById('dryWeight').value) <= 0) {
+            this.showError('frozenWeight', 'Tổng trọng lượng hàng hóa phải lớn hơn 0');
+            this.showError('coolWeight', 'Tổng trọng lượng hàng hóa phải lớn hơn 0');
+            this.showError('dryWeight', 'Tổng trọng lượng hàng hóa phải lớn hơn 0');
             isValid = false;
         }
 
         // Validate thông tin người nhận nếu cần
         const hasStore = !!document.getElementById('storeInput').value;
         const hasCustomDelivery = document.getElementById('customDelivery').checked;
+        const hasCustomPickup = document.getElementById('customPickup').checked;
         if (!hasStore && !hasCustomDelivery) {
             if (!document.getElementById('recipientName').value.trim()) {
                 this.showError('recipientName', 'Vui lòng nhập tên người nhận');
                 isValid = false;
             }
         }
+
+        if( hasCustomDelivery) {
+            if (!document.getElementById('deliveryAddr').value.trim() 
+                || !document.getElementById('deliveryContact').value.trim() 
+                || !document.getElementById('deliveryPhone').value.trim() 
+                || !document.getElementById('deliveryQuantity').value.trim() 
+                || !document.getElementById('deliveryPrice').value.trim()
+                || this.parseNumber(document.getElementById('deliveryQuantity').value) <= 0
+                || this.parseMoney(document.getElementById('deliveryPrice').value) <= 0
+            ) {
+                this.showError('deliveryAddr', 'Vui lòng nhập đầy đủ thông tin giao tận nơi');
+                this.showError('deliveryContact', 'Vui lòng nhập đầy đủ thông tin giao tận nơi');
+                this.showError('deliveryPhone', 'Vui lòng nhập đầy đủ thông tin giao tận nơi');
+                this.showError('deliveryQuantity', 'Vui lòng nhập đầy đủ thông tin giao tận nơi');
+                this.showError('deliveryPrice', 'Vui lòng nhập đầy đủ thông tin giao tận nơi');
+
+                isValid = false;
+            }
+        }
+
+       if( hasCustomPickup) {
+            if (!document.getElementById('pickupAddr').value.trim() 
+                || !document.getElementById('pickupContact').value.trim() 
+                || !document.getElementById('pickupPhone').value.trim() 
+                || !document.getElementById('pickupQuantity').value.trim() 
+                || !document.getElementById('pickupPrice').value.trim()
+                || this.parseNumber(document.getElementById('pickupQuantity').value) <= 0
+                || this.parseMoney(document.getElementById('pickupPrice').value) <= 0
+            ) {
+                this.showError('pickupAddr', 'Vui lòng nhập đầy đủ thông tin lấy hàng');
+                this.showError('pickupContact', 'Vui lòng nhập đầy đủ thông tin lấy hàng');
+                this.showError('pickupPhone', 'Vui lòng nhập đầy đủ thông tin lấy hàng');
+                this.showError('pickupQuantity', 'Vui lòng nhập đầy đủ thông tin lấy hàng');
+                this.showError('pickupPrice', 'Vui lòng nhập đầy đủ thông tin lấy hàng');
+
+                isValid = false;
+            }
+        }
+
 
         // Validate hàng hóa
         const hasCargoData = this.hasCargoData();
@@ -1302,22 +1394,22 @@ class OrderManager {
         }
 
         // Generate QR và lưu vào order
-        const qrCodeValue = `QR_${ticket}_${Date.now()}`; // Mã QR đơn giản, có thể thay bằng QR thực
+        const qrCodeValue = `Phiếu:${ticket}_${Date.now()}`; // Mã QR đơn giản, có thể thay bằng QR thực
         order.qrCode = qrCodeValue;
         this.saveOrders();
 
         const qrHtml = generateQRCode(amount, ticket, order.customer, 300, 300);
 
-        document.getElementById('qrModalTitle').textContent = `PHIẾU THU - Số: ${ticket}`;
+        document.getElementById('qrModalTitle').innerHTML = `PHIẾU THU-<strong>${ticket}</strong>`;
         document.getElementById('qrModalContent').innerHTML = `
             <div class="text-center">
                 ${qrHtml}
-                <div class="qr-amount">Số tiền: ${amount.toLocaleString()} VND</div>
+                <div class="qr-amount">Tổng Cước:<strong> ${amount.toLocaleString()} </strong>VND</div>
                 <div class="qr-info">
-                    <p><strong>Khách hàng:</strong> ${order.customer}</p>
-                    <p><strong>Ngày tạo:</strong> ${new Date(order.date).toLocaleDateString('vi-VN')}</p>
-                    <p><strong>Số phiếu:</strong> ${ticket}</p>
-                    <p><strong>Mã QR:</strong> ${qrCodeValue}</p>
+                    <p>Khách hàng: <strong>${order.customer}</strong></p>
+                    <p>Ngày tạo: <strong>${new Date(order.date).toLocaleDateString('vi-VN')}</strong></p>
+                    <p>Số phiếu: <strong>${ticket}</strong></p>
+                    
                 </div>
             </div>
         `;
@@ -1334,74 +1426,328 @@ class OrderManager {
         document.getElementById('qrModalBackdrop').classList.add('hidden');
     }
 
-    // Export Parking List theo mẫu, multiple rows for cargo types
     async exportParkingList() {
-        const displayOrders = this.getDisplayOrders();
-        if (displayOrders.length === 0) {
-            this.showNotification('Không có dữ liệu để export!', 'error');
-            return;
-        }
-
-        try {
-            const workbook = new ExcelJS.Workbook();
-            const ws = workbook.addWorksheet('Sheet1');
-
-            // Header row1
-            ws.addRow(['No', 'Mã Phiếu giao nhận (70)', 'Tên khách hàng (NGƯỜI GỬI HÀNG)', 'Tên hàng (6)', 'Quy cách đóng gói', 'Nhiệt độ bảo quản (10)', 'Số Lượng', 'Trọng Lượng gộp (8)', '(23)', 'Số Khối (9)', '(22)', 'Yêu cầu Konoike Vina khi NHẬN hàng vận chuyển', '', '', '', 'Nhận hàng tại Kho/bãi KNK', 'Nhận tại Kho Khách hàng', '', '', '', '', 'Yêu cầu Konoike Vina khi GIAO hàng vận chuyển', '', '', '', '', '', '', '', 'Số xe Nam Bắc (kèm điện thoại lái xe)', 'Ghi Chú', 'KẾ HOẠCH GIAO HÀNG', '']);
-            ws.addRow(['', '', '', 'Số kiện (7)', '(21)', '', '', '', '', '', '', '', 'Tỉnh', 'Phường', 'Liên lạc', 'Ghi chú', '', 'Người nhận', 'Mã Người nhận (36)', 'Tỉnh', 'Phường', 'Liên lạc', 'Ghi chú', '', '', 'Số xe', 'Lái xe', 'Ngày giờ dự kiến giao']);
-            ws.addRow(['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']);
-
-            let rowNum = 4;
-            let globalNo = 1;
-            displayOrders.forEach((order) => {
-                const customers = JSON.parse(localStorage.getItem('customers')) || CUSTOMERS;
-                const customerData = customers.find(c => c.name === order.customer);
-                const customerCode = customerData ? customerData.code_number : '';
-
-                const nhanHangTai = order.pickupAddr || 'Kho KNK';
-                const keHoachGiaoHang = order.deliveryAddr || (order.store || 'Kho KNK') + ', ' + order.route;
-
-                // For each cargo type with data
-                this.cargoTypes.forEach(type => {
-                    const cargo = order.cargoData[type];
-                    if (cargo && (cargo.packages > 0 || cargo.weight > 0)) {
-                        const details = cargo.details || {};
-                        const tenHang = details.productName || (type === 'frozen' ? '(40RF) CONT 40\' LẠNH' : 'Hàng Thường');
-                        const quyCach = details.packaging || 'Cần thông tin';
-                        const nhietDo = details.storageTemp || 'Cần thông tin';
-                        const soLuong = cargo.packages || 0;
-                        const trongLuong = cargo.weight || 0;
-                        const soKhoi = null;
-
-                        // Dòng chính
-                        ws.addRow([
-                            globalNo++, '', order.customer, tenHang, quyCach, nhietDo, soLuong, trongLuong, '(23)', soKhoi, '(22)',
-                            null, null, null, null, null, nhanHangTai, '', order.customer, customerCode,
-                            null, null, null, null, '', '', '', 'Ngày giờ dự kiến giao', keHoachGiaoHang, '', ''
-                        ]);
-
-                        rowNum++;
-                    }
-                });
-            });
-
-            const buf = await workbook.xlsx.writeBuffer();
-            const blob = new Blob([buf], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `mẫu parkinglist_${new Date().toISOString().split('T')[0]}.xlsx`;
-            a.click();
-            URL.revokeObjectURL(url);
-
-            this.showNotification('Đã export Parking List thành công!');
-        } catch (error) {
-            console.error('Lỗi khi export Parking List:', error);
-            this.showNotification('Có lỗi xảy ra khi export Parking List!', 'error');
-        }
+    const displayOrders = this.getDisplayOrders();
+    if (displayOrders.length === 0) {
+        this.showNotification('Không có dữ liệu để export!', 'error');
+        return;
     }
+
+    try {
+        const workbook = new ExcelJS.Workbook();
+        const ws = workbook.addWorksheet('Sheet1');
+
+        // Set column widths theo mẫu (26 cột A-Z)
+        const columnWidths = [
+            5,  // A - No
+            25, // B - Mã Phiếu
+            30, // C - Tên khách hàng
+            25, // D - Tên hàng
+            20, // E - Quy cách
+            20, // F - Nhiệt độ
+            15, // G - Số lượng (Số kiện)
+            15, // H - Trọng lượng
+            15, // I - Số khối
+            20, // J - Yêu cầu NHẬN...
+            20, // K - Nhận tại Kho KNK / Tỉnh
+            15, // L - Phường / Nhận tại Kho KH
+            15, // M - Liên lạc
+            15, // N - Ghi chú
+            15, // O - (empty for NHẬN)
+            20, // P - Giao tại Kho kNK / Người nhận
+            20, // Q - Giao tại Kho KH / Mã Người nhận
+            20, // R - Tỉnh
+            15, // S - Phường
+            15, // T - Liên lạc
+            15, // U - Ghi chú
+            20, // V - (empty)
+            15, // W - (empty)
+            20, // X - Số xe
+            15, // Y - Ghi chú
+            20  // Z - KẾ HOẠCH (Ngày giờ dự kiến)
+        ];
+        ws.columns = columnWidths.map(width => ({ width }));
+
+        // Header rows theo mẫu
+        const row1 = ws.addRow([
+            'No',
+            'Mã Phiếu giao nhận (70)',
+            'Tên khách hàng (NGƯỜI GỬI HÀNG)',
+            'Tên hàng (6)',
+            'Quy cách đóng gói',
+            'Nhiệt độ bảo quản (10)',
+            'Số Lượng',
+            'Trọng Lượng gộp (8),(23)',
+            'Số Khối (9),(22)',
+            'Yêu cầu Konoike Vina khi NHẬN hàng vận chuyển', '', '', '', '',
+            'Yêu cầu Konoike Vina khi GIAO hàng vận chuyển', '', '', '', '', '', '',
+            'Số xe Nam Bắc (kèm điện thoại lái xe)',
+            'Ghi Chú',
+            'KẾ HOẠCH GIAO HÀNG'
+        ]);
+
+        const row2 = ws.addRow([
+            '', '', '', '', '', '',
+            'Số kiện (7),(21)', '', '',
+            'Nhận hàng tại Kho/bãi KNK', 'Nhận tại Kho Khách hàng', '', '', '',
+            'Giao hàng tại Kho/bãi kNK', 'Giao tại Kho Khách hàng', '', '', '', '', '',
+            '', '', ''
+        ]);
+
+        const row3 = ws.addRow([
+            '', '', '', '', '', '', '', '', '',
+            '', 'Tỉnh', 'Phường', 'Liên lạc', 'Ghi chú', '',
+            'Người nhận', 'Mã Người nhận (36)', 'Tỉnh', 'Phường', 'Liên lạc', 'Ghi chú', '', '',
+            'Số xe', 'Lái xe', 'Ngày giờ dự kiến giao'
+        ]);
+
+        // Set row heights
+        row1.height = 30;
+        row2.height = 20;
+        row3.height = 20;
+
+        // Merge cells theo mẫu chính xác
+        ws.mergeCells('A1:A3'); // No
+        ws.mergeCells('B1:B3'); // Mã Phiếu
+        ws.mergeCells('C1:C3'); // Tên khách hàng
+        ws.mergeCells('D1:D3'); // Tên hàng
+        ws.mergeCells('E1:E3'); // Quy cách
+        ws.mergeCells('F1:F3'); // Nhiệt độ
+        ws.mergeCells('G2:G3'); // Số Lượng / Số kiện
+        ws.mergeCells('H1:H3'); // Trọng Lượng
+        ws.mergeCells('I1:I3'); // Số Khối
+
+        // Phần NHẬN
+        ws.mergeCells('J1:N1'); // Yêu cầu NHẬN
+        ws.mergeCells('J2:J3'); // Nhận hàng tại Kho/bãi KNK
+        ws.mergeCells('K2:N2'); // Nhận tại Kho Khách hàng (K-N)
+
+        // Phần GIAO
+        ws.mergeCells('O1:U1'); // Yêu cầu GIAO
+        ws.mergeCells('O2:O3'); // Giao hàng tại Kho/bãi KNK
+        ws.mergeCells('P2:U2'); // Giao tại Kho Khách hàng (P-U)
+
+        // Phần cuối
+      
+        ws.mergeCells('W1:W3'); // Ghi Chú
+        ws.mergeCells('X1:Z2'); // KẾ HOẠCH GIAO HÀNG
+   
+
+        // Styles cho header
+        const headerFill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFD3D3D3' } };
+        [row1, row2, row3].forEach(row => {
+            row.eachCell({ includeEmpty: true }, cell => {
+                cell.fill = headerFill;
+                cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+                cell.font = { name: 'Arial', size: 10, bold: true };
+                cell.border = {
+                    top: { style: 'thin' },
+                    left: { style: 'thin' },
+                    bottom: { style: 'thin' },
+                    right: { style: 'thin' }
+                };
+            });
+        });
+
+        // Thêm dữ liệu
+        let globalNo = 1;
+        displayOrders.forEach((order) => {
+            const customers = JSON.parse(localStorage.getItem('customers')) || CUSTOMERS;
+            const customerData = customers.find(c => c.name === order.customer);
+            const customerCode = customerData ? customerData.code_number : '';
+
+            this.cargoTypes.forEach(type => {
+                const cargo = order.cargoData && order.cargoData[type];
+                if (cargo && (cargo.packages > 0 || cargo.weight > 0)) {
+                    const details = cargo.details || {};
+                    const tenHang = details.productName || (type === 'frozen' ? '(40RF) CONT 40\' LẠNH' : 'Hàng Thường');
+                    const quyCach = details.packaging || 'Cần thông tin';
+                    const nhietDo = details.storageTemp || 'Cần thông tin';
+                    const soLuong = cargo.packages || 0;
+                    const trongLuong = cargo.weight || 0;
+                    const soKhoi = cargo.volume || 0;
+
+                    // Xử lý THÔNG TIN NHẬN (PICKUP)
+                    let nhanTaiKhoKNK = '';
+                    let nhanTinh = '';
+                    let nhanPhuong = '';
+                    let nhanLienLac = '';
+                    let nhanGhiChu = '';
+
+                    if (order.pickupAddr && order.pickupContact) {
+                        // Có thông tin lấy hàng tận nơi
+                        nhanTaiKhoKNK = '';
+                        nhanTinh = this.extractProvince(order.pickupAddr) || order.pickupAddr;
+                        nhanPhuong = order.pickupAddr;
+                        nhanLienLac = `${order.pickupContact || ''}${order.pickupPhone ? ' - ' + order.pickupPhone : ''}`;
+                        nhanGhiChu = 'Lấy hàng tận nơi';
+                    } else {
+                        // Nhận tại kho KNK
+                        nhanTaiKhoKNK = 'Kho KNK';
+                        nhanTinh = '';
+                        nhanPhuong = '';
+                        nhanLienLac = '';
+                        nhanGhiChu = '';
+                    }
+
+                    // Xử lý THÔNG TIN GIAO (DELIVERY)
+                    let giaoTaiKhoKNK = '';
+                    let giaoNguoiNhan = '';
+                    let giaoMaNguoiNhan = '';
+                    let giaoTinh = '';
+                    let giaoPhuong = '';
+                    let giaoLienLac = '';
+                    let giaoGhiChu = '';
+
+                    if (order.deliveryAddr && order.deliveryContact) {
+                        // Có thông tin giao hàng tận nơi
+                        giaoTaiKhoKNK = '';
+                        giaoNguoiNhan = order.deliveryContact || '';
+                        giaoMaNguoiNhan = customerCode;
+                        giaoTinh = this.extractProvince(order.deliveryAddr) || order.deliveryAddr;
+                        giaoPhuong = order.deliveryAddr;
+                        giaoLienLac = `${order.deliveryContact || ''}${order.deliveryPhone ? ' - ' + order.deliveryPhone : ''}`;
+                        giaoGhiChu = 'Giao hàng tận nơi';
+                    } else if (order.store) {
+                        // Giao tại cửa hàng
+                        giaoTaiKhoKNK = '';
+                        giaoNguoiNhan = order.store;
+                        giaoMaNguoiNhan = customerCode;
+                        giaoTinh = '';
+                        giaoPhuong = order.store;
+                        giaoLienLac = order.recipientInfo?.phone || '';
+                        giaoGhiChu = `Giao tại ${order.store}`;
+                    } else if (order.recipientInfo && order.recipientInfo.name) {
+                        // Có thông tin người nhận
+                        giaoTaiKhoKNK = '';
+                        giaoNguoiNhan = order.recipientInfo.name;
+                        giaoMaNguoiNhan = customerCode;
+                        giaoTinh = '';
+                        giaoPhuong = '';
+                        giaoLienLac = order.recipientInfo.phone || '';
+                        giaoGhiChu = '';
+                    } else {
+                        // Giao tại kho KNK
+                        giaoTaiKhoKNK = 'Kho KNK';
+                        giaoNguoiNhan = '';
+                        giaoMaNguoiNhan = '';
+                        giaoTinh = '';
+                        giaoPhuong = '';
+                        giaoLienLac = '';
+                        giaoGhiChu = '';
+                    }
+
+                    const dataRow = ws.addRow([
+                        globalNo++, // A - No
+                        order.ticketNumber || '', // B - Mã Phiếu
+                        order.customer, // C - Tên KH
+                        tenHang, // D - Tên hàng
+                        quyCach, // E - Quy cách
+                        nhietDo, // F - Nhiệt độ
+                        soLuong, // G - Số kiện
+                        trongLuong, // H - Trọng lượng
+                        soKhoi, // I - Số khối
+                        nhanTaiKhoKNK, // J - Nhận tại Kho KNK
+                        nhanTinh, // K - Tỉnh (nhận)
+                        nhanPhuong, // L - Phường (nhận)
+                        nhanLienLac, // M - Liên lạc (nhận)
+                        nhanGhiChu, // N - Ghi chú (nhận)
+                        giaoTaiKhoKNK, // O - Giao tại Kho KNK
+                        giaoNguoiNhan, // P - Người nhận
+                        giaoMaNguoiNhan, // Q - Mã Người nhận
+                        giaoTinh, // R - Tỉnh (giao)
+                        giaoPhuong, // S - Phường (giao)
+                        giaoLienLac, // T - Liên lạc (giao)
+                        giaoGhiChu, // U - Ghi chú (giao)
+                        '', // V - empty
+                        '', // W - empty
+                        '', // X - Số xe
+                        '', // Y - Ghi chú
+                        new Date(order.date).toLocaleDateString('vi-VN') // Z - Ngày giờ dự kiến
+                    ]);
+
+                    // Apply style cho data row
+                    dataRow.eachCell({ includeEmpty: true }, cell => {
+                        cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+                        cell.font = { name: 'Arial', size: 10 };
+                        cell.border = {
+                            top: { style: 'thin' },
+                            left: { style: 'thin' },
+                            bottom: { style: 'thin' },
+                            right: { style: 'thin' }
+                        };
+                    });
+
+                    // Màu phân biệt theo type
+                    const typeFill = {
+                        frozen: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFADD8E6' } }, // Xanh dương nhạt
+                        cool: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF90EE90' } }, // Xanh lá nhạt
+                        dry: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFFACD' } } // Vàng nhạt
+                    }[type];
+                    dataRow.eachCell({ includeEmpty: true }, cell => {
+                        cell.fill = typeFill;
+                    });
+                }
+            });
+        });
+
+        // Border cho toàn bộ sheet
+        const rowCount = ws.rowCount;
+        for (let i = 4; i <= rowCount; i++) {
+            ws.getRow(i).eachCell({ includeEmpty: true }, cell => {
+                cell.border = {
+                    top: { style: 'thin' },
+                    left: { style: 'thin' },
+                    bottom: { style: 'thin' },
+                    right: { style: 'thin' }
+                };
+            });
+        }
+
+        const buf = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buf], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `parking_list_${new Date().toISOString().split('T')[0]}.xlsx`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        this.showNotification('Đã export Parking List thành công!');
+    } catch (error) {
+        console.error('Lỗi khi export Parking List:', error);
+        this.showNotification('Có lỗi xảy ra khi export Parking List!', 'error');
+    }
+}
+
+// Hàm hỗ trợ để trích xuất tỉnh từ địa chỉ
+extractProvince(address) {
+    if (!address) return '';
+    
+    const provinces = [
+        'Hà Nội', 'Hồ Chí Minh', 'Hải Phòng', 'Đà Nẵng', 'Cần Thơ',
+        'An Giang', 'Bà Rịa - Vũng Tàu', 'Bắc Giang', 'Bắc Kạn', 'Bạc Liêu',
+        'Bắc Ninh', 'Bến Tre', 'Bình Định', 'Bình Dương', 'Bình Phước',
+        'Bình Thuận', 'Cà Mau', 'Cao Bằng', 'Đắk Lắk', 'Đắk Nông',
+        'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Giang',
+        'Hà Nam', 'Hà Tĩnh', 'Hải Dương', 'Hậu Giang', 'Hòa Bình',
+        'Hưng Yên', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu',
+        'Lâm Đồng', 'Lạng Sơn', 'Lào Cai', 'Long An', 'Nam Định',
+        'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên',
+        'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị',
+        'Sóc Trăng', 'Sơn La', 'Tây Ninh', 'Thái Bình', 'Thái Nguyên',
+        'Thanh Hóa', 'Thừa Thiên Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang',
+        'Vĩnh Long', 'Vĩnh Phúc', 'Yên Bái'
+    ];
+
+    const foundProvince = provinces.find(province => 
+        address.toLowerCase().includes(province.toLowerCase())
+    );
+
+    return foundProvince || '';
+}
 
     // Utility methods
     debounce(func, wait) {
@@ -1537,206 +1883,166 @@ class OrderManager {
         }
     }
 
+
+
+   async exportExcel() {
+    const displayOrders = this.getDisplayOrders();
+    if (displayOrders.length === 0) {
+        this.showNotification('Không có dữ liệu để export!', 'error');
+        return;
+    }
+
+    try {
+        const workbook = new ExcelJS.Workbook();
+        const ws = workbook.addWorksheet('Tổng hợp');
+
+        // Header row
+        ws.addRow([
+            "Người thanh toán", "Người gửi hàng", "Mã tuyến", "Số kiện", "Khối lượng",
+            "Tính theo giá", "Ngày lập", "Mã hàng", "Đvt", "Số kiện", "Số kg",
+            "Đvt giá", "SL tính giá", "Giá", "Mã thuế", "Người nhận", "Mã chi phí",
+            "Dvt", "Số lượng", "Đơn giá", "Mã thuế", "Nơi giao", "Nơi nhận", "Số phiếu", "Mã quyển"
+        ]);
+
+        
+    
+        const headerRow = ws.getRow(1);
+        headerRow.eachCell((cell) => {
+            cell.font = { bold: true };
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            cell.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: 'FFB0C4DE' } // Light Steel Blue
+            };
+            cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+            };
+        });
+
     
 
-    async exportExcel() {
-        const displayOrders = this.getDisplayOrders();
-        if (displayOrders.length === 0) {
-            this.showNotification('Không có dữ liệu để export!', 'error');
-            return;
-        }
+        // Data rows
+        displayOrders.forEach(order => {
+            // nếu đơn đã có QR thì số phiếu bằng sophieu-CK, còn không thì số phiếu bằng sophieu-TM còn nếu order.customer.type == HĐ thì số phiếu bằng sophieu-BK
 
-        try {
-            const workbook = new ExcelJS.Workbook();
-            const ws = workbook.addWorksheet('Tổng hợp');
+            const orderDate = new Date(order.date);
+            const month = String(orderDate.getMonth() + 1).padStart(2, '0');
 
-            // Header row
-            ws.addRow(["Số phiếu",
-                "Người thanh toán", "Người gửi hàng", "Mã tuyến", "Số kiện", "Khối lượng",
-                "Tính theo giá", "Ngày lập", "Mã hàng", "Đvt", "Số kiện", "Số kg",
-                "Đvt giá", "SL tính giá", "Giá", "Mã thuế", "Người nhận", "Mã chi phí",
-                "Dvt", "Số lượng", "Đơn giá", "Mã thuế", "Mã quyển", "Nơi giao", "Nơi nhận"
-            ]);
+            // Lấy code_number của customer
+            const customers = JSON.parse(localStorage.getItem('customers')) || CUSTOMERS;
+            const customerData = customers.find(c => c.name === order.customer);
+            const customerCode = customerData ? customerData.code_number : order.customer;
+            const customerType = customerData ? customerData.type : '';
 
-            // Data rows
-            displayOrders.forEach(order => {
-                const soPhieu = order.ticketNumber ;
-                const orderDate = new Date(order.date);
-                const month = String(orderDate.getMonth() + 1).padStart(2, '0');
-
-                // Lấy code_number của customer
-                const customers = JSON.parse(localStorage.getItem('customers')) || CUSTOMERS;
-                const customerData = customers.find(c => c.name === order.customer);
-                const customerCode = customerData ? customerData.code_number : order.customer;
-
-                const maQuyen = `PLQ125${month}`;
-
-                // Sử dụng thông tin route mới
-                const routeCode = order.routeCode || '';
-                const noiGiao = order.routeTo || '';  // Nơi giao
-                const noiNhan = order.routeFrom || ''; // Nơi nhận
-
-                // Tính toán đơn vị tính giá và số lượng tính giá cho vận chuyển chính
-                const isMinimalFee = order.isMinimalFee || false;
-                const dvtTinhGia = isMinimalFee ? 'Chuyến' : 'Kg';
-                const slTinhGia = isMinimalFee ? 1 : (order.totalWeight || 0);
-
-                // Giá cước vận chuyển
-                const giaCuoc = order.defaultFreight || 0;
-
-                // Thông tin dịch vụ
-                const hasPickup = order.pickupAddr && order.pickupPrice > 0;
-                const hasDelivery = order.deliveryAddr && order.deliveryPrice > 0;
-                const pickupUnit = 'Chuyến'; // Default
-                const deliveryUnit = 'Chuyến'; // Default
-                const pickupQuantity = order.pickupQuantity || 1;
-                const deliveryQuantity = order.deliveryQuantity || 1;
-                const pickupPrice = order.pickupPrice || 0;
-                const deliveryPrice = order.deliveryPrice || 0;
-
-
-                console.log('customerCode');
-
-
-                // DÒNG CHÍNH CHO VẬN CHUYỂN HÀNG HÓA
-                if (!hasDelivery && !hasPickup) {
-                    ws.addRow(
-                        [   
-                            soPhieu,
-                            customerCode, // Người thanh toán = code_number
-                            customerCode, // Người gửi hàng = code_number
-                            routeCode, // Mã tuyến
-                            order.totalPackages || 0, // Số kiện
-                            order.totalWeight || 0, // Khối lượng
-                            0, // Tính theo giá
-                            orderDate.toLocaleDateString('vi-VN'), // Ngày lập
-                            '0033-1605010', // Mã hàng
-                            'Kg', // Đvt
-                            order.totalPackages || 0, // Số kiện (cột thứ 2)
-                            order.totalWeight || 0, // Số kg
-                            dvtTinhGia, // Đvt tính giá
-                            slTinhGia, // SL tính giá
-                            giaCuoc, // Giá = giá cước
-                            '08', // Mã thuế
-                            customerCode, // Người nhận = code_number
-                            '', // Mã chi phí (để trống cho dòng chính)
-                            '', // Dvt
-                            '', // Số lượng
-                            '', // Đơn giá
-                            '', // Mã thuế
-                            maQuyen, // Mã quyển
-                            noiGiao, // Nơi giao
-                            noiNhan  // Nơi nhận
-                        ]
-                    );
+            let soPhieu = '';
+            if (order.qrCode) {
+                soPhieu = `${order.ticketNumber}-CK`;
+            } else {
+                soPhieu = `${order.ticketNumber}-TM`;
+                if (customerType === 'HĐ') {
+                    soPhieu = `${order.ticketNumber}-BK`;
                 }
-                else if ((hasPickup) || (hasDelivery)) {
-                    ws.addRow(
-                        [
-                            soPhieu,
-                            customerCode, // Người thanh toán
-                            customerCode, // Người gửi hàng
-                            routeCode, // Mã tuyến
-                            order.totalPackages || 0, // Số kiện
-                            order.totalWeight || 0, // Khối lượng
-                            0, // Tính theo giá
-                            orderDate.toLocaleDateString('vi-VN'), // Ngày lập
-                            '0033-1605010', // Mã hàng
-                            'Kg', // Đvt
-                            order.totalPackages || 0, // Số kiện (cột thứ 2)
-                            order.totalWeight || 0, // Số kg
-                            dvtTinhGia, // Đvt tính giá
-                            slTinhGia, // SL tính giá
-                            giaCuoc, // Giá = giá cước
-                            '08', // Mã thuế
-                            customerCode, // Người nhận = code_number
-                            'DT053', // Mã chi phí (để trống cho dòng chính)
-                            pickupUnit || deliveryUnit,  // Dvt
-                            pickupQuantity || deliveryQuantity, // Số lượng
-                            pickupPrice || deliveryPrice, // Đơn giá
-                            '08', // Mã thuế
-                            maQuyen, // Mã quyển
-                            noiGiao, // Nơi giao
-                            noiNhan  // Nơi nhận
-                        ]);
-                }
-                else if (hasPickup && hasDelivery) {
-                    ws.addRow(
-                        [
-                            soPhieu,
-                            customerCode, // Người thanh toán
-                            customerCode, // Người gửi hàng
-                            routeCode, // Mã tuyến
-                            order.totalPackages || 0, // Số kiện
-                            order.totalWeight || 0, // Khối lượng
-                            0, // Tính theo giá
-                            orderDate.toLocaleDateString('vi-VN'), // Ngày lập
-                            '0033-1605010', // Mã hàng
-                            'Kg', // Đvt
-                            order.totalPackages || 0, // Số kiện (cột thứ 2)
-                            order.totalWeight || 0, // Số kg
-                            dvtTinhGia, // Đvt tính giá
-                            slTinhGia, // SL tính giá
-                            giaCuoc, // Giá = giá cước
-                            '08', // Mã thuế
-                            customerCode, // Người nhận = code_number
-                            'DT053', // Mã chi phí (để trống cho dòng chính)
-                            pickupUnit, // Dvt
-                            pickupQuantity, // Số lượng
-                            pickupPrice, // Đơn giá
-                            '08', // Mã thuế
-                            maQuyen, // Mã quyển
-                            noiGiao, // Nơi giao
-                            noiNhan  // Nơi nhận
-                        ]);
-                    ws.addRow(
-                        [
-                            soPhieu,
-                            customerCode, // Người thanh toán
-                            customerCode, // Người gửi hàng
-                            routeCode, // Mã tuyến
-                            order.totalPackages || 0, // Số kiện
-                            order.totalWeight || 0, // Khối lượng
-                            0, // Tính theo giá
-                            orderDate.toLocaleDateString('vi-VN'), // Ngày lập
-                            '0033-1605010', // Mã hàng
-                            'Kg', // Đvt
-                            order.totalPackages || 0, // Số kiện (cột thứ 2)
-                            '', // Số kg
-                            '',  // Đvt tính giá
-                            '',  // SL tính giá
-                            '', // Giá = giá cước
-                            '',  // Mã thuế
-                            customerCode, // Người nhận = code_number
-                            'DT053', // Mã chi phí (để trống cho dòng chính)
-                            deliveryUnit, // Dvt
-                            deliveryQuantity, // Số lượng
-                            deliveryPrice, // Đơn giá
-                            '08', // Mã thuế
-                            maQuyen, // Mã quyển
-                            noiGiao, // Nơi giao
-                            noiNhan  // Nơi nhận
-                        ]);
-                }
-            });
+            }
 
-            const buf = await workbook.xlsx.writeBuffer();
-            const blob = new Blob([buf], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `tong_hop_don_hang_${new Date().toISOString().split('T')[0]}.xlsx`;
-            a.click();
-            URL.revokeObjectURL(url);
+            const maQuyen = `PLQ125${month}`;
 
-            this.showNotification('Đã export Excel tổng hợp thành công!');
-        } catch (error) {
-            console.error('Lỗi khi export Excel tổng hợp:', error);
-            this.showNotification('Có lỗi xảy ra khi export Excel tổng hợp!', 'error');
-        }
+            // Sử dụng thông tin route mới
+            const routeCode = order.routeCode || '';
+            const noiGiao = order.routeTo || '';  // Nơi giao
+            const noiNhan = order.routeFrom || ''; // Nơi nhận
+
+            // Tính toán đơn vị tính giá và số lượng tính giá cho vận chuyển chính
+            const isMinimalFee = order.isMinimalFee || false;
+            const dvtTinhGia = isMinimalFee ? 'Chuyến' : 'Kg';
+            const slTinhGia = isMinimalFee ? 1 : (order.totalWeight || 0);
+
+            // Giá cước vận chuyển
+            const giaCuoc = order.defaultFreight || 0;
+
+            // Thông tin dịch vụ
+            const hasPickup = order.pickupAddr && order.pickupPrice > 0;
+            const hasDelivery = order.deliveryAddr && order.deliveryPrice > 0;
+            const pickupUnit = 'Chuyến'; // Default
+            const deliveryUnit = 'Chuyến'; // Default
+            const pickupQuantity = order.pickupQuantity || 1;
+            const deliveryQuantity = order.deliveryQuantity || 1;
+            const pickupPrice = order.pickupPrice || 0;
+            const deliveryPrice = order.deliveryPrice || 0;
+
+            // Thu thập các dịch vụ (ưu tiên pickup trước)
+            let services = [];
+            if (hasPickup) {
+                services.push({ unit: pickupUnit, quantity: pickupQuantity, price: pickupPrice });
+            }
+            if (hasDelivery) {
+                services.push({ unit: deliveryUnit, quantity: deliveryQuantity, price: deliveryPrice });
+            }
+
+            // Xác định soPhieuFinal
+            let soPhieuFinal = soPhieu;
+            if (services.length > 0) {
+                soPhieuFinal += '-TT';
+            }
+
+            // Số dòng cần add: ít nhất 1, bằng số services nếu >1
+            const numRows = Math.max(1, services.length);
+            for (let i = 0; i < numRows; i++) {
+                const isMainFull = (i === 0); // Chỉ dòng đầu có phần vận chuyển đầy đủ
+                const chiPhi = (i < services.length) ? services[i] : null;
+                
+                const row = [
+                    customerCode, // Người thanh toán
+                    customerCode, // Người gửi hàng
+                    routeCode, // Mã tuyến
+                    order.totalPackages || 0, // Số kiện
+                    order.totalWeight || 0, // Khối lượng
+                    0, // Tính theo giá
+                    orderDate.toLocaleDateString('vi-VN'), // Ngày lập
+                    '0033-1605010', // Mã hàng
+                    'Kg', // Đvt
+                    order.totalPackages || 0, // Số kiện (cột thứ 2)
+                    isMainFull ? (order.totalWeight || 0) : '', // Số kg
+                    isMainFull ? dvtTinhGia : '', // Đvt tính giá
+                    isMainFull ? slTinhGia : '', // SL tính giá
+                    isMainFull ? giaCuoc : '', // Giá
+                    isMainFull ? '08' : '', // Mã thuế (vận chuyển)
+                    customerCode, // Người nhận
+                    chiPhi ? 'DT053' : '', // Mã chi phí
+                    chiPhi ? chiPhi.unit : '', // Dvt (chi phí)
+                    chiPhi ? chiPhi.quantity : '', // Số lượng (chi phí)
+                    chiPhi ? chiPhi.price : '', // Đơn giá (chi phí)
+                    chiPhi ? '08' : '', // Mã thuế (chi phí)
+                    noiGiao, // Nơi giao
+                    noiNhan, // Nơi nhận
+                    soPhieuFinal, // Số phiếu
+                    maQuyen // Mã quyển
+                ];
+
+                ws.addRow(row);
+            }
+        });
+
+        const buf = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buf], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `tong_hop_don_hang_${new Date().toISOString().split('T')[0]}.xlsx`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        this.showNotification('Đã export Excel tổng hợp thành công!');
+    } catch (error) {
+        console.error('Lỗi khi export Excel tổng hợp:', error);
+        this.showNotification('Có lỗi xảy ra khi export Excel tổng hợp!', 'error');
     }
+}
 
 
 }

@@ -19,7 +19,7 @@ function generateQRCode(amount, ticketNumber, customerName = '', width = 200, he
 
     const html = `
         <a href="${deeplink}" target="_blank" rel="noopener" style="display:inline-block">
-            <img src="${imgSrc}" alt="VietQR" style="width:${width}px;height:${height}px;object-fit:contain;border-radius:8px;border:1px solid #e5e7eb;background:#fff" />
+            <img src="${imgSrc}"  style="width:${width}px;height:${height}px;object-fit:contain;border-radius:8px;border:1px solid #e5e7eb;background:#fff" />
         </a>
     `;
     return html;
